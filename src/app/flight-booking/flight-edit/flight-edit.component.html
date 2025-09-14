@@ -2,21 +2,22 @@
   <h2 class="title">Flight Edit</h2>
 </div>
 
-@if (flightForm.id().value() !== 0) {
+@if (flightForm.id().value() !== 0) { @if(errorMessages().length > 0) {
+<div class="errors">
+  <b>Validation Errors:</b>
+  <ul>
+    @for(message of errorMessages(); track message) {
+    <li>{{ message }}</li>
+    }
+  </ul>
+</div>
+}
 
-  <pre>{{ flightForm().errorSummary() | json }}</pre>
-  <pre>{{ flightForm().errors() | json }}</pre>
-
-  <form class="flight-form" (ngSubmit)="save()">
+<form class="flight-form" (ngSubmit)="save()">
   <div class="form-group">
     <mat-form-field>
       <mat-label>ID</mat-label>
-      <input
-        matInput
-        [control]="flightForm.id"
-        id="flight-id"
-        name="id"
-      />
+      <input matInput [control]="flightForm.id" id="flight-id" name="id" />
     </mat-form-field>
   </div>
 
@@ -32,28 +33,25 @@
     </mat-form-field>
     <!-- Field level errors -->
 
-
     <mat-form-field>
       <mat-label>To</mat-label>
-      <input
-        matInput
-        [control]="flightForm.to"
-        id="flight-to"
-        name="to"
-      />
+      <input matInput [control]="flightForm.to" id="flight-to" name="to" />
     </mat-form-field>
     <pre>{{ flightForm.from().errors | json }}</pre>
   </div>
 
   <div class="form-group">
-
     <mat-form-field>
       <mat-label>Meeting date</mat-label>
-      <input matInput [matDatepicker]="datepicker" [control]="flightForm.date" />
+      <input
+        matInput
+        [matDatepicker]="datepicker"
+        [control]="flightForm.date"
+      />
       <mat-datepicker #datepicker />
       <mat-datepicker-toggle [for]="datepicker" matSuffix />
     </mat-form-field>
-   
+
     <mat-form-field>
       <mat-label>Meeting time</mat-label>
       <input
@@ -64,7 +62,6 @@
       <mat-timepicker #timepicker />
       <mat-timepicker-toggle [for]="timepicker" matSuffix />
     </mat-form-field>
-
   </div>
 
   <div class="form-group">
@@ -77,12 +74,15 @@
     </mat-checkbox>
   </div>
 
-
-  <div style="margin-left: 10px;margin-top: 40px;">
-    <button mat-raised-button color="primary" type="button" (click)="save()">Save</button>
+  <div style="margin-left: 10px; margin-top: 40px">
+    <button mat-raised-button color="primary" type="button" (click)="save()">
+      Save
+    </button>
   </div>
-
 </form>
+
+<pre>{{ flightForm().errorSummary() | json }}</pre>
+
 } @if(isPending()) {
 <div class="overlay">
   <mat-progress-spinner mode="indeterminate" diameter="60">
