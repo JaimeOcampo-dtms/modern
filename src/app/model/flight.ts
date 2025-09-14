@@ -1,15 +1,19 @@
-export interface Flight {
-  id: number;
-  from: string;
-  to: string;
-  date: string;
-  delayed: boolean;
-}
+import { z } from 'zod';
+
+export const FlightSchema = z.object({
+  id: z.number().int(),
+  from: z.string().min(3),
+  to: z.string().min(3),
+  date: z.coerce.date(),
+  delayed: z.boolean(),
+});
+
+export type Flight = z.infer<typeof FlightSchema>;
 
 export const initFlight: Flight = {
   id: 0,
   from: '',
   to: '',
-  date: '',
+  date: new Date(0),
   delayed: false,
 };

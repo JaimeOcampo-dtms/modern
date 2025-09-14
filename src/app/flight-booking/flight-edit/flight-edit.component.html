@@ -4,72 +4,84 @@
 
 @if (flightForm.id().value() !== 0) {
 
-<!-- Form level errors -->
-<pre>{{ flightForm().errors() | json }}</pre>
+  <pre>{{ flightForm().errorSummary() | json }}</pre>
+  <pre>{{ flightForm().errors() | json }}</pre>
 
-<form class="flight-form" (ngSubmit)="save()">
+  <form class="flight-form" (ngSubmit)="save()">
   <div class="form-group">
-    <label for="flight-id">ID</label>
-    <input
-      class="form-control"
-      [control]="flightForm.id"
-      id="flight-id"
-      name="id"
-    />
+    <mat-form-field>
+      <mat-label>ID</mat-label>
+      <input
+        matInput
+        [control]="flightForm.id"
+        id="flight-id"
+        name="id"
+      />
+    </mat-form-field>
   </div>
 
   <div class="form-group">
-    <label for="flight-from">From</label>
-    <input
-      class="form-control"
-      [control]="flightForm.from"
-      id="flight-from"
-      name="from"
-    />
+    <mat-form-field>
+      <mat-label>From</mat-label>
+      <input
+        matInput
+        [control]="flightForm.from"
+        id="flight-from"
+        name="from"
+      />
+    </mat-form-field>
     <!-- Field level errors -->
-    <pre>{{ flightForm.from().errors() | json }}</pre>
-  </div>
 
-  <div class="form-group">
-    <label for="flight-to">To</label>
-    <input
-      class="form-control"
-      [control]="flightForm.to"
-      id="flight-to"
-      name="to"
-    />
+
+    <mat-form-field>
+      <mat-label>To</mat-label>
+      <input
+        matInput
+        [control]="flightForm.to"
+        id="flight-to"
+        name="to"
+      />
+    </mat-form-field>
     <pre>{{ flightForm.from().errors | json }}</pre>
   </div>
 
   <div class="form-group">
-    <label for="flight-date">Date</label>
-    <div class="input-group">
+
+    <mat-form-field>
+      <mat-label>Meeting date</mat-label>
+      <input matInput [matDatepicker]="datepicker" [control]="flightForm.date" />
+      <mat-datepicker #datepicker />
+      <mat-datepicker-toggle [for]="datepicker" matSuffix />
+    </mat-form-field>
+   
+    <mat-form-field>
+      <mat-label>Meeting time</mat-label>
       <input
-        class="form-control"
+        matInput
+        [matTimepicker]="timepicker"
         [control]="flightForm.date"
-        id="flight-date"
-        type="datetime-local"
-        name="date"
       />
-    </div>
+      <mat-timepicker #timepicker />
+      <mat-timepicker-toggle [for]="timepicker" matSuffix />
+    </mat-form-field>
+
   </div>
 
-  <div class="form-group form-check">
-    <label class="form-check-label">
-      <input
-        type="checkbox"
-        class="form-check-input"
-        [control]="flightForm.delayed"
-        id="flight-delayed"
-        name="delayed"
-      />
-      Delayed</label
+  <div class="form-group">
+    <mat-checkbox
+      [control]="flightForm.delayed"
+      id="flight-delayed"
+      name="delayed"
     >
+      Delayed
+    </mat-checkbox>
   </div>
 
-  <div class="mt-20">
-    <button class="btn btn-default" type="button" (click)="save()">Save</button>
+
+  <div style="margin-left: 10px;margin-top: 40px;">
+    <button mat-raised-button color="primary" type="button" (click)="save()">Save</button>
   </div>
+
 </form>
 } @if(isPending()) {
 <div class="overlay">

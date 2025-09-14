@@ -5,7 +5,7 @@ import { Flight } from '../model/flight';
 @Injectable()
 export class NextFlightsService {
   load(): Observable<Flight[]> {
-    const date = new Date().toISOString();
+    const date = new Date();
 
     return of([
       { id: 7, from: 'Paris', to: 'London', date, delayed: false },

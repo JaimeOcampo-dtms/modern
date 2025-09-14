@@ -31,7 +31,7 @@ export class HomeComponent {
       id: 0,
       from: 'Graz',
       to: 'Hamburg',
-      date: new Date().toISOString(),
+      date: new Date(),
       delayed: false,
     });
   }

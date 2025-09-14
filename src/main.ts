@@ -11,7 +11,10 @@ import {
 import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/app.routes';
 import { NextFlightsModule } from './app/next-flights/next-flights.module';
-import { provideNativeDateAdapter } from '@angular/material/core';
+import {
+  MAT_DATE_LOCALE,
+  provideNativeDateAdapter,
+} from '@angular/material/core';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -24,5 +27,6 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(NextFlightsModule),
     importProvidersFrom(MatDialogModule),
     provideNativeDateAdapter(),
+    { provide: MAT_DATE_LOCALE, useValue: 'de-DE' },
   ],
 });
