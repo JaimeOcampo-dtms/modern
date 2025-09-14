@@ -1,7 +1,7 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable, Signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Flight, initFlight } from '../../model/flight';
+import { Flight, FlightSchema, initFlight } from '../../model/flight';
 import { ConfigService } from '../../shared/config.service';
 import {
   concatOp,
@@ -71,6 +71,7 @@ export class FlightService {
             },
       {
         defaultValue: initFlight,
+        parse: FlightSchema.parse,
       }
     );
   }
@@ -83,6 +84,7 @@ export class FlightService {
         method: 'POST',
         body: flight,
       }),
+      parse: FlightSchema.parse,
       operator: concatOp
     });
   }

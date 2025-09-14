@@ -62,6 +62,7 @@ export class FlightEditComponent {
   }
 
   save(): void {
+
     submit(this.flightForm, async (form) => {
       const result = await this.store.saveFlight(form().value());
 
