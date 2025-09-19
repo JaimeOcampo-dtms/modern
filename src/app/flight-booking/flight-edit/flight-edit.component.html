@@ -38,7 +38,7 @@
       id="flight-to"
       name="to"
     />
-    <pre>{{ flightForm.from().errors | json }}</pre>
+    <pre>{{ flightForm.from().errors() | json }}</pre>
   </div>
 
   <div class="form-group">
@@ -65,6 +65,20 @@
       />
       Delayed</label
     >
+  </div>
+
+  <div class="form-group">
+    <label for="delayMin">Delay in Minutes</label>
+    <div class="input-group">
+      <input
+        class="form-control"
+        [control]="flightForm.delayInMinutes"
+        id="delayMin"
+        name="delayMin"
+      />
+    </div>
+
+    <pre>{{ flightForm.delayInMinutes().errors() | json }}</pre>
   </div>
 
   <div class="mt-20">

@@ -4,6 +4,7 @@ export interface Flight {
   to: string;
   date: string;
   delayed: boolean;
+  delayInMinutes: number;
 }
 
 export const initFlight: Flight = {
@@ -12,4 +13,5 @@ export const initFlight: Flight = {
   to: '',
   date: '',
   delayed: false,
+  delayInMinutes: 0,
 };

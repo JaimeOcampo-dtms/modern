@@ -59,28 +59,7 @@ export class FlightService {
     );
   }
 
-  debug = true;
-
   findResourceById(id: Signal<number>) {
-
-    if (this.debug) {
-      return rxResource({
-        params: () => ({
-          id: id()
-        }),
-        stream: (p) => {
-          const id = p.params.id;
-          return of({
-            id,
-            from: 'here',
-            to: 'there',
-            date: new Date().toISOString(),
-            delayed: true
-          } as Flight);
-        },
-        defaultValue: initFlight,
-      })
-    }
 
     return httpResource<Flight>(
       () =>
@@ -94,6 +73,11 @@ export class FlightService {
             },
       {
         defaultValue: initFlight,
+        parse: raw => {
+          const flight = raw as Flight;
+          flight.delayInMinutes = 0;
+          return flight;
+        }
       }
     );
   }

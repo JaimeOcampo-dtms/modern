@@ -33,6 +33,7 @@ export class HomeComponent {
       to: 'Hamburg',
       date: new Date().toISOString(),
       delayed: false,
+      delayInMinutes: 0,
     });
   }
 }

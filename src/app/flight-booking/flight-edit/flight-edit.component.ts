@@ -22,6 +22,12 @@ import {
   customError,
   validateHttp,
   schema,
+  hidden,
+  disabled,
+  readonly,
+  min,
+  applyWhen,
+  applyWhenValue,
 } from '@angular/forms/signals';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -33,10 +39,24 @@ import { JsonPipe } from '@angular/common';
 import { delay, map, Observable, of } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 
+export const delaySchema = schema<number>(path => {
+  required(path);
+  min(path, 15);
+});
+
 export const flightSchema = schema<Flight>((path) => {
   required(path.from);
   required(path.to);
   required(path.date);
+
+  // required(path.delayInMinutes, {
+  //   when: (ctx) => ctx.valueOf(path.delayed),
+  // });
+
+  // applyWhen(path.delayInMinutes, (ctx) => ctx.valueOf(path.delayed), delaySchema);
+
+  disabled(path.delayInMinutes, (ctx) => !ctx.valueOf(path.delayed));
+  // readonly(path.delayInMinutes, (ctx) => !ctx.valueOf(path.delayed));
 
   minLength(path.from, 3);
 
