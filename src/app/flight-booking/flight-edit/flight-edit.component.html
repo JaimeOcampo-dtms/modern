@@ -85,6 +85,9 @@
       </tr>
       }
     </table>
+    <pre>{{ flightForm.prices().errors() | json }}</pre>
+
+    
     <button (click)="addPrice()" type="button" class="btn btn-default ml3">Add</button>
   </fieldset>
 

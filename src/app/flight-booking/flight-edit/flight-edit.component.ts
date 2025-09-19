@@ -16,7 +16,6 @@ import {
   required,
   submit,
   validate,
-  ValidationSuccess,
   validateAsync,
   validateTree,
   customError,
@@ -62,6 +61,8 @@ export const flightSchema = schema<Flight>((path) => {
 
   validateRoundTrip(path);
   validateRoundTripTree(path);
+
+  validateDuplicatePrices(path.prices);
 
   apply(path.aircraft, aircraftSchema);
   applyEach(path.prices, priceSchema);
@@ -114,18 +115,37 @@ export class FlightEditComponent {
   }
 
   addPrice(): void {
-    this.flightForm.prices().value.update(prices => ([
-      ...prices,
-      initPrice
-    ]));
+    this.flightForm
+      .prices()
+      .value.update((prices) => [...prices, { ...initPrice }]);
   }
+}
+
+function validateDuplicatePrices(prices: FieldPath<Price[]>) {
+  validate(prices, (ctx) => {
+    const prices = ctx.value();
+    const flightClasses = new Set<string>();
+
+    for (const price of prices) {
+      if (flightClasses.has(price.flightClass)) {
+        return customError({
+          kind: 'duplicateFlightClass',
+          message: 'There can only be one price per flight class',
+          flightClass: price.flightClass,
+        });
+      }
+      flightClasses.add(price.flightClass);
+    }
+
+    return null;
+  });
 }
 
 function validateCity(path: FieldPath<string>, allowed: string[]) {
   validate(path, (ctx) => {
     const value = ctx.value();
     if (allowed.includes(value)) {
-      return null as ValidationSuccess;
+      return null;
     }
 
     return customError({
