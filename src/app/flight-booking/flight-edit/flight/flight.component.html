@@ -18,6 +18,10 @@
     id="flight-from"
     name="from"
   />
+  @if(isFromRequired()) {
+  <p>REQUIRED</p>
+  }
+
   <!-- Field level errors -->
   <app-validation-errors
     [errors]="flightForm.from().errors()"
