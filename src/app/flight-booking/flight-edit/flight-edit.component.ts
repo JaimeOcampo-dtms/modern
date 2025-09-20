@@ -24,7 +24,6 @@ import {
   apply,
   min,
   applyEach,
-  applyWhen,
   applyWhenValue,
   disabled,
 } from '@angular/forms/signals';
@@ -34,7 +33,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { debounceSignal } from '../../shared/debounce-signal';
 import { Flight } from '../../model/flight';
 import { toLocalDateTimeString } from '../../utils/date';
-import { JsonPipe } from '@angular/common';
 import { delay, map, Observable, of } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { Aircraft } from 'src/app/model/aircraft';
@@ -181,6 +179,7 @@ function validateRoundTrip(schema: FieldPath<Flight>) {
 }
 
 function validateCityRemote(schema: FieldPath<string>) {
+
   validateAsync(schema, {
     params: (ctx) => ({
       value: ctx.value(),
