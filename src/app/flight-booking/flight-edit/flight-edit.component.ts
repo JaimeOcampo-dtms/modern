@@ -16,8 +16,6 @@ import {
   required,
   submit,
   validate,
-  ValidationSuccess,
-  FieldValidator,
   validateAsync,
   validateTree,
   customError,
@@ -32,24 +30,6 @@ import { toLocalDateTimeString } from '../../utils/date';
 import { JsonPipe } from '@angular/common';
 import { delay, map, Observable, of } from 'rxjs';
 import { rxResource } from '@angular/core/rxjs-interop';
-
-function validateCity(
-  path: FieldPath<string>,
-  allowed: string[]
-) {
-  return validate(path, (ctx) => {
-    const value = ctx.value();
-    if (allowed.includes(value)) {
-      return null as ValidationSuccess;
-    }
-
-    return customError({
-      kind: 'city',
-      value,
-      allowed,
-    });
-  });
-}
 
 @Component({
   selector: 'app-flight-edit',
@@ -75,6 +55,7 @@ export class FlightEditComponent {
   error = this.store.saveFlightError;
 
   flight = linkedSignal(() => normalize(this.store.flightValue()));
+
   flightForm = form(this.flight, (path) => {
     required(path.from);
     required(path.to);
@@ -82,19 +63,19 @@ export class FlightEditComponent {
 
     minLength(path.from, 3);
 
-    // const allowed = ['Graz', 'Hamburg', 'Zürich'];
-    // validate(schema.from, (ctx) => {
-    //   const value = ctx.value();
-    //   if (allowed.includes(value)) {
-    //     return null;
-    //   }
+    const allowed = ['Graz', 'Hamburg', 'Zürich'];
+    validate(path.from, (ctx) => {
+      const value = ctx.value();
+      if (allowed.includes(value)) {
+        return null;
+      }
 
-    //   return customError({
-    //     kind: 'city',
-    //     value,
-    //     allowed,
-    //   });
-    // });
+      return customError({
+        kind: 'city',
+        value,
+        allowed,
+      });
+    });
 
     // validateCity(schema.from, ['Graz', 'Hamburg', 'Zürich']);
     validateCityRemote(path.from);
@@ -122,6 +103,24 @@ export class FlightEditComponent {
       return null;
     });
   }
+}
+
+function validateCity(
+  path: FieldPath<string>,
+  allowed: string[]
+): void {
+  return validate(path, (ctx) => {
+    const value = ctx.value();
+    if (allowed.includes(value)) {
+      return null;
+    }
+
+    return customError({
+      kind: 'city',
+      value,
+      allowed,
+    });
+  });
 }
 
 function validateRoundTripTree(schema: FieldPath<Flight>) {
