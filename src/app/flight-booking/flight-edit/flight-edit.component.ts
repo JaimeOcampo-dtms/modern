@@ -109,7 +109,7 @@ function validateCity(
   path: FieldPath<string>,
   allowed: string[]
 ): void {
-  return validate(path, (ctx) => {
+  validate(path, (ctx) => {
     const value = ctx.value();
     if (allowed.includes(value)) {
       return null;
