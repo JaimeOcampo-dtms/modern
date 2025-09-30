@@ -43,7 +43,7 @@ import { AircraftComponent } from './aircraft/aircraft.component';
 import { PricesComponent } from './prices/prices.component';
 import { FlightComponent } from './flight/flight.component';
 import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/validation-errors.component';
-import { CITY } from 'src/app/shared/properties';
+import { CITY, CITY2 } from 'src/app/shared/properties';
 
 export const aircraftSchema = schema<Aircraft>((path) => {
   required(path.registration);
@@ -99,7 +99,7 @@ export const flightSchema = schema<Flight>((path) => {
   applyEach(path.prices, priceSchema);
 });
 
-export const flightFormSchema =schema<Flight>((path) => {
+export const flightFormSchema = schema<Flight>((path) => {
   apply(path, flightSchema);
   required(path.id);
 });
@@ -202,8 +202,8 @@ function validateRoundTrip(schema: FieldPath<Flight>) {
 }
 
 function validateCityAsync(schema: FieldPath<string>) {
-
-  aggregateProperty(schema, CITY, () => true);
+  aggregateProperty(schema, CITY2, () => true);
+  property(schema, CITY, () => true);
 
   validateAsync(schema, {
     params: (ctx) => ({
@@ -229,6 +229,7 @@ function validateCityAsync(schema: FieldPath<string>) {
 }
 
 function validateCityHttp(schema: FieldPath<string>) {
+
   validateHttp(schema, {
     request: (ctx) => ({
       url: 'https://demo.angulararchitects.io/api/flight',
