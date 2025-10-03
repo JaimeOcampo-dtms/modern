@@ -1,8 +1,16 @@
-import { rxResource } from "@angular/core/rxjs-interop";
-import { customError, FieldPath, validate, validateAsync, validateHttp, validateTree, ValidationSuccess } from "@angular/forms/signals";
-import { Observable, of, delay, map } from "rxjs";
-import { Flight } from "../model/flight";
-import { Price } from "../model/price";
+import { rxResource } from '@angular/core/rxjs-interop';
+import {
+  customError,
+  FieldPath,
+  validate,
+  validateAsync,
+  validateHttp,
+  validateTree,
+  ValidationSuccess,
+} from '@angular/forms/signals';
+import { Observable, of, delay, map } from 'rxjs';
+import { Flight } from '../model/flight';
+import { Price } from '../model/price';
 
 export function validateCity(path: FieldPath<string>, allowed: string[]) {
   validate(path, (ctx) => {
@@ -20,7 +28,19 @@ export function validateCity(path: FieldPath<string>, allowed: string[]) {
 }
 
 export function validateRoundTrip(schema: FieldPath<Flight>) {
-  // TODO
+  validate(schema, (ctx) => {
+    const from = ctx.field.from().value();
+    const to = ctx.field.to().value();
+
+    if (from === to) {
+      return customError({
+        kind: 'roundtrip',
+        from,
+        to,
+      });
+    }
+    return null;
+  });
 }
 
 export function validateRoundTripTree(schema: FieldPath<Flight>) {
@@ -41,7 +61,6 @@ export function validateRoundTripTree(schema: FieldPath<Flight>) {
 }
 
 export function validateCityAsync(schema: FieldPath<string>) {
-
   validateAsync(schema, {
     params: (ctx) => ({
       value: ctx.value(),
@@ -75,7 +94,6 @@ function rxValidateAirport(airport: string): Observable<boolean> {
 }
 
 export function validateCityHttp(schema: FieldPath<string>) {
-
   validateHttp(schema, {
     request: (ctx) => ({
       url: 'https://demo.angulararchitects.io/api/flight',
@@ -113,7 +131,6 @@ export function validateDuplicatePrices(prices: FieldPath<Price[]>) {
     return null;
   });
 }
-
 
 //
 //  aggregateProperty(schema, CITY2, () => true);
