@@ -66,6 +66,7 @@
 
   <div class="form-group form-check">
     <label for="delay">Delay</label>
+    <pre>{{ flightForm.delay().disabledReasons() | json }}</pre>
     <app-delay-stepper id="delay" [control]="flightForm.delay" />
     <app-validation-errors [errors]="flightForm.delay().errors()" />
   </div>

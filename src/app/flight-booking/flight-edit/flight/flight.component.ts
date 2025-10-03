@@ -4,6 +4,7 @@ import { Flight } from 'src/app/model/flight';
 import { DelayStepperComponent } from 'src/app/shared/delay-stepper/delay-stepper.component';
 import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/validation-errors.component';
 import { FieldMetaDataComponent } from "src/app/shared/field-meta-data/field-meta-data.component";
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-flight',
@@ -11,7 +12,8 @@ import { FieldMetaDataComponent } from "src/app/shared/field-meta-data/field-met
     Control,
     ValidationErrorsComponent,
     DelayStepperComponent,
-    FieldMetaDataComponent
+    FieldMetaDataComponent,
+    JsonPipe
 ],
   templateUrl: './flight.component.html',
   styleUrl: './flight.component.css',
