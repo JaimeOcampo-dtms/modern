@@ -15,7 +15,8 @@
 
   <div class="form-group">
     <label for="flight-from">
-      From
+      From 
+      <app-field-meta-data [field]="flightForm.from" />
     </label>
     <input class="form-control" [control]="flightForm.from" id="flight-from" />
     <app-validation-errors [errors]="flightForm.from().errors()" />
@@ -27,6 +28,7 @@
   <div class="form-group">
     <label for="flight-to">
       To
+      <app-field-meta-data [field]="flightForm.to" />
     </label>
     <input
       class="form-control"

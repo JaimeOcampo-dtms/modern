@@ -13,9 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Flight, flightSchema } from '../../model/flight';
 import { formatDate } from '../../utils/date';
-import { JsonPipe } from '@angular/common';
 import {
-  Control,
   customError,
   FieldPath,
   form,
@@ -23,6 +21,9 @@ import {
   validate,
 } from '@angular/forms/signals';
 import { HttpErrorResponse } from '@angular/common/http';
+import { AircraftComponent } from './aircraft/aircraft.component';
+import { FlightComponent } from './flight/flight.component';
+import { PricesComponent } from './prices/prices.component';
 
 @Component({
   selector: 'app-flight-edit',
@@ -30,12 +31,9 @@ import { HttpErrorResponse } from '@angular/common/http';
     MatDatepickerModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    JsonPipe,
-    Control,
-    // AircraftComponent,
-    // PricesComponent,
-    // FlightComponent,
-    // ValidationErrorsComponent,
+    AircraftComponent,
+    PricesComponent,
+    FlightComponent,
   ],
   templateUrl: './flight-edit.component.html',
   styleUrls: ['./flight-edit.component.css'],

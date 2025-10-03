@@ -1,7 +1,9 @@
 import { rxResource } from '@angular/core/rxjs-interop';
 import {
+  aggregateProperty,
   customError,
   FieldPath,
+  property,
   validate,
   validateAsync,
   validateHttp,
@@ -11,6 +13,7 @@ import {
 import { Observable, of, delay, map } from 'rxjs';
 import { Flight } from '../model/flight';
 import { Price } from '../model/price';
+import { CITY, CITY2 } from './properties';
 
 export function validateCity(path: FieldPath<string>, allowed: string[]) {
   validate(path, (ctx) => {
@@ -69,6 +72,8 @@ export function validateRoundTripTree(schema: FieldPath<Flight>) {
 }
 
 export function validateCityAsync(schema: FieldPath<string>) {
+  property(schema, CITY, () => true )
+
   validateAsync(schema, {
     params: (ctx) => ({
       value: ctx.value(),
@@ -102,6 +107,9 @@ function rxValidateAirport(airport: string): Observable<boolean> {
 }
 
 export function validateCityHttp(schema: FieldPath<string>) {
+
+  aggregateProperty(schema, CITY2, () => true);
+
   validateHttp(schema, {
     request: (ctx) => ({
       url: 'https://demo.angulararchitects.io/api/flight',
