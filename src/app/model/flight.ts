@@ -40,6 +40,8 @@ export const flightSchema = schema<Flight>((path) => {
   validateCityAsync(path.from);
   validateCityHttp(path.to);
 
+  // TODO: Standard Schema
+  
   // TODO: applyWhenValue
   // TODO: disabled
 
