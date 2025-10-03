@@ -31,7 +31,10 @@ export const flightSchema = schema<Flight>((path) => {
   required(path.date);
 
   minLength(path.from, 3);
-  disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed));
+  
+  //disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed));
+  disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed) ? 'not delayed' : false);
+
   applyWhenValue(path, (flight) => flight.delayed, delayedFlight);
 
   validateDuplicatePrices(path.prices);

@@ -21,7 +21,7 @@
     <input class="form-control" [control]="flightForm.from" id="flight-from" />
     <app-validation-errors [errors]="flightForm.from().errors()" />
     @if (flightForm.from().pending()) {
-      <div>Waiting for Async Validation Result...</div>
+    <div>Waiting for Async Validation Result...</div>
     }
   </div>
 
@@ -68,5 +68,8 @@
     <label for="delay">Delay</label>
     <app-delay-stepper id="delay" [control]="flightForm.delay" />
     <app-validation-errors [errors]="flightForm.delay().errors()" />
+    @for(reason of flightForm.delay().disabledReasons(); track $index) {
+    <p>Disabled because {{ reason.message }}</p>
+    }
   </div>
 </fieldset>
