@@ -1,7 +1,9 @@
 import { rxResource } from '@angular/core/rxjs-interop';
 import {
+  aggregateProperty,
   customError,
   FieldPath,
+  property,
   validate,
   validateAsync,
   validateHttp,
@@ -11,6 +13,7 @@ import {
 import { Observable, of, delay, map } from 'rxjs';
 import { Flight } from '../model/flight';
 import { Price } from '../model/price';
+import { CITY, CITY2 } from './properties';
 
 export function validateCity(path: FieldPath<string>, allowed: string[]) {
   validate(path, (ctx) => {
@@ -49,18 +52,28 @@ export function validateRoundTripTree(schema: FieldPath<Flight>) {
     const to = ctx.field.to().value();
 
     if (from === to) {
-      return {
-        kind: 'roundtrip_tree',
-        field: ctx.field.from,
-        from,
-        to,
-      };
+      return [
+        {
+          kind: 'roundtrip_tree',
+          field: ctx.field.from,
+          from,
+          to,
+        },
+        {
+          kind: 'roundtrip_tree',
+          field: ctx.field.to,
+          from,
+          to,
+        },
+      ];
     }
     return null;
   });
 }
 
 export function validateCityAsync(schema: FieldPath<string>) {
+  property(schema, CITY, () => true);
+
   validateAsync(schema, {
     params: (ctx) => ({
       value: ctx.value(),
@@ -94,6 +107,8 @@ function rxValidateAirport(airport: string): Observable<boolean> {
 }
 
 export function validateCityHttp(schema: FieldPath<string>) {
+  aggregateProperty(schema, CITY2, () => true);
+
   validateHttp(schema, {
     request: (ctx) => ({
       url: 'https://demo.angulararchitects.io/api/flight',
@@ -115,17 +130,17 @@ export function validateCityHttp(schema: FieldPath<string>) {
 export function validateDuplicatePrices(prices: FieldPath<Price[]>) {
   validate(prices, (ctx) => {
     const prices = ctx.value();
-    const flightClasses = new Set<string>();
+    const alreadySeen = new Set<string>();
 
     for (const price of prices) {
-      if (flightClasses.has(price.flightClass)) {
+      if (alreadySeen.has(price.flightClass)) {
         return customError({
           kind: 'duplicateFlightClass',
           message: 'There can only be one price per flight class',
           flightClass: price.flightClass,
         });
       }
-      flightClasses.add(price.flightClass);
+      alreadySeen.add(price.flightClass);
     }
 
     return null;

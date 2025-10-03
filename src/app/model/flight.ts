@@ -1,7 +1,9 @@
-import { min, minLength, required, schema } from "@angular/forms/signals";
-import { Aircraft, initAircraft } from "./aircraft";
-import { Price } from "./price";
-import { validateCityAsync, validateCityHttp, validateRoundTrip, validateRoundTripTree } from "../shared/validators";
+import { apply, applyEach, applyWhen, applyWhenValue, disabled, hidden, min, minLength, property, readonly, required, schema, validateStandardSchema } from "@angular/forms/signals";
+import { Aircraft, aircraftSchema, initAircraft } from "./aircraft";
+import { Price, priceSchema } from "./price";
+import { validateCityAsync, validateCityHttp, validateDuplicatePrices, validateRoundTrip, validateRoundTripTree } from "../shared/validators";
+import { FlightSchema } from "./standard-schema";
+import { CITY } from "../shared/properties";
 
 export interface Flight {
   id: number;
@@ -40,14 +42,21 @@ export const flightSchema = schema<Flight>((path) => {
   validateCityAsync(path.from);
   validateCityHttp(path.to);
 
-  // TODO: Standard Schema
-  
-  // TODO: applyWhenValue
-  // TODO: disabled
+  validateStandardSchema(path, FlightSchema);
 
-  // TODO: aircraftSchema
-  // TODO: priceSchema
-  // TODO: duplicate prices
+  applyWhenValue(path, (flight) => flight.delayed, delayedFlight);
+  // applyWhen(path, (ctx) => ctx.valueOf(path.delayed) , delayedFlight);
+
+  disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed) ? 'because it is not delayed!' : false)
+
+  // disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed))
+  // readonly(path.delay, (ctx) => !ctx.valueOf(path.delayed))
+  // hidden(path.delay, (ctx) => !ctx.valueOf(path.delayed))
+
+  applyEach(path.prices, priceSchema);
+  validateDuplicatePrices(path.prices);
+
+  apply(path.aircraft, aircraftSchema);
 
 });
 
