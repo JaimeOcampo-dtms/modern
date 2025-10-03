@@ -3,41 +3,53 @@
 </div>
 
 @if (loaded()) {
-<form class="flight-form" novalidate>
+<pre>{{ flightForm().errors() | json }}</pre>
 
-<!-- 
+<form class="flight-form" novalidate>
   <div class="form-group">
     <label for="flight-id">ID</label>
-    <input class="form-control" id="flight-id" />
+    <input [control]="flightForm.id" class="form-control" id="flight-id" />
+    <pre>{{ flightForm.id().errors() | json }}</pre>
   </div>
 
   <div class="form-group">
     <label for="flight-from"> From </label>
-    <input class="form-control" id="flight-from" />
+    <input [control]="flightForm.from" class="form-control" id="flight-from" />
+    <pre>{{ flightForm.from().errors() | json }}</pre>
   </div>
 
   <div class="form-group">
     <label for="flight-to"> To </label>
-    <input class="form-control" id="flight-to" />
+    <input [control]="flightForm.to" class="form-control" id="flight-to" />
+    <pre>{{ flightForm.to().errors() | json }}</pre>
   </div>
 
   <div class="form-group">
     <label for="flight-date">Date</label>
-    <input class="form-control" id="flight-date" type="datetime-local" />
+    <input
+      [control]="flightForm.date"
+      class="form-control"
+      id="flight-date"
+      type="datetime-local"
+    />
   </div>
 
   <div class="form-group form-check">
     <label class="form-check-label">
-      <input type="checkbox" class="form-check-input" id="flight-delayed" />
+      <input
+        [control]="flightForm.delayed"
+        type="checkbox"
+        class="form-check-input"
+        id="flight-delayed"
+      />
       Delayed</label
     >
   </div>
 
   <div class="form-group form-check">
     <label for="delay">Delay</label>
-    <input class="form-control" id="delay" />
-  </div> 
--->
+    <input [control]="flightForm.delay" class="form-control" id="delay" />
+  </div>
 
   <pre>{{ flight() | json }}</pre>
 

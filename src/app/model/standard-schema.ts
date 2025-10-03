@@ -4,7 +4,7 @@ export const FlightSchema = z.object({
   id: z.coerce.number().int(),
   from: z.string().min(3),
   to: z.string().min(3),
-  date: z.coerce.date(),
+  date: z.string(),
   delayed: z.coerce.boolean(),
 });
 
