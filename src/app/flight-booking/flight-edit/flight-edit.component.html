@@ -2,20 +2,53 @@
   <h2 class="title">Flight Edit</h2>
 </div>
 
-@if (flightForm.id().value() !== 0) {
-<app-validation-errors [errors]="flightForm().errors()" />
+@if (loaded()) {
 <form class="flight-form" novalidate>
+
+<!-- 
+  <div class="form-group">
+    <label for="flight-id">ID</label>
+    <input class="form-control" id="flight-id" />
+  </div>
+
+  <div class="form-group">
+    <label for="flight-from"> From </label>
+    <input class="form-control" id="flight-from" />
+  </div>
+
+  <div class="form-group">
+    <label for="flight-to"> To </label>
+    <input class="form-control" id="flight-to" />
+  </div>
+
+  <div class="form-group">
+    <label for="flight-date">Date</label>
+    <input class="form-control" id="flight-date" type="datetime-local" />
+  </div>
+
+  <div class="form-group form-check">
+    <label class="form-check-label">
+      <input type="checkbox" class="form-check-input" id="flight-delayed" />
+      Delayed</label
+    >
+  </div>
+
+  <div class="form-group form-check">
+    <label for="delay">Delay</label>
+    <input class="form-control" id="delay" />
+  </div> 
+-->
+
+  <pre>{{ flight() | json }}</pre>
+
+  <!--
   <app-flight [flight]="flightForm"></app-flight>
   <app-prices [prices]="flightForm.prices"></app-prices>
   <app-aircraft [aircraft]="flightForm.aircraft"></app-aircraft>
+  -->
 
   <div class="mt-40">
     <button class="btn btn-default" type="button" (click)="save()">Save</button>
   </div>
 </form>
-} @if(isPending()) {
-<div class="overlay">
-  <mat-progress-spinner mode="indeterminate" diameter="60">
-  </mat-progress-spinner>
-</div>
 }

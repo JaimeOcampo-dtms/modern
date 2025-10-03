@@ -1,7 +1,7 @@
-import { apply, applyEach, applyWhenValue, disabled, min, minLength, required, schema } from "@angular/forms/signals";
-import { Aircraft, aircraftSchema, initAircraft } from "./aircraft";
-import { Price, priceSchema } from "./price";
-import { validateCityAsync, validateCityHttp, validateDuplicatePrices, validateRoundTrip, validateRoundTripTree } from "../shared/validators";
+import { min, minLength, required, schema } from "@angular/forms/signals";
+import { Aircraft, initAircraft } from "./aircraft";
+import { Price } from "./price";
+import { validateCityAsync, validateCityHttp, validateRoundTrip, validateRoundTripTree } from "../shared/validators";
 
 export interface Flight {
   id: number;
@@ -31,22 +31,41 @@ export const flightSchema = schema<Flight>((path) => {
   required(path.date);
 
   minLength(path.from, 3);
-  disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed));
-  applyWhenValue(path, (flight) => flight.delayed, delayedFlight);
 
-  validateDuplicatePrices(path.prices);
-
-  validateCityAsync(path.from);
-  validateCityHttp(path.to);
+  // validateCity(path.from, ['Graz', 'London']);
 
   validateRoundTrip(path);
   validateRoundTripTree(path);
 
-  apply(path.aircraft, aircraftSchema);
-  applyEach(path.prices, priceSchema);
+  validateCityAsync(path.from);
+  validateCityHttp(path.to);
+
+  // TODO: applyWhenValue
+  // TODO: disabled
+
+  // TODO: aircraftSchema
+  // TODO: priceSchema
+  // TODO: duplicate prices
+
 });
 
 export const delayedFlight = schema<Flight>((path) => {
   required(path.delay);
   min(path.delay, 15);
 });
+
+
+
+
+
+
+/*
+  disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed));
+  applyWhenValue(path, (flight) => flight.delayed, delayedFlight);
+
+
+  apply(path.aircraft, aircraftSchema);
+  applyEach(path.prices, priceSchema);
+
+  validateDuplicatePrices(path.prices);
+*/

@@ -1,4 +1,4 @@
-export function toLocalDateTimeString(isoString: string): string {
+export function formatDate(isoString: string): string {
   const pad = (n: number) => n.toString().padStart(2, '0');
 
   const date = new Date(isoString);
