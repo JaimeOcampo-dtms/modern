@@ -1,4 +1,4 @@
-import { Component, input, Signal } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { FieldDef } from './model';
 import { Control, FieldState } from '@angular/forms/signals';
 import { ValidationErrorsComponent } from '../validation-errors/validation-errors.component';

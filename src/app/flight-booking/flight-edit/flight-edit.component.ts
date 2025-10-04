@@ -8,13 +8,7 @@ import {
 } from '@angular/core';
 
 import { FlightDetailStore } from '../flight-detail.store';
-import {
-  form,
-  required,
-  schema,
-  apply,
-  Control,
-} from '@angular/forms/signals';
+import { form, required, schema, apply, Control } from '@angular/forms/signals';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -22,7 +16,7 @@ import { Flight, flightSchema } from '../../model/flight';
 import { toLocalDateTimeString } from '../../utils/date';
 import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/validation-errors.component';
 import { FieldDef, toSchema } from 'src/app/shared/dynamic-form/model';
-import { DynamicFormComponent } from "src/app/shared/dynamic-form/dynamic-form.component";
+import { DynamicFormComponent } from 'src/app/shared/dynamic-form/dynamic-form.component';
 
 export const flightFormSchema = schema<Flight>((path) => {
   apply(path, flightSchema);
@@ -36,8 +30,8 @@ export const flightFormSchema = schema<Flight>((path) => {
     MatInputModule,
     MatProgressSpinnerModule,
     ValidationErrorsComponent,
-    DynamicFormComponent
-],
+    DynamicFormComponent,
+  ],
   templateUrl: './flight-edit.component.html',
   styleUrls: ['./flight-edit.component.css'],
 })
