@@ -6,22 +6,7 @@
 <app-validation-errors [errors]="dynamicForm().errors()" />
 
 <form class="flight-form" novalidate>
-  @for(fieldDef of meta; track fieldDef.name) { 
-    
-    @let field = $any(dynamicForm)[fieldDef.name];
-
-  <div class="form-group">
-    <label>
-      {{ fieldDef.label }}
-      <input
-        [type]="fieldDef.type"
-        [control]="field"
-        [class.form-control]="fieldDef.type !== 'checkbox'"
-      />
-    </label>
-    <app-validation-errors [errors]="field().errors()"></app-validation-errors>
-  </div>
-  }
+  <app-dynamic-form [metaInfo]="meta" [dynamicForm]="dynamicForm" />
 
   <div class="mt-40">
     <button class="btn btn-default" type="button" (click)="save()">Save</button>

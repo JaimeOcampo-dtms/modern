@@ -13,8 +13,6 @@ import {
   required,
   schema,
   apply,
-  minLength,
-  maxLength,
   Control,
 } from '@angular/forms/signals';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -23,43 +21,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Flight, flightSchema } from '../../model/flight';
 import { toLocalDateTimeString } from '../../utils/date';
 import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/validation-errors.component';
-import { FieldMetaDataComponent } from 'src/app/shared/field-meta-data/field-meta-data.component';
+import { FieldDef, toSchema } from 'src/app/shared/dynamic-form/model';
+import { DynamicFormComponent } from "src/app/shared/dynamic-form/dynamic-form.component";
 
 export const flightFormSchema = schema<Flight>((path) => {
   apply(path, flightSchema);
   required(path.id);
 });
-
-export interface FieldDef {
-  name: string;
-  label: string;
-  required?: boolean;
-  minLength?: number;
-  maxLength?: number;
-  type?: string;
-}
-
-function toSchema(meta: FieldDef[]) {
-  return schema<unknown>((path) => {
-    for (const fieldDef of meta) {
-      const prop = fieldDef.name;
-      const fieldPath = (path as any)[prop];
-
-      if (!fieldPath) {
-        continue;
-      }
-      if (fieldDef.required) {
-        required(fieldPath);
-      }
-      if (typeof fieldDef.minLength !== 'undefined') {
-        minLength(fieldPath, fieldDef.minLength);
-      }
-      if (typeof fieldDef.maxLength !== 'undefined') {
-        maxLength(fieldPath, fieldDef.maxLength);
-      }
-    }
-  });
-}
 
 @Component({
   selector: 'app-flight-edit',
@@ -68,8 +36,8 @@ function toSchema(meta: FieldDef[]) {
     MatInputModule,
     MatProgressSpinnerModule,
     ValidationErrorsComponent,
-    Control,
-  ],
+    DynamicFormComponent
+],
   templateUrl: './flight-edit.component.html',
   styleUrls: ['./flight-edit.component.css'],
 })
