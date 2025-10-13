@@ -11,12 +11,13 @@ import { CITY, CITY2 } from '../properties';
 export class FieldMetaDataComponent {
   field = input.required<Field<unknown>>();
 
-  isRequired = computed(() => this.field()().property(REQUIRED)());
-  minLength = computed(() => this.field()().property(MIN_LENGTH)() ?? 0);
-  maxLength = computed(() => this.field()().property(MAX_LENGTH)() ?? 30);
+  fieldState = computed(() => this.field()());
+
+  isRequired = computed(() => this.fieldState().property(REQUIRED)());
+  minLength = computed(() => this.fieldState().property(MIN_LENGTH)() ?? 0);
+  maxLength = computed(() => this.fieldState().property(MAX_LENGTH)() ?? 30);
   length = computed(() => `(${this.minLength()}..${this.maxLength()})`);
 
-  city = computed(() => this.field()().property(CITY));
-  city2 = computed(() => this.field()().property(CITY2)());
-
+  city = computed(() => this.fieldState().property(CITY));
+  city2 = computed(() => this.fieldState().property(CITY2)());
 }
