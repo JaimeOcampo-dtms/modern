@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { Field, REQUIRED, MIN_LENGTH, MAX_LENGTH } from '@angular/forms/signals';
+import { FieldTree, REQUIRED, MIN_LENGTH, MAX_LENGTH } from '@angular/forms/signals';
 import { CITY, CITY2 } from '../properties';
 
 @Component({
@@ -9,7 +9,7 @@ import { CITY, CITY2 } from '../properties';
   styleUrl: './field-meta-data.component.css',
 })
 export class FieldMetaDataComponent {
-  field = input.required<Field<unknown>>();
+  field = input.required<FieldTree<unknown>>();
 
   fieldState = computed(() => this.field()());
 
@@ -20,4 +20,5 @@ export class FieldMetaDataComponent {
 
   city = computed(() => this.fieldState().property(CITY));
   city2 = computed(() => this.fieldState().property(CITY2)());
+
 }

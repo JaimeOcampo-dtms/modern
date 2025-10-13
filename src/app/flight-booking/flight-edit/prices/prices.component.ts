@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Control, Field } from '@angular/forms/signals';
+import { Control, FieldTree } from '@angular/forms/signals';
 import { initPrice, Price } from 'src/app/model/price';
 import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/validation-errors.component';
 
@@ -10,7 +10,7 @@ import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/vali
   styleUrl: './prices.component.css',
 })
 export class PricesComponent {
-  prices = input.required<Field<Price[]>>();
+  prices = input.required<FieldTree<Price[]>>();
 
   addPrice(): void {
     const pricesForms = this.prices();

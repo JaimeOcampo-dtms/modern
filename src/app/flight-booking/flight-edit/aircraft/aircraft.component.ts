@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Control, Field } from '@angular/forms/signals';
+import { Control, FieldTree } from '@angular/forms/signals';
 import { Aircraft } from 'src/app/model/aircraft';
 import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/validation-errors.component';
 
@@ -10,5 +10,5 @@ import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/vali
   styleUrl: './aircraft.component.css',
 })
 export class AircraftComponent {
-  aircraft = input.required<Field<Aircraft>>();
+  aircraft = input.required<FieldTree<Aircraft>>();
 }
