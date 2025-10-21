@@ -13,3 +13,6 @@ export const initFlight: Flight = {
   date: '',
   delayed: false,
 };
+
+
+// const FlightZodSchema = zod.object(...);

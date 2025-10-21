@@ -1,4 +1,55 @@
-import { signalStore } from '@ngrx/signals';
+import { computed } from '@angular/core';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
+import { FlightFilter } from './flight-filter';
+import { withResource } from '@angular-architects/ngrx-toolkit';
+import { httpResource } from '@angular/common/http';
+import { Flight } from '../model/flight';
 
-// TODO: Implement BookingStore
+export const BookingStore = signalStore(
+  { providedIn: 'root' },
+  withState({
+    from: 'Graz',
+    to: 'Paris',
+    basket: {} as Record<number, boolean>,
+  }),
+  withComputed((store) => ({
+    flightRoute: computed(() => store.from() + ' - ' + store.to()),
+  })),
+  withResource((store) => ({
+    flights: httpResource<Flight[]>(
+      () => ({
+        url: 'https://demo.angulararchitects.io/api/flight',
+        params: {
+          from: store.from(),
+          to: store.to(),
+        },
+      }),
+      { defaultValue: [] }
+    ),
+  })),
+  withMethods((store) => ({
+    updateFilter(filter: FlightFilter) {
+      // patchState(store, { from: filter.from, to: filter.to })
+      patchState(store, filter);
+    },
 
+    reload() {
+        store._flightsReload();
+    },
+
+    updateBasket(flightId: number, selected: boolean) {
+      patchState(store, (state) => ({
+        basket: {
+          ...state.basket,
+          [flightId]: selected,
+        },
+      }));
+    },
+  }))
+);
