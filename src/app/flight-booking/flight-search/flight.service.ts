@@ -1,12 +1,13 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable, Signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Flight, initFlight } from '../../model/flight';
 import { ConfigService } from '../../shared/config.service';
 import {
   concatOp,
   httpMutation,
   HttpMutationOptions,
+  rxMutation,
 } from '@angular-architects/ngrx-toolkit';
 
 export type MutationSettings<Params, Result> = Omit<
@@ -45,19 +46,6 @@ export class FlightService {
     return this.http.get<Flight>(url, { headers, params });
   }
 
-  findResource(from: Signal<string>, to: Signal<string>) {
-    return httpResource<Flight[]>(
-      () => ({
-        url: 'https://demo.angulararchitects.io/api/flight',
-        params: {
-          from: from(),
-          to: to(),
-        },
-      }),
-      { defaultValue: [] }
-    );
-  }
-
   findResourceById(id: Signal<number>) {
     return httpResource<Flight>(
       () =>
@@ -75,15 +63,7 @@ export class FlightService {
     );
   }
 
-  createSaveMutation(options: Partial<HttpMutationOptions<Flight, Flight>>) {
-    return httpMutation({
-      ...options,
-      request: (flight) => ({
-        url: 'https://demo.angulararchitects.io/api/flight',
-        method: 'POST',
-        body: flight,
-      }),
-      operator: concatOp
-    });
-  }
+  // TODO: Create Resource
+
+  // TODO: Create Mutation
 }

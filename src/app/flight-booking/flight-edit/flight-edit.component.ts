@@ -2,25 +2,19 @@ import {
   Component,
   inject,
   input,
-  linkedSignal,
   numberAttribute,
 } from '@angular/core';
 
 import { FlightDetailStore } from '../flight-detail.store';
-import { Control, form, required, submit } from '@angular/forms/signals';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { debounceSignal } from '../../shared/debounce-signal';
 import { Flight } from '../../model/flight';
 import { toLocalDateTimeString } from '../../utils/date';
-import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-flight-edit',
   imports: [
-    Control,
-    JsonPipe,
     MatDatepickerModule,
     MatInputModule,
     MatProgressSpinnerModule,
@@ -35,35 +29,16 @@ export class FlightEditComponent {
     transform: numberAttribute,
   });
 
-  // TODO: Get from store
-  isPending = debounceSignal(this.store.saveFlightIsPending, 300);
-  error = this.store.saveFlightError;
+  flight = this.store.flightValue;
 
-  flight = linkedSignal(() => normalize(this.store.flightValue()));
-  flightForm = form(this.flight, (schema) => { 
-    required(schema.from);
-    required(schema.to);
-    required(schema.date);
-  });
+  // TODO: Create Signal Form
 
   constructor() {
     this.store.updateFilter(this.id);
   }
 
   save(): void {
-    submit(this.flightForm, async (form) => {
-      const result = await this.store.saveFlight(form().value());
-
-      if (result.status === 'error') {
-        alert(1)
-        return {
-          kind: 'processing_error',
-            // ^^^ try to be more specfic
-          error: result.error,
-        }
-      }
-      return null;
-    });
+    // TODO: submit changes to backend
   }
 }
 

@@ -2,43 +2,22 @@
   <h2 class="title">Flight Edit</h2>
 </div>
 
-@if (flightForm.id().value() !== 0) {
-
-<!-- Form level errors -->
-<pre>{{ flightForm().errors() | json }}</pre>
+@if (flight.id() !== 0) {
 
 <form class="flight-form" (ngSubmit)="save()">
   <div class="form-group">
     <label for="flight-id">ID</label>
-    <input
-      class="form-control"
-      [control]="flightForm.id"
-      id="flight-id"
-      name="id"
-    />
+    <input class="form-control" id="flight-id" name="id" />
   </div>
 
   <div class="form-group">
     <label for="flight-from">From</label>
-    <input
-      class="form-control"
-      [control]="flightForm.from"
-      id="flight-from"
-      name="from"
-    />
-    <!-- Field level errors -->
-    <pre>{{ flightForm.from().errors() | json }}</pre>
+    <input class="form-control" id="flight-from" name="from" />
   </div>
 
   <div class="form-group">
     <label for="flight-to">To</label>
-    <input
-      class="form-control"
-      [control]="flightForm.to"
-      id="flight-to"
-      name="to"
-    />
-    <pre>{{ flightForm.from().errors | json }}</pre>
+    <input class="form-control" id="flight-to" name="to" />
   </div>
 
   <div class="form-group">
@@ -46,7 +25,6 @@
     <div class="input-group">
       <input
         class="form-control"
-        [control]="flightForm.date"
         id="flight-date"
         type="datetime-local"
         name="date"
@@ -59,7 +37,6 @@
       <input
         type="checkbox"
         class="form-check-input"
-        [control]="flightForm.delayed"
         id="flight-delayed"
         name="delayed"
       />
@@ -71,9 +48,11 @@
     <button class="btn btn-default" type="button" (click)="save()">Save</button>
   </div>
 </form>
-} @if(isPending()) {
+}
+
+<!-- @if(isPending()) {
 <div class="overlay">
   <mat-progress-spinner mode="indeterminate" diameter="60">
   </mat-progress-spinner>
 </div>
-}
+} -->
