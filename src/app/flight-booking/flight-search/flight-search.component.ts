@@ -1,13 +1,10 @@
 import {
   Component,
-  computed,
   inject,
   linkedSignal,
-  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlightCardComponent } from '../flight-card/flight-card.component';
-import { Flight } from 'src/app/model/flight';
 import { BookingStore } from '../flight-booking.store';
 import {
   customError,
@@ -24,8 +21,7 @@ import { FlightFilter } from '../flight-filter';
 const FlightSchema = schema<FlightFilter>((path) => {
   required(path.from);
   minLength(path.from, 3);
-  const allowed = ['Graz', 'Hamburg', 'Berlin'];
-  validateCity(path.from, allowed);
+  validateCity(path.from, ['Graz', 'Hamburg', 'Berlin']);
 });
 
 @Component({
@@ -53,15 +49,26 @@ export class FlightSearchComponent {
 
   basket = this.store.basket;
 
+  constructor() {
+    this.store.updateFilter(this.searchForm().value);
+  }
+
   search(): void {
     this.store.reload();
-    this.store.updateFilter(this.searchForm().value());
   }
 
   updateBasket(flightId: number, selected: boolean): void {
     this.store.updateBasket(flightId, selected);
   }
 }
+
+
+
+
+
+
+
+
 
 function validateCity(path: FieldPath<string>, allowed: string[]) {
   validate(path, (ctx) => {

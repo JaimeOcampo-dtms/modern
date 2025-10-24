@@ -1,25 +1,31 @@
-import { computed } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import {
   patchState,
+  signalMethod,
   signalStore,
   withComputed,
   withMethods,
+  withProps,
   withState,
 } from '@ngrx/signals';
 import { FlightFilter } from './flight-filter';
 import { withResource } from '@angular-architects/ngrx-toolkit';
 import { httpResource } from '@angular/common/http';
 import { Flight } from '../model/flight';
+import { FlightService } from './flight-search/flight.service';
 
 export const BookingStore = signalStore(
   { providedIn: 'root' },
   withState({
     from: 'Graz',
-    to: 'Paris',
+    to: 'Hamburg',
     basket: {} as Record<number, boolean>,
   }),
   withComputed((store) => ({
     flightRoute: computed(() => store.from() + ' - ' + store.to()),
+  })),
+  withProps(store => ({
+    _flightService: inject(FlightService)
   })),
   withResource((store) => ({
     flights: httpResource<Flight[]>(
@@ -34,10 +40,9 @@ export const BookingStore = signalStore(
     ),
   })),
   withMethods((store) => ({
-    updateFilter(filter: FlightFilter) {
-      // patchState(store, { from: filter.from, to: filter.to })
+    updateFilter: signalMethod((filter: FlightFilter) => {
       patchState(store, filter);
-    },
+    }),
 
     reload() {
         store._flightsReload();

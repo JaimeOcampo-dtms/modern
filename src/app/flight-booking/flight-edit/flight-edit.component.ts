@@ -1,7 +1,6 @@
 import {
   Component,
   computed,
-  effect,
   inject,
   input,
   linkedSignal,
@@ -14,7 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Flight } from '../../model/flight';
 import { toLocalDateTimeString } from '../../utils/date';
-import { Field, form, submit, validateStandardSchema } from '@angular/forms/signals';
+import {
+  Field,
+  form,
+} from '@angular/forms/signals';
 import { JsonPipe } from '@angular/common';
 
 @Component({
@@ -45,38 +47,43 @@ export class FlightEditComponent {
 
   showIndicator = computed(() => this.isLoading() || this.isPending());
 
-  flightForm = form(this.flight, (path) => {
-    // validateStandardSchema(path, /*flightZodSchema*/);
-  });
+  flightForm = form(this.flight);
 
   constructor() {
-    effect(() => {
-      console.log('flight', this.flight());
-    })
     this.store.updateFilter(this.id);
   }
 
   save(): void {
-
-    submit(this.flightForm, async (form) => {
-      const result = await this.store.saveFlight(form().value());
-
-      if (result.status === 'error') {
-        return {
-          kind: 'server_error',
-          error: result.error
-        }
-      }
-      return null;
-    });
-
-    
+    this.store.saveFlight(this.flightForm().value());
   }
 }
 
 function normalize(flight: Flight): Flight {
   return {
     ...flight,
-    date: toLocalDateTimeString(flight.date)
-  }
+    date: toLocalDateTimeString(flight.date),
+  };
 }
+
+
+
+
+
+
+
+
+
+
+/*
+    submit(this.flightForm, async (form) => {
+      const result = await this.store.saveFlight(form().value());
+
+      if (result.status === 'error') {
+        return {
+          kind: 'server_error',
+          error: result.error,
+        };
+      }
+      return null;
+    });
+*/

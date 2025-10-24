@@ -10,15 +10,11 @@ import {
   withResource,
   withMutations,
   httpMutation,
-  rxMutation,
-  concatOp,
-  mergeOp
-} from '@angular-architects/ngrx-toolkit';
+  concatOp} from '@angular-architects/ngrx-toolkit';
 import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { FlightService } from './flight-search/flight.service';
-import { Subject } from 'rxjs';
 import { Flight } from '../model/flight';
 
 export const FlightDetailStore = signalStore(
@@ -57,8 +53,6 @@ export const FlightDetailStore = signalStore(
       }
     })
   })),
-
-  // TODO: Add Mutation
 
   withMethods((store) => ({
     updateFilter: signalMethod((id: number) => {
