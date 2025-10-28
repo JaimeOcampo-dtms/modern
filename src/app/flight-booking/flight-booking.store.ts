@@ -28,16 +28,7 @@ export const BookingStore = signalStore(
     _flightService: inject(FlightService)
   })),
   withResource((store) => ({
-    flights: httpResource<Flight[]>(
-      () => ({
-        url: 'https://demo.angulararchitects.io/api/flight',
-        params: {
-          from: store.from(),
-          to: store.to(),
-        },
-      }),
-      { defaultValue: [] }
-    ),
+    flights: store._flightService.findResource(store.from, store.to)
   })),
   withMethods((store) => ({
     updateFilter: signalMethod((filter: FlightFilter) => {

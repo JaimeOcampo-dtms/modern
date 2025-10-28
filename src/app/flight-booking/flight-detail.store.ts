@@ -10,7 +10,8 @@ import {
   withResource,
   withMutations,
   httpMutation,
-  concatOp} from '@angular-architects/ngrx-toolkit';
+  concatOp,
+} from '@angular-architects/ngrx-toolkit';
 import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -19,7 +20,7 @@ import { Flight } from '../model/flight';
 
 export const FlightDetailStore = signalStore(
   { providedIn: 'root' },
-  
+
   withState({
     filter: {
       id: 0,
@@ -36,22 +37,15 @@ export const FlightDetailStore = signalStore(
   })),
 
   withMutations((store) => ({
-    saveFlight: httpMutation({
-      request: (flight: Flight) => ({
-        url: 'https://demo.angulararchitects.io/api/flight/' + flight.id,
-        method: 'PUT',
-        body: flight
-      }),
-      parse: raw => raw as Flight,
-      operator: concatOp,
+    saveFlight: store._flightService.createSaveFlightMuation({
       onSuccess(result, params) {
         store._snackBar.open('Flight successfully saved!', 'OK');
       },
       onError(error, params) {
         store._snackBar.open('Error saving flight!', 'OK');
         console.error('error', error);
-      }
-    })
+      },
+    }),
   })),
 
   withMethods((store) => ({
