@@ -65,5 +65,18 @@ export class FlightService {
 
   // TODO: Create Resource
 
+  findResource(from: Signal<string>, to: Signal<string>) {
+    return httpResource<Flight[]>(
+      () => ({
+        url: 'https://demo.angulararchitects.io/api/flight',
+        params: {
+          from: from(),
+          to: to(),
+        },
+      }),
+      { defaultValue: [] }
+    );
+  }
+
   // TODO: Create Mutation
 }
