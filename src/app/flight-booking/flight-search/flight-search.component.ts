@@ -6,14 +6,14 @@ import {
 import { CommonModule } from '@angular/common';
 import { FlightCardComponent } from '../flight-card/flight-card.component';
 import { FlightBookingStore } from '../flight-booking.store';
-import { Control, form, minLength, required } from '@angular/forms/signals';
+import { Field, form, minLength, required } from '@angular/forms/signals';
 import { debounceSignal } from 'src/app/shared/debounce-signal';
 
 @Component({
   selector: 'app-flight-search',
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.css'],
-  imports: [CommonModule, FlightCardComponent, Control],
+  imports: [CommonModule, FlightCardComponent, Field],
 })
 export class FlightSearchComponent {
   store = inject(FlightBookingStore);
