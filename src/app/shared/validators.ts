@@ -1,9 +1,19 @@
-import { rxResource } from "@angular/core/rxjs-interop";
-import { aggregateProperty, customError, FieldPath, property, validate, validateAsync, validateHttp, validateTree, ValidationSuccess } from "@angular/forms/signals";
-import { Observable, of, delay, map } from "rxjs";
-import { Flight } from "../model/flight";
-import { Price } from "../model/price";
-import { CITY2, CITY } from "./properties";
+import { rxResource } from '@angular/core/rxjs-interop';
+import {
+  customError,
+  FieldPath,
+  metadata,
+  aggregateMetadata,
+  validate,
+  validateAsync,
+  validateHttp,
+  validateTree,
+  ValidationSuccess,
+} from '@angular/forms/signals';
+import { Observable, of, delay, map } from 'rxjs';
+import { Flight } from '../model/flight';
+import { Price } from '../model/price';
+import { CITY2, CITY } from './properties';
 
 export function validateCity(path: FieldPath<string>, allowed: string[]) {
   validate(path, (ctx) => {
@@ -54,7 +64,7 @@ export function validateRoundTripTree(schema: FieldPath<Flight>) {
 }
 
 export function validateCityAsync(schema: FieldPath<string>) {
-  aggregateProperty(schema, CITY2, () => true);
+  aggregateMetadata(schema, CITY2, () => true);
 
   validateAsync(schema, {
     params: (ctx) => ({
@@ -68,13 +78,19 @@ export function validateCityAsync(schema: FieldPath<string>) {
         },
       });
     },
-    errors: (result, ctx) => {
+    onSuccess: (result: boolean, _ctx) => {
       if (!result) {
         return {
-          kind: 'airport_not_found',
+          kind: 'airport_not_found_http',
         };
       }
       return null;
+    },
+    onError: (error, _ctx) => {
+      console.error('api error validating city', error);
+      return {
+        kind: 'api-failed'
+      };
     },
   });
 }
@@ -88,7 +104,7 @@ function rxValidateAirport(airport: string): Observable<boolean> {
 }
 
 export function validateCityHttp(schema: FieldPath<string>) {
-  property(schema, CITY, () => true);
+  metadata(schema, CITY, () => true);
 
   validateHttp(schema, {
     request: (ctx) => ({
@@ -97,13 +113,19 @@ export function validateCityHttp(schema: FieldPath<string>) {
         from: ctx.value(),
       },
     }),
-    errors: (result: Flight[], ctx) => {
+    onSuccess: (result: Flight[], _ctx) => {
       if (result.length === 0) {
         return {
           kind: 'airport_not_found_http',
         };
       }
       return null;
+    },
+    onError: (error, _ctx) => {
+      console.error('api error validating city', error);
+      return {
+        kind: 'api-failed'
+      };
     },
   });
 }

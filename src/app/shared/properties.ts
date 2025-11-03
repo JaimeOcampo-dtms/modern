@@ -1,12 +1,12 @@
-import { createProperty, orProperty } from "@angular/forms/signals";
+import { createMetadataKey, orMetadataKey } from "@angular/forms/signals";
 
 //
 //  Property
 //
-export const CITY = createProperty<boolean>();
+export const CITY = createMetadataKey<boolean>();
 
 
 //
 //  AggregateProperty
 //
-export const CITY2 = orProperty();
+export const CITY2 = orMetadataKey();
