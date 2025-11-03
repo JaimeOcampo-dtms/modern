@@ -14,9 +14,9 @@
     @for(price of priceForms; track $index) {
     <tr>
       <td>
-        <input [control]="price.flightClass" class="form-control w-200" />
+        <input [field]="price.flightClass" class="form-control w-200" />
       </td>
-      <td><input [control]="price.amount" class="form-control w-100" /></td>
+      <td><input [field]="price.amount" class="form-control w-100" /></td>
       <td>
         <app-validation-errors
           [errors]="price().errorSummary()"

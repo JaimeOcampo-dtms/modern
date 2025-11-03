@@ -13,12 +13,12 @@ export class FieldMetaDataComponent {
 
   fieldState = computed(() => this.field()());
 
-  isRequired = computed(() => this.fieldState().property(REQUIRED)());
-  minLength = computed(() => this.fieldState().property(MIN_LENGTH)() ?? 0);
-  maxLength = computed(() => this.fieldState().property(MAX_LENGTH)() ?? 30);
+  isRequired = computed(() => this.fieldState().metadata(REQUIRED)());
+  minLength = computed(() => this.fieldState().metadata(MIN_LENGTH)() ?? 0);
+  maxLength = computed(() => this.fieldState().metadata(MAX_LENGTH)() ?? 30);
   length = computed(() => `(${this.minLength()}..${this.maxLength()})`);
 
-  city = computed(() => this.fieldState().property(CITY));
-  city2 = computed(() => this.fieldState().property(CITY2)());
+  city = computed(() => this.fieldState().metadata(CITY));
+  city2 = computed(() => this.fieldState().metadata(CITY2)());
 
 }
