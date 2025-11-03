@@ -12,10 +12,12 @@ import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/app.routes';
 import { NextFlightsModule } from './app/next-flights/next-flights.module';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import { provideHashbrown } from '@hashbrownai/angular';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZoneChangeDetection(),provideHttpClient(),
+    provideZoneChangeDetection(),
+    provideHttpClient(),
     provideRouter(
       APP_ROUTES,
       withPreloading(PreloadAllModules),
@@ -24,5 +26,9 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(NextFlightsModule),
     importProvidersFrom(MatDialogModule),
     provideNativeDateAdapter(),
+
+    provideHashbrown({
+      baseUrl: 'http://localhost:3000/api/chat',
+    }),
   ],
 });

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { initFlight } from '../../model/flight';
+import { Flight, initFlight } from '../../model/flight';
 import { CityPipe } from '../../shared/city.pipe';
 import { RouterLink } from '@angular/router';
 
@@ -14,8 +14,8 @@ import { RouterLink } from '@angular/router';
 export class FlightCardComponent {
   private dialog = inject(MatDialog);
 
-  @Input() item = initFlight;
-  @Input() selected: boolean = false;
+  @Input({ required: true }) item!: Flight;
+  @Input({ required: true }) selected!: boolean;
   @Output() selectedChange = new EventEmitter<boolean>();
 
   ngOnInit() {}
