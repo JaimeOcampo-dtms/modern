@@ -29,6 +29,12 @@ bootstrapApplication(AppComponent, {
 
     provideHashbrown({
       baseUrl: 'http://localhost:3000/api/chat',
+      middleware: [
+        (req) => {
+          console.log('[Hashbrown Request]', req);
+          return req;
+        }
+      ]
     }),
   ],
 });

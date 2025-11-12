@@ -23,7 +23,7 @@ export const PriceSchema = s.object('Price information', {
   amount: s.number('Amount of the price'),
 });
 
-export const FlightUpdateSchema = s.object('Flight to be displayed', {
+export const FlightUpdateSchema = s.streaming.object('Flight to be displayed', {
   from: s.anyOf([
     s.nullish(),
     s.string('Departure city. No code but the city name'),
@@ -156,23 +156,48 @@ const getBookedFlights = createTool({
 const updateFlight = createTool({
   name: 'updateFlight',
   description: `
-    Updates the flight currently displayed in the detail form.
+    Updates the flight currently displayed in the detail view.
     For instance, this tool can be used to set the delayed flag or to update the flight date.
 
+    So, when the user refers to "the flight" or "this flight" or "current flight", you can update it with this tool.
+    
     Remarks:
-    - Only pass the flight properties you want to update
+    - Only pass the flight properties you want to update. For all unknown properties, pass the respecive value
+    you receive from the tool getCurrentFlight.
+
+    Preconditions:
     - This tool can ONLY be used when the current route is /flight-booking/flight-edit
+      Check this precondition before using this tool.
   `,
-  schema: s.object('parameter objekt', {
+  schema: s.streaming.object('parameter object with flight', {
     flight: FlightUpdateSchema,
   }),
   handler: (input) => {
     const store = inject(FlightDetailStore);
-    const flightUpdate = toPartialFlight(input.flight);    
+    const flightUpdate = toPartialFlight(input.flight);
     store.updateLocalFlight(flightUpdate);
     return Promise.resolve();
   },
 });
+
+
+const getCurrentFlight = createTool({
+  name: 'getCurrentFlight',
+  description: `
+    Get the flight currently displayed in the detail view.
+
+    So, when the user refers to "the flight" or "this flight" or "current flight", you can update it with this tool.
+    
+    Preconditions:
+    - This tool can ONLY be used when the current route is /flight-booking/flight-edit
+      Check this precondition before using this tool.
+  `,
+  handler: () => {
+    const store = inject(FlightDetailStore);
+    return Promise.resolve(store.flightValue());
+  },
+});
+
 
 const getCurrentRoute = createTool({
   name: 'getCurrentRoute',
@@ -227,6 +252,7 @@ export class AppComponent {
       getBookedFlights,
       updateFlight,
       getCurrentRoute,
+      getCurrentFlight,
     ],
   });
 
@@ -257,7 +283,6 @@ export class AppComponent {
 }
 function toPartialFlight(flight: FlightUpdate) {
   return Object.fromEntries(
-    Object.entries(flight).filter(([_, value]) => value != null)
+    Object.entries(flight).filter(([_, value]) => !!value)
   );
 }
-
