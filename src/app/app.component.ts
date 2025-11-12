@@ -141,10 +141,9 @@ const showBookedFlights = createTool({
 });
 
 const getBookedFlights = createTool({
-  name: 'showBookedFlights',
+  name: 'getBookedFlights',
   description: `
-    Displays the upcoming booked flights (aka next flights) of the current user.
-    This view is used for check-in.
+    Returns the booked flights (aka next flights) of the current user.
   `,
   handler: () => {
     const service = inject(NextFlightsService);
