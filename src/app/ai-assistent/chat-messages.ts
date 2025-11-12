@@ -1,26 +1,20 @@
-import { Component, computed, input, output } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { Component, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import {
-  RenderMessageComponent,
-  UiAssistantMessage,
-  UiChatMessage,
-} from '@hashbrownai/angular';
 import { Chat } from '@hashbrownai/core';
 import { AnyTool } from 'node_modules/@hashbrownai/core/src/models/view.models';
-// import { ToolChip } from './tool-chip';
-// import { Squircle } from '../squircle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-chat-messages',
   standalone: true,
   imports: [
-    // RenderMessageComponent,
     MatIconModule,
     MatButtonModule,
-    // ToolChip,
-    // Squircle,
+    JsonPipe,
+    MatTooltipModule,
   ],
   template: `
     <article class="msg assistant">
@@ -36,7 +30,9 @@ import { AnyTool } from 'node_modules/@hashbrownai/core/src/models/view.models';
     <article class="msg assistant">
       <div class="avatar">💬</div>
       <div>
-        <div class="bubble">{{ message.content }}</div>
+        <div class="bubble">
+          {{ message.content }}
+        </div>
         <div class="meta"></div>
       </div>
     </article>
@@ -44,7 +40,12 @@ import { AnyTool } from 'node_modules/@hashbrownai/core/src/models/view.models';
     <article class="msg assistant">
       <div class="avatar">🤖</div>
       <div>
-        <div class="bubble">{{ message.content }}</div>
+        <div class="bubble">
+          {{ message.content }}
+          @for(toolCall of message.toolCalls; track toolCall.toolCallId) {
+          <div [title]="toolCall.args | json">Tool Call: {{ toolCall.name }} ({{ toolCall.status }}) </div>
+          }
+        </div>
         <div class="meta"></div>
       </div>
     </article>

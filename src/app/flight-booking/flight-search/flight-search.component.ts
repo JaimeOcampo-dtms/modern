@@ -34,8 +34,8 @@ export class FlightSearchComponent {
   debouncedFilter = debounceSignal(this.filterForm().value, 300);
 
   constructor() {
-    this.store.reload();
-    this.store.updateFilter(this.debouncedFilter);
+    // this.store.reload();
+    // this.store.updateFilter(this.debouncedFilter);
   }
 
   search(): void {

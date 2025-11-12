@@ -6,9 +6,6 @@
 <app-validation-errors [errors]="flightForm().errors()" />
 <form class="flight-form" novalidate>
   <app-flight [flight]="flightForm"></app-flight>
-  <app-prices [prices]="flightForm.prices"></app-prices>
-  <app-aircraft [aircraft]="flightForm.aircraft"></app-aircraft>
-
   <div class="mt-40">
     <button class="btn btn-default" type="button" (click)="save()">Save</button>
   </div>

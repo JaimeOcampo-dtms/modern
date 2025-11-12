@@ -57,5 +57,15 @@ export const FlightDetailStore = signalStore(
         });
       }
     }),
+
+    updateLocalFlight(flight: Partial<Flight>) {
+      patchState(store, (state) => ({
+        flightValue: {
+          ...state.flightValue,
+          ...flight
+        }
+      }));
+    }
+
   }))
 );

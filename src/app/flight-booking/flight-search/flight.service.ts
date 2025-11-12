@@ -8,7 +8,6 @@ import {
   httpMutation,
   HttpMutationOptions,
 } from '@angular-architects/ngrx-toolkit';
-import { initAircraft } from 'src/app/model/aircraft';
 
 export type MutationSettings<Params, Result> = Omit<
   HttpMutationOptions<Params, Result>,
@@ -73,13 +72,6 @@ export class FlightService {
             },
       {
         defaultValue: initFlight,
-        parse: (raw) => {
-          const flight = raw as Flight;
-          flight.aircraft = initAircraft;
-          flight.prices = [];
-          flight.delay = 0;
-          return flight;
-        }
       }
     );
   }
