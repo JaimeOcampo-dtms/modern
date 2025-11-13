@@ -1,6 +1,5 @@
 import {
   afterEveryRender,
-  afterRenderEffect,
   Component,
   ElementRef,
   signal,
@@ -19,6 +18,7 @@ import { getBookedFlights } from './tools/get-booked-flights.tool';
 import { updateFlight } from './tools/update-flight.tool';
 import { getCurrentFlight } from './tools/get-current-flight.tool';
 import { getCurrentRoute } from './tools/get-current-route.tool';
+import { config } from '../../config';
 
 @Component({
   selector: 'app-assistant-chat',
@@ -38,7 +38,7 @@ export class AssistantChatComponent {
   chat = chatResource({
     // model: 'gpt-5-chat-latest',
     // model: 'gpt-4.1',
-    model: 'gemini-2.5-flash',
+    model: config.model,
     system: `
       You are Flight42, an UI assistent that help passengers with finding flights.
 
