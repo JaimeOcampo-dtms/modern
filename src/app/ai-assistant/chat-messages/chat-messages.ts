@@ -8,6 +8,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 
 import { AnyTool } from 'node_modules/@hashbrownai/core/src/models/view.models';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ToolStatusComponent } from '../assistant-chat/tool-status/tool-status';
 
 @Component({
   selector: 'app-chat-messages',
@@ -17,7 +18,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     JsonPipe,
     MatTooltipModule,
-    MarkdownComponent
+    MarkdownComponent,
+    ToolStatusComponent,
   ],
   templateUrl: './chat-messages.html',
   styleUrls: ['./chat-messages.css'],
@@ -25,5 +27,22 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class ChatMessages {
   messages = input.required<Chat.Message<string, AnyTool>[]>();
   pending = input<boolean>(false);
-  showIndicator = computed(() => this.pending() && this.messages().at(-1)?.role !== 'assistant');
+  showIndicator = computed(
+    () => this.pending() && this.messages().at(-1)?.role !== 'assistant'
+  );
+
+  icons = {
+    user: '💬',
+    assistant: '🤖',
+    error: '⚡️',
+  };
+
+  messagesWithIcons = computed(() =>
+    this.messages().map((message) => ({
+      ...message,
+      contentString: String(message.content),
+      icon: this.icons[message.role] || '❓',
+      toolCalls: message.role === 'assistant' ? message.toolCalls : [],
+    }))
+  );
 }

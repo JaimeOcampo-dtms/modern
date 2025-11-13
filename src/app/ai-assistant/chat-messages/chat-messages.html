@@ -6,42 +6,25 @@
   </div>
 </article>
 
-@for (message of messages(); track $index) { @switch (message.role) { @case
-('user') {
+@for (message of messagesWithIcons(); track $index) {
 <article class="msg assistant">
-  <div class="avatar">💬</div>
+  <div class="avatar">{{ message.icon }}</div>
   <div>
     <div class="bubble">
-      {{ message.content + '' }}</div>
-    <div class="meta"></div>
-  </div>
-</article>
-} @case ('assistant') {
-<article class="msg assistant">
-  <div class="avatar">🤖</div>
-  <div>
-    <div class="bubble">
-      <markdown [data]="message.content + ''"></markdown>
+      <markdown [data]="message.contentString"></markdown>
 
-      @for(toolCall of message.toolCalls; track
-      toolCall.toolCallId) {
+      @for(toolCall of message.toolCalls; track toolCall.toolCallId) {
       <div [title]="toolCall.args | json">
-        Tool Call: {{ toolCall.name }} ({{ toolCall.status }})
+        Tool Call: {{ toolCall.name }} <app-tool-status class="ml-5" [pending]="toolCall.status === 'pending'" />
       </div>
       }
     </div>
     <div class="meta"></div>
   </div>
 </article>
-} @case ('error') {
-<article class="msg assistant">
-  <div class="avatar">⚡️</div>
-  <div>
-    <div class="bubble">Error: {{ message.content }}</div>
-    <div class="meta"></div>
-  </div>
-</article>
-} } } @if (showIndicator()) {
+} 
+
+@if (showIndicator()) {
 <article class="msg assistant">
   <div class="avatar">🤖</div>
   <div>
@@ -54,5 +37,4 @@
     </div>
   </div>
 </article>
-
 }
