@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -21,4 +21,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class ChatMessages {
   messages = input.required<Chat.Message<string, AnyTool>[]>();
+  pending = input<boolean>(false);
+  showIndicator = computed(() => this.pending() && this.messages().at(-1)?.role !== 'assistant');
 }

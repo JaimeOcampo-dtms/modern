@@ -34,6 +34,7 @@ export class AssistantChatComponent {
 
   chat = chatResource({
     model: 'gpt-5-chat-latest',
+    // model: 'gpt-4.1',
     system: `
       You are Flight42, an UI assistent that help passengers with finding flights.
 

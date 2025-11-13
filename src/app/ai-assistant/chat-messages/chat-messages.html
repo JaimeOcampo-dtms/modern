@@ -11,9 +11,7 @@
 <article class="msg assistant">
   <div class="avatar">💬</div>
   <div>
-    <div class="bubble">
-      {{ message.content }}
-    </div>
+    <div class="bubble">{{ message.content }}</div>
     <div class="meta"></div>
   </div>
 </article>
@@ -22,9 +20,11 @@
   <div class="avatar">🤖</div>
   <div>
     <div class="bubble">
-      {{ message.content }}
-      @for(toolCall of message.toolCalls; track toolCall.toolCallId) {
-      <div [title]="toolCall.args | json">Tool Call: {{ toolCall.name }} ({{ toolCall.status }}) </div>
+      {{ message.content }} @for(toolCall of message.toolCalls; track
+      toolCall.toolCallId) {
+      <div [title]="toolCall.args | json">
+        Tool Call: {{ toolCall.name }} ({{ toolCall.status }})
+      </div>
       }
     </div>
     <div class="meta"></div>
@@ -38,4 +38,18 @@
     <div class="meta"></div>
   </div>
 </article>
-} } }
+} } } @if (showIndicator()) {
+<article class="msg assistant">
+  <div class="avatar">🤖</div>
+  <div>
+    <div class="bubble">
+      <div class="ai-wait-indicator">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+</article>
+
+}

@@ -12,7 +12,7 @@
       stroke-width="1.5"
     />
   </svg>
-  <span>Assist</span>
+  <span>Assistant</span>
 </button>
 
 <div id="ai-backdrop" class="ai-backdrop"></div>
@@ -41,7 +41,7 @@
         />
       </svg>
       <div>
-        <div id="ai-title">AI Assistent</div>
+        <div id="ai-title">AI Assistant</div>
       </div>
     </div>
     <div class="ai-actions">
@@ -65,7 +65,7 @@
   </header>
 
   <section id="ai-messages" class="ai-messages" aria-live="polite">
-    <app-chat-messages [messages]="chat.value()"></app-chat-messages>
+    <app-chat-messages [messages]="chat.value()" [pending]="chat.isLoading()"></app-chat-messages>
   </section>
 
   <form
@@ -80,7 +80,7 @@
         [(ngModel)]="message"
         class="composer-input"
         name="message"
-        placeholder="Deine Frage ..."
+        placeholder="Your Question ..."
       />
     </div>
   </form>
