@@ -64,7 +64,7 @@
     </div>
   </header>
 
-  <section id="ai-messages" class="ai-messages" aria-live="polite">
+  <section id="ai-messages" class="ai-messages" aria-live="polite" #messagesContainer>
     <app-chat-messages [messages]="chat.value()" [pending]="chat.isLoading()"></app-chat-messages>
   </section>
 

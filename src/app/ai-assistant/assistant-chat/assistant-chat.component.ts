@@ -1,5 +1,6 @@
 import {
   afterEveryRender,
+  afterRenderEffect,
   Component,
   ElementRef,
   signal,
@@ -28,13 +29,16 @@ import { getCurrentRoute } from './tools/get-current-route.tool';
 })
 export class AssistantChatComponent {
   composerInput = viewChild<ElementRef<HTMLInputElement>>('composerInput');
+  messagesContainer =
+    viewChild<ElementRef<HTMLDivElement>>('messagesContainer');
 
   panelVisible = signal(false);
   message = signal('');
 
   chat = chatResource({
     // model: 'gpt-5-chat-latest',
-    model: 'gpt-4.1',
+    // model: 'gpt-4.1',
+    model: 'gemini-2.5-flash',
     system: `
       You are Flight42, an UI assistent that help passengers with finding flights.
 
@@ -64,12 +68,22 @@ export class AssistantChatComponent {
 
   constructor() {
     afterEveryRender(() => {
-      this.composerInput()?.nativeElement.focus();
+      if (this.panelVisible()) {
+        this.scrollDown();
+      }
+    });
+  }
+
+  private scrollDown() {
+    this.messagesContainer()?.nativeElement.scrollTo({
+      top: this.messagesContainer()?.nativeElement.scrollHeight,
+      behavior: 'smooth',
     });
   }
 
   toggle() {
     this.panelVisible.update((visible) => !visible);
+    this.composerInput()?.nativeElement.focus();
   }
 
   submit() {
