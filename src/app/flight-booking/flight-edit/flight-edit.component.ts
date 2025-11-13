@@ -20,8 +20,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { debounceSignal } from '../../shared/debounce-signal';
 import { Flight, flightSchema } from '../../model/flight';
 import { toLocalDateTimeString } from '../../utils/date';
-import { AircraftComponent } from './aircraft/aircraft.component';
-import { PricesComponent } from './prices/prices.component';
 import { FlightComponent } from './flight/flight.component';
 import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/validation-errors.component';
 
@@ -36,8 +34,6 @@ export const flightFormSchema = schema<Flight>((path) => {
     MatDatepickerModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    AircraftComponent,
-    PricesComponent,
     FlightComponent,
     ValidationErrorsComponent,
   ],

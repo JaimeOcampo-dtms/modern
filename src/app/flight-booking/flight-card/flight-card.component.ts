@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, input, Input, model, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Flight, initFlight } from '../../model/flight';
@@ -13,19 +13,16 @@ import { RouterLink } from '@angular/router';
 })
 export class FlightCardComponent {
 
-  @Input({ required: true }) item!: Flight;
-  @Input({ required: true }) selected!: boolean;
-  @Output() selectedChange = new EventEmitter<boolean>();
-
+  item = input.required<Flight>();
+  selected = model<boolean>(false);
+  
   ngOnInit() {}
 
   select() {
-    this.selected = true;
-    this.selectedChange.emit(this.selected);
+    this.selected.set(true);
   }
 
   deselect() {
-    this.selected = false;
-    this.selectedChange.emit(this.selected);
+    this.selected.set(false);
   }
 }

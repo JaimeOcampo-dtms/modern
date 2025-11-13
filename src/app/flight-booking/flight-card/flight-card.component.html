@@ -1,29 +1,36 @@
-<div [ngClass]="{ selected: selected }" class="card">
+@let itemValue = item(); 
+@let selectedValue = selected();
+
+<div [ngClass]="{ selected: selectedValue }" class="card">
   <div class="card-header">
     <h2 class="title">
-      {{ item.from | city : "short" }} - {{ item.to | city : "long" }}
+      {{ itemValue.from | city : "short" }} - {{ itemValue.to | city : "long" }}
     </h2>
   </div>
 
   <div class="card-body">
-    <p>Flight-No.: #{{ item.id }}</p>
-    <p>Date: {{ item.date | date : "dd.MM.yyyy HH:mm" }}</p>
+    <p>Flight-No.: #{{ itemValue.id }}</p>
+    <p>Date: {{ itemValue.date | date : "dd.MM.yyyy HH:mm" }}</p>
 
-    @if(item.delayed) {
+    @if(itemValue.delayed) {
     <p class="text-danger"><strong>Delayed</strong></p>
     } @else {
     <p class="text-success"><strong>On Time</strong></p>
     }
 
     <p class="mt-30">
-      @if (!selected) {
+      @if (!selectedValue) {
       <button (click)="select()" class="btn btn-default">Select</button>
-      } @if (selected) {
+      } @if (selectedValue) {
       <button (click)="deselect()" class="btn btn-default">Remove</button>
       }
 
       <button
-        [routerLink]="['/flight-booking/flight-edit', item.id, { showDetails: false }]"
+        [routerLink]="[
+          '/flight-booking/flight-edit',
+          itemValue.id,
+          { showDetails: false }
+        ]"
         class="btn btn-default"
       >
         Edit
