@@ -1,0 +1,41 @@
+<article class="msg assistant">
+  <div class="avatar">🤖</div>
+  <div>
+    <div class="bubble">Hi! How can I help you?</div>
+    <div class="meta"></div>
+  </div>
+</article>
+
+@for (message of messages(); track $index) { @switch (message.role) { @case
+('user') {
+<article class="msg assistant">
+  <div class="avatar">💬</div>
+  <div>
+    <div class="bubble">
+      {{ message.content }}
+    </div>
+    <div class="meta"></div>
+  </div>
+</article>
+} @case ('assistant') {
+<article class="msg assistant">
+  <div class="avatar">🤖</div>
+  <div>
+    <div class="bubble">
+      {{ message.content }}
+      @for(toolCall of message.toolCalls; track toolCall.toolCallId) {
+      <div [title]="toolCall.args | json">Tool Call: {{ toolCall.name }} ({{ toolCall.status }}) </div>
+      }
+    </div>
+    <div class="meta"></div>
+  </div>
+</article>
+} @case ('error') {
+<article class="msg assistant">
+  <div class="avatar">⚡️</div>
+  <div>
+    <div class="bubble">Error: {{ message.content }}</div>
+    <div class="meta"></div>
+  </div>
+</article>
+} } }
