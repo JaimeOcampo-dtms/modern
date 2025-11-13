@@ -62,9 +62,9 @@
   top: 0;
   right: 0;
   height: 100%;
-  width: var(--panel-w, 420px);
-  min-width: var(--panel-w, 420px);
-  max-width: var(--panel-w, 420px);
+  width: var(--panel-w, 450px);
+  min-width: var(--panel-w, 450px);
+  max-width: var(--panel-w, 450px);
   overflow: hidden;
   background: var(--surface);
   border-left: 1px solid var(--border);

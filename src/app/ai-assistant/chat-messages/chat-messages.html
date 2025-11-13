@@ -11,7 +11,7 @@
   <div class="avatar">{{ message.icon }}</div>
   <div>
     <div class="bubble">
-      <markdown [data]="message.contentString"></markdown>
+      <markdown [data]="message.content"></markdown>
 
       @for(toolCall of message.toolCalls; track toolCall.toolCallId) {
       <div [title]="toolCall.args | json">

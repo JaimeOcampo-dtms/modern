@@ -40,7 +40,7 @@ export class ChatMessages {
   messagesWithIcons = computed(() =>
     this.messages().map((message) => ({
       ...message,
-      contentString: String(message.content),
+      content: String(message.content),
       icon: this.icons[message.role] || '❓',
       toolCalls: message.role === 'assistant' ? message.toolCalls : [],
     }))
