@@ -5,10 +5,11 @@ import { CheckinComponent } from './checkin/checkin.component';
 import { NextFlightsService } from './next-flights.service';
 import { RouterModule } from '@angular/router';
 import { NEXT_FLIGHTS_ROUTES } from './next-flights.routes';
+import { FlightCardComponent } from '../flight-booking/flight-card/flight-card.component';
 
 @NgModule({
   declarations: [NextFlightsComponent, CheckinComponent],
-  imports: [CommonModule, RouterModule.forChild(NEXT_FLIGHTS_ROUTES)],
+  imports: [CommonModule, FlightCardComponent, RouterModule.forChild(NEXT_FLIGHTS_ROUTES)],
   providers: [NextFlightsService],
   exports: [NextFlightsComponent],
 })

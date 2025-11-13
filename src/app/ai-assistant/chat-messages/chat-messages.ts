@@ -4,6 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { Chat } from '@hashbrownai/core';
+import { MarkdownComponent } from 'ngx-markdown';
+
 import { AnyTool } from 'node_modules/@hashbrownai/core/src/models/view.models';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -15,6 +17,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule,
     JsonPipe,
     MatTooltipModule,
+    MarkdownComponent
   ],
   templateUrl: './chat-messages.html',
   styleUrls: ['./chat-messages.css'],

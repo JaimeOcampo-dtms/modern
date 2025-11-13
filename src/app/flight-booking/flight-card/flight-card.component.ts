@@ -12,7 +12,6 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./flight-card.component.css'],
 })
 export class FlightCardComponent {
-  private dialog = inject(MatDialog);
 
   @Input({ required: true }) item!: Flight;
   @Input({ required: true }) selected!: boolean;

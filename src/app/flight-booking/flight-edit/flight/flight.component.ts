@@ -10,7 +10,6 @@ import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/vali
   imports: [
     Field,
     ValidationErrorsComponent,
-    DelayStepperComponent,
     FieldMetaDataComponent,
   ],
   templateUrl: './flight.component.html',

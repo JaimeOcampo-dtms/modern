@@ -12,9 +12,9 @@ export class NextFlightsService {
     const prices: Price[] = [];
     
     return of([
-      { id: 7, from: 'Paris', to: 'London', date, delayed: false, prices, aircraft, delay: 0 },
-      { id: 8, from: 'London', to: 'Paris', date, delayed: false, prices, aircraft, delay: 0 },
-      { id: 9, from: 'Paris', to: 'Berlin', date, delayed: false, prices, aircraft, delay: 0 },
+      { id: 1, from: 'Paris', to: 'London', date, delayed: false, prices, aircraft, delay: 0 },
+      { id: 2, from: 'London', to: 'Paris', date, delayed: false, prices, aircraft, delay: 0 },
+      { id: 3, from: 'Paris', to: 'Berlin', date, delayed: false, prices, aircraft, delay: 0 },
     ]);
   }
 }

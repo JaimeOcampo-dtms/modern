@@ -11,7 +11,8 @@
 <article class="msg assistant">
   <div class="avatar">💬</div>
   <div>
-    <div class="bubble">{{ message.content }}</div>
+    <div class="bubble">
+      {{ message.content + '' }}</div>
     <div class="meta"></div>
   </div>
 </article>
@@ -20,7 +21,9 @@
   <div class="avatar">🤖</div>
   <div>
     <div class="bubble">
-      {{ message.content }} @for(toolCall of message.toolCalls; track
+      <markdown [data]="message.content + ''"></markdown>
+
+      @for(toolCall of message.toolCalls; track
       toolCall.toolCallId) {
       <div [title]="toolCall.args | json">
         Tool Call: {{ toolCall.name }} ({{ toolCall.status }})
