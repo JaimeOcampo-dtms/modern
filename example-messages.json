@@ -1,0 +1,66 @@
+{
+    "model": "gpt-5-chat-latest",
+    "system": "You are Flight42, an UI assistent [...]",
+    "messages": [
+        [...],
+        {
+            "role": "user",
+            "content": "Ok, let's search for flights from Graz to Hamburg."
+        },
+        {
+            "role": "assistant",
+            "content": "",
+            "toolCalls": [
+                {
+                    "id": "call_AeFJ3xsnNw29EoQVo7hR9Qtu",
+                    "index": 0,
+                    "type": "function",
+                    "function": {
+                        "name": "findFlights",
+                        "arguments": "{\"from\":\"Graz\",\"to\":\"Hamburg\"}"
+                    }
+                }
+            ]
+        },
+        {
+            "role": "tool",
+            "content": {
+                "status": "fulfilled"
+            },
+            "toolCallId": "call_AeFJ3xsnNw29EoQVo7hR9Qtu",
+            "toolName": "findFlights"
+        },
+        {
+            "role": "assistant",
+            "content": "Here are the available flights [...]",
+            "toolCalls": []
+        }
+    ],
+    "tools": [
+        {
+            "description": "Searches for flights [...]",
+            "name": "findFlights",
+            "parameters": {
+                "$schema": "http://json-schema.org/draft-07/schema#",
+                "type": "object",
+                "properties": {
+                    "from": {
+                        "type": "string",
+                        "description": "airport of departure"
+                    },
+                    "to": {
+                        "type": "string",
+                        "description": "airport of destination"
+                    }
+                },
+                "required": [
+                    "from",
+                    "to"
+                ],
+                "additionalProperties": false,
+                "description": "search parameters for flights"
+            }
+        },
+        [...]
+    ]
+}
