@@ -21,7 +21,28 @@ app.post('/api/chat', async (req, res) => {
 
   const response = HashbrownGoogle.stream.text({
     apiKey: GOOGLE_API_KEY,
-    request: completionParams, 
+    request: completionParams,
+    transformRequestOptions: (options) => {
+
+      options.model = 'gemini-2.5-flash';
+
+      options.config = options.config || {};
+      options.config.systemInstruction = `
+      You are Flight42, an UI assistent that help passengers with finding flights.
+
+      - Voice: clear, helpful, and respectful.
+      - Audience: passengers who want to find flights or have questions about booked flights.
+      
+      Rules:
+      - Only search for flights via the configured tools
+      - Never use additional web resources for answering requests
+      - Do not propose search filters that are not covered by the provided tools
+      - Do not propose any further actions
+      - Provide enumerations as markdown lists
+      `;
+
+      return options;
+    },
   });
 
   res.header('Content-Type', 'application/octet-stream');
