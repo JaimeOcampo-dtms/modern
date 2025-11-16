@@ -8,9 +8,9 @@ export const getBookedFlights = createTool({
   description: `
     Returns the booked flights (aka next flights) of the current user.
   `,
-  handler: () => {
+  handler: async () => {
     const service = inject(NextFlightsService);
     const nextFlights = service.load();
-    return lastValueFrom(nextFlights);
+    await lastValueFrom(nextFlights);
   },
 });

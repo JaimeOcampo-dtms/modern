@@ -16,7 +16,7 @@ export const findFlightsTool = createTool({
     from: s.string('airport of departure'),
     to: s.string('airport of destination'),
   }),
-  handler: (input) => {
+  handler: async (input) => {
     const store = inject(FlightBookingStore);
     const router = inject(Router);
 
@@ -26,6 +26,5 @@ export const findFlightsTool = createTool({
     });
 
     router.navigate(['/flight-booking/flight-search']);
-    return Promise.resolve();
   },
 });
