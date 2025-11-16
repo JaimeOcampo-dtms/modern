@@ -15,6 +15,7 @@ import {
   apply,
   FieldTree,
   FieldState,
+  Field,
 } from '@angular/forms/signals';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -42,6 +43,7 @@ export const flightFormSchema = schema<Flight>((path) => {
     PricesComponent,
     FlightComponent,
     ValidationErrorsComponent,
+    Field,
   ],
   templateUrl: './flight-edit.component.html',
   styleUrls: ['./flight-edit.component.css'],

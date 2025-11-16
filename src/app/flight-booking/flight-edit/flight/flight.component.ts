@@ -17,5 +17,5 @@ import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/vali
   styleUrl: './flight.component.css',
 })
 export class FlightComponent {
-  flight = input.required<FieldTree<Flight>>();
+  flight = input.required<FieldTree<Flight, string | number>>();
 }
