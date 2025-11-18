@@ -16,7 +16,7 @@
       <td>
         <input [field]="price.flightClass" class="form-control w-200" />
       </td>
-      <td><input [field]="price.amount" class="form-control w-100" /></td>
+      <td><input [field]="price.amount" type="number" class="form-control w-100" /></td>
       <td>
         <app-validation-errors
           [errors]="price().errorSummary()"

@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { MinValidationError, ValidationError, ValidationErrorWithField } from '@angular/forms/signals';
+import { MinValidationError, ValidationError } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-validation-errors',
@@ -8,7 +8,7 @@ import { MinValidationError, ValidationError, ValidationErrorWithField } from '@
   styleUrl: './validation-errors.component.css',
 })
 export class ValidationErrorsComponent {
-  errors = input.required<ValidationErrorWithField[]>();
+  errors = input.required<ValidationError.WithField[]>();
   showFieldNames = input(false);
 
   errorMessages = computed(() =>
@@ -17,7 +17,7 @@ export class ValidationErrorsComponent {
 }
 
 function toErrorMessages(
-  errors: ValidationErrorWithField[],
+  errors: ValidationError.WithField[],
   showFieldNames: boolean
 ): string[] {
   return errors.map((error) => {
@@ -29,7 +29,7 @@ function toErrorMessages(
   });
 }
 
-function toFieldName(error: ValidationErrorWithField) {
+function toFieldName(error: ValidationError.WithField) {
   return error.field().name().split('.').at(-1);
 }
 

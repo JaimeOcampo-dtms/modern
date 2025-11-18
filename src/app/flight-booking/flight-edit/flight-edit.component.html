@@ -5,12 +5,6 @@
 @if (flightForm.id().value() !== 0) {
 <app-validation-errors [errors]="flightForm().errors()" />
 <form class="flight-form" novalidate>
-
-    <input
-      [field]="flightForm.id"
-      type="number"
-    />
-
   <app-flight [flight]="flightForm"></app-flight>
   <app-prices [prices]="flightForm.prices"></app-prices>
   <app-aircraft [aircraft]="flightForm.aircraft"></app-aircraft>
