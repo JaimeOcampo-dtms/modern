@@ -1,6 +1,5 @@
 import { rxResource } from '@angular/core/rxjs-interop';
 import {
-  customError,
   SchemaPath,
   metadata,
   aggregateMetadata,
@@ -21,11 +20,11 @@ export function validateCity(path: SchemaPath<string>, allowed: string[]) {
       return null;
     }
 
-    return customError({
+    return {
       kind: 'city',
       value,
       allowed,
-    });
+    };
   });
 }
 
@@ -35,11 +34,11 @@ export function validateRoundTrip(schema: SchemaPath<Flight>) {
     const to = ctx.field.to().value();
 
     if (from === to) {
-      return customError({
+      return {
         kind: 'roundtrip',
         from,
         to,
-      });
+      };
     }
     return null;
   });
@@ -138,11 +137,11 @@ export function validateDuplicatePrices(prices: SchemaPath<Price[]>) {
 
     for (const price of prices) {
       if (flightClasses.has(price.flightClass)) {
-        return customError({
+        return {
           kind: 'duplicateFlightClass',
           message: 'There can only be one price per flight class',
           flightClass: price.flightClass,
-        });
+        };
       }
       flightClasses.add(price.flightClass);
     }

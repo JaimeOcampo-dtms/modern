@@ -6,7 +6,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FlightCardComponent } from '../flight-card/flight-card.component';
 import { FlightBookingStore } from '../flight-booking.store';
-import { Field, form, minLength, required } from '@angular/forms/signals';
+import { debounce, Field, form, minLength, required } from '@angular/forms/signals';
 import { debounceSignal } from 'src/app/shared/debounce-signal';
 
 @Component({
@@ -27,15 +27,23 @@ export class FlightSearchComponent {
   error = this.store.flightsError;
 
   filterForm = form(this.filter, (schema) => {
+    // debounce(schema, 300);
+
+    debounce(schema, (ctx, _abortSignal) => {
+      return new Promise((resolve) => {
+        console.log('value', ctx.value())
+        console.log('pathKeys', ctx.pathKeys())
+        setTimeout(resolve, 300);
+      })
+    });
+
     required(schema.from);
     minLength(schema.from, 3);
   });
 
-  debouncedFilter = debounceSignal(this.filterForm().value, 300);
-
   constructor() {
     this.store.reload();
-    this.store.updateFilter(this.debouncedFilter);
+    this.store.updateFilter(this.filterForm().value);
   }
 
   search(): void {

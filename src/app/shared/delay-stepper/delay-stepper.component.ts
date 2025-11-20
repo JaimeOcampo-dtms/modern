@@ -15,7 +15,7 @@ export class DelayStepperComponent implements FormValueControl<number> {
   value = model(0);
   
   disabled = input(false);
-  errors = input<readonly WithOptionalField<ValidationError>[]>([]);
+  errors = input<readonly ValidationError.WithOptionalField[]>([]);
 
   constructor() {
     effect(() => {
