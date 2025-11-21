@@ -5,12 +5,13 @@ import {
 import { CommonModule } from '@angular/common';
 import { FlightCardComponent } from '../flight-card/flight-card.component';
 import { Flight } from 'src/app/model/flight';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-flight-search',
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.css'],
-  imports: [CommonModule, FlightCardComponent],
+  imports: [CommonModule, FlightCardComponent, FormsModule],
 })
 export class FlightSearchComponent {
 
@@ -21,6 +22,8 @@ export class FlightSearchComponent {
 
   flights = signal<Flight[]>([]);
   basket = signal<Record<number, boolean>>({});
+
+  // TODO: Create Signal Form
 
   search(): void {
     // TODO

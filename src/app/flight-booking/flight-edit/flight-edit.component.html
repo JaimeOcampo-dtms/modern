@@ -2,22 +2,22 @@
   <h2 class="title">Flight Edit</h2>
 </div>
 
-@if (flight.id() !== 0) {
+@if (flight().id !== 0) {
 
 <form class="flight-form" (ngSubmit)="save()">
   <div class="form-group">
     <label for="flight-id">ID</label>
-    <input class="form-control" id="flight-id" name="id" />
+    <input [field]="flightForm.id" type="number" class="form-control" id="flight-id" />
   </div>
 
   <div class="form-group">
     <label for="flight-from">From</label>
-    <input class="form-control" id="flight-from" name="from" />
+    <input [field]="flightForm.from" class="form-control" id="flight-from" />
   </div>
 
   <div class="form-group">
     <label for="flight-to">To</label>
-    <input class="form-control" id="flight-to" name="to" />
+    <input [field]="flightForm.to" class="form-control" id="flight-to" />
   </div>
 
   <div class="form-group">
@@ -26,8 +26,8 @@
       <input
         class="form-control"
         id="flight-date"
+        [field]="flightForm.date"
         type="datetime-local"
-        name="date"
       />
     </div>
   </div>
@@ -36,9 +36,9 @@
     <label class="form-check-label">
       <input
         type="checkbox"
+        [field]="flightForm.delayed"
         class="form-check-input"
         id="flight-delayed"
-        name="delayed"
       />
       Delayed</label
     >
