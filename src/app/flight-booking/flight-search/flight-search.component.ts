@@ -10,7 +10,7 @@ import { BookingStore } from '../flight-booking.store';
 import {
   customError,
   Field,
-  FieldPath,
+  SchemaPath,
   form,
   minLength,
   required,
@@ -71,7 +71,7 @@ export class FlightSearchComponent {
 
 
 
-function validateCity(path: FieldPath<string>, allowed: string[]) {
+function validateCity(path: SchemaPath<string>, allowed: string[]) {
   validate(path, (ctx) => {
     const value = ctx.value();
     if (allowed.includes(value)) {
