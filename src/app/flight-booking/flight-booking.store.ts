@@ -35,7 +35,6 @@ export const BookingStore = signalStore(
   })),
   withMethods((store) => ({
     updateFilter(filter: FlightFilter) {
-      // patchState(store, { from: filter.from, to: filter.to })
       patchState(store, filter);
     },
 

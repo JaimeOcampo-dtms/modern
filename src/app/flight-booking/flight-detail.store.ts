@@ -40,22 +40,22 @@ export const FlightDetailStore = signalStore(
   })),
 
   withMutations((store) => ({
+
     saveFlight: httpMutation({
       request: (flight: Flight) => ({
         url: 'https://demo.angulararchitects.io/api/flight/' + flight.id,
         method: 'PUT',
-        body: flight
+        body: flight,
       }),
-      parse: raw => raw as Flight,
-      operator: concatOp,
-      onSuccess(result, params) {
-        store._snackBar.open('Flight successfully saved!', 'OK');
-      },
-      onError(error, params) {
-        store._snackBar.open('Error saving flight!', 'OK');
+      onError(error) {
         console.error('error', error);
+        store._snackBar.open('Error saving flight!', 'OK');
+      },
+      onSuccess() {
+        store._snackBar.open('Flight saved!', 'OK');
       }
     })
+
   })),
 
   // TODO: Add Mutation

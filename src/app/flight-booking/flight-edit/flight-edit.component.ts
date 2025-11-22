@@ -24,7 +24,6 @@ import { JsonPipe } from '@angular/common';
     MatInputModule,
     MatProgressSpinnerModule,
     Field,
-    JsonPipe,
   ],
   templateUrl: './flight-edit.component.html',
   styleUrls: ['./flight-edit.component.css'],

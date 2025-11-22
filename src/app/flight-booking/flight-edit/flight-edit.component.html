@@ -4,15 +4,15 @@
 
 @if (flight().id !== 0) {
 
-<div>{{ flightForm().errors() | json }}</div>
+<!-- <div>{{ flightForm().errors() | json }}</div> -->
 <form class="flight-form" (ngSubmit)="save()">
   <div class="form-group">
     <label for="flight-id">ID</label>
     <input
       [field]="flightForm.id"
+      type="number"
       class="form-control"
       id="flight-id"
-      name="id"
     />
   </div>
 
@@ -22,7 +22,6 @@
       [field]="flightForm.from"
       class="form-control"
       id="flight-from"
-      name="from"
     />
   </div>
 
@@ -32,7 +31,6 @@
       [field]="flightForm.to"
       class="form-control"
       id="flight-to"
-      name="to"
     />
   </div>
 
@@ -44,7 +42,6 @@
         id="flight-date"
         [field]="flightForm.date"
         type="datetime-local"
-        name="date"
       />
     </div>
   </div>
@@ -56,7 +53,6 @@
         [field]="flightForm.delayed"
         class="form-check-input"
         id="flight-delayed"
-        name="delayed"
       />
       Delayed</label
     >
