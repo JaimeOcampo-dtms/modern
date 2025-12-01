@@ -1,13 +1,8 @@
-import { Component, EventEmitter, inject, input, Input, model, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, input, model } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Flight, initFlight } from '../../model/flight';
+import { Flight } from '../../model/flight';
 import { CityPipe } from '../../shared/city.pipe';
 import { RouterLink } from '@angular/router';
-
-export interface FlightCardFlight extends Omit<Flight, 'delayed'> {
-  delayed?: boolean;
-}
 
 @Component({
   selector: 'app-flight-card',
@@ -17,7 +12,7 @@ export interface FlightCardFlight extends Omit<Flight, 'delayed'> {
 })
 export class FlightCardComponent {
 
-  item = input.required<FlightCardFlight>();
+  item = input.required<Flight>();
   selected = model<boolean>(false);
   
   ngOnInit() {}

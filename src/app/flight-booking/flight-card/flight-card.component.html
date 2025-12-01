@@ -4,7 +4,7 @@
 <div [ngClass]="{ selected: selectedValue }" class="card">
   <div class="card-header">
     <h2 class="title">
-      {{ itemValue.from | city : "short" }} - {{ itemValue.to | city : "long" }}
+      {{ itemValue.from | city : "long" }} - {{ itemValue.to | city : "long" }}
     </h2>
   </div>
 
@@ -19,9 +19,13 @@
     }
 
     <p class="mt-30">
+
+      <ng-content>
       @if (!selectedValue) {
       <button (click)="select()" class="btn btn-default">Select</button>
-      } @if (selectedValue) {
+      } 
+      
+      @if (selectedValue) {
       <button (click)="deselect()" class="btn btn-default">Remove</button>
       }
 
@@ -35,6 +39,7 @@
       >
         Edit
       </button>
+      </ng-content>
     </p>
   </div>
 </div>

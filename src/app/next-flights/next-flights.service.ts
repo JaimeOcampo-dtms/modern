@@ -13,7 +13,7 @@ export class NextFlightsService {
     
     return of([
       { id: 1, from: 'Paris', to: 'London', date, delayed: false, prices, aircraft, delay: 0 },
-      { id: 2, from: 'London', to: 'Paris', date, delayed: false, prices, aircraft, delay: 0 },
+      { id: 2, from: 'London', to: 'Paris', date, delayed: true, prices, aircraft, delay: 0 },
       { id: 3, from: 'Paris', to: 'Berlin', date, delayed: false, prices, aircraft, delay: 0 },
     ]);
   }

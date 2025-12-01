@@ -27,14 +27,9 @@ import { FlightCardComponent } from 'src/app/flight-booking/flight-card/flight-c
 import { s } from '@hashbrownai/core';
 import { MarkdownComponent } from 'ngx-markdown';
 import { MessageComponent } from 'src/app/shared/message';
+import { FlightInfoSchema, FlightWidgetComponent } from './widgets/flight-widget.component';
 
-export const FlightSchema = s.object('Flight to be displayed', {
-  id: s.number('the flight id'),
-  from: s.string('Departure city. No code but the city name'),
-  to: s.string('Arrival city. No code but the city name'),
-  date: s.string('Departure date in ISO format'),
-  delay: s.number('If delayed, this represents the delay in minutes'),
-});
+
 
 @Component({
   selector: 'app-assistant-chat',
@@ -81,10 +76,10 @@ export class AssistantChatComponent {
       getCurrentFlight,
     ],
     components: [
-      exposeComponent(FlightCardComponent, {
+      exposeComponent(FlightWidgetComponent, {
         description: 'Displays a flight or flight ticket',
         input: {
-          item: FlightSchema,
+          flightInfo: FlightInfoSchema,
         },
       }),
       exposeComponent(MessageComponent, {

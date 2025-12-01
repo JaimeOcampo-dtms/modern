@@ -1,0 +1,56 @@
+<div class="header">
+  <h2 class="title">Check in</h2>
+</div>
+
+<p class="info">Check in to your flight now!</p>
+
+<form>
+  <div class="form-group">
+    <label>EMail address to send the ticket to:</label>
+    <input class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label>Meal Restrictions:</label>
+    <select>
+      <option>I don't need a meal</option>
+      <option>Vegan</option>
+      <option>Vegetarian</option>
+      <option>No Restrictions</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Request an Upgrade:</label>
+    <select>
+      <option>No</option>
+      <option>Premium Economy Class</option>
+      <option>Business Class</option>
+      <option>First Class</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>I accept the general conditions of carriage.</label>
+    <input type="checkbox" />
+  </div>
+
+  <div class="form-group">
+    <input
+      (click)="checkin()"
+      type="button"
+      class="btn btn-default"
+      value="Check-in"
+    />
+  </div>
+</form>
+
+<ng-template #dialogMessage>
+  <div class="success">
+    <h1>You are checked-in now!</h1>
+    <p>Please check your inbox for your ticket.</p>
+    <div>
+        <button (click)="close()">Close</button>
+    </div>
+  </div>
+</ng-template>

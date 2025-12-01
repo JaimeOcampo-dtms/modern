@@ -14,7 +14,7 @@ export class CityPipe implements PipeTransform {
     switch (value) {
       case 'Paris':
         short = 'CDG';
-        long = 'Charles de Gaulle Airport';
+        long = 'Paris Charles de Gaulle Airport';
         break;
       case 'London':
         short = 'LCY';
