@@ -7,6 +7,7 @@ export const showBookedFlights = createTool({
   description: `
     Displays the upcoming booked flights (aka next flights) of the current user.
     This view is used for check-in.
+    Only display this view when the user is explicitly requesting to check in.
   `,
   handler: () => {
     const router = inject(Router);

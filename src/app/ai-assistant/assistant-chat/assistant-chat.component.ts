@@ -6,7 +6,11 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { chatResource } from '@hashbrownai/angular';
+import {
+  chatResource,
+  exposeComponent,
+  uiChatResource,
+} from '@hashbrownai/angular';
 import { ChatMessages } from 'src/app/ai-assistant/chat-messages/chat-messages';
 import { findFlightsTool } from './tools/find-flights.tool';
 import { toggleFlightSelection } from './tools/toggle-flight-selection.tool';
@@ -19,6 +23,18 @@ import { updateFlight } from './tools/update-flight.tool';
 import { getCurrentFlight } from './tools/get-current-flight.tool';
 import { getCurrentRoute } from './tools/get-current-route.tool';
 import { config } from '../../config';
+import { FlightCardComponent } from 'src/app/flight-booking/flight-card/flight-card.component';
+import { s } from '@hashbrownai/core';
+import { MarkdownComponent } from 'ngx-markdown';
+import { MessageComponent } from 'src/app/shared/message';
+
+export const FlightSchema = s.object('Flight to be displayed', {
+  id: s.number('the flight id'),
+  from: s.string('Departure city. No code but the city name'),
+  to: s.string('Arrival city. No code but the city name'),
+  date: s.string('Departure date in ISO format'),
+  delay: s.number('If delayed, this represents the delay in minutes'),
+});
 
 @Component({
   selector: 'app-assistant-chat',
@@ -35,7 +51,7 @@ export class AssistantChatComponent {
   panelVisible = signal(false);
   message = signal('');
 
-  chat = chatResource({
+  chat = uiChatResource({
     // model: 'gpt-5-chat-latest',
     // model: 'gpt-4.1',
     model: config.model,
@@ -58,11 +74,25 @@ export class AssistantChatComponent {
       toggleFlightSelection,
       getCurrentBasket,
       displayFlightDetail,
-      showBookedFlights,
+      // showBookedFlights,
       getBookedFlights,
       updateFlight,
       getCurrentRoute,
       getCurrentFlight,
+    ],
+    components: [
+      exposeComponent(FlightCardComponent, {
+        description: 'Displays a flight or flight ticket',
+        input: {
+          item: FlightSchema,
+        },
+      }),
+      exposeComponent(MessageComponent, {
+        description: 'Displays a message to the user',
+        input: {
+          data: s.string('Plain text or markdown to be displayed to the user.'),
+        },
+      }),
     ],
   });
 

@@ -5,6 +5,10 @@ import { Flight, initFlight } from '../../model/flight';
 import { CityPipe } from '../../shared/city.pipe';
 import { RouterLink } from '@angular/router';
 
+export interface FlightCardFlight extends Omit<Flight, 'delayed'> {
+  delayed?: boolean;
+}
+
 @Component({
   selector: 'app-flight-card',
   imports: [CommonModule, CityPipe, RouterLink],
@@ -13,7 +17,7 @@ import { RouterLink } from '@angular/router';
 })
 export class FlightCardComponent {
 
-  item = input.required<Flight>();
+  item = input.required<FlightCardFlight>();
   selected = model<boolean>(false);
   
   ngOnInit() {}

@@ -11,7 +11,14 @@
   <div class="avatar">{{ message.icon }}</div>
   <div>
     <div class="bubble">
-      <markdown [data]="message.content"></markdown>
+      <!-- {{ message | json }} -->
+
+      @if (message.role === 'assistant') {
+        <hb-render-message [message]="message" />
+      }
+      @else {
+        <app-message [data]="message.contentString"></app-message>
+      }
 
       @for(toolCall of message.toolCalls; track toolCall.toolCallId) {
       <div [title]="toolCall.args | json">
