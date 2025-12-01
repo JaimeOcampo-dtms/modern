@@ -39,6 +39,7 @@
     "quickjs-emscripten-core": "^0.31.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "undici": "^7.16.0",
     "zod": "^3.25.76",
     "zone.js": "~0.15.0"
   },

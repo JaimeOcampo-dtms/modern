@@ -3,6 +3,9 @@ import cors from 'cors';
 import { Chat } from '@hashbrownai/core';
 import { HashbrownGoogle } from '@hashbrownai/google';
 
+import { ProxyAgent, setGlobalDispatcher } from 'undici';
+setGlobalDispatcher(new ProxyAgent('http://localhost:9090'));
+
 const host = process.env['HOST'] ?? 'localhost';
 const port = process.env['PORT'] ? Number(process.env['PORT']) : 3000;
 
