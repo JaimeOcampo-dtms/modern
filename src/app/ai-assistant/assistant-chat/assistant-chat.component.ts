@@ -77,7 +77,7 @@ export class AssistantChatComponent {
     ],
     components: [
       exposeComponent(FlightWidgetComponent, {
-        description: 'Displays a flight or flight ticket',
+        description: 'Displays a flight or flight ticket. Use this instead of textual descriptions.',
         input: {
           flightInfo: FlightInfoSchema,
         },

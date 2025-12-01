@@ -7,6 +7,7 @@ export const getBookedFlights = createTool({
   name: 'getBookedFlights',
   description: `
     Returns the booked flights (aka next flights) of the current user.
+    Only use this when the user explicitly asks for booked flights, tickets or checking in to a flight.
   `,
   handler: async () => {
     const service = inject(NextFlightsService);
