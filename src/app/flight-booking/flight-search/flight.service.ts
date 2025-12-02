@@ -65,5 +65,15 @@ export class FlightService {
 
   // TODO: Create Resource
 
-  // TODO: Create Mutation
+  createSaveMutation(options: Partial<HttpMutationOptions<Flight, Flight>>): any {
+    return httpMutation({
+      ...options,
+      request: (flight: Flight) => ({
+        url: 'https://demo.angulararchitects.io/api/flight/' + flight.id,
+        method: 'PUT',
+        body: flight
+      }),
+    })
+  }
+  
 }
