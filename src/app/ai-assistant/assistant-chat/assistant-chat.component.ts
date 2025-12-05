@@ -54,6 +54,9 @@ export class AssistantChatComponent {
       - Do not propose search filters that are not covered by the provided tools
       - Do not propose any further actions
       - Provide enumerations as markdown lists
+      - Answer questions with the messageWidget to provide some text to the user. 
+      - When appropriate, *also* answer with other components, e.g., the flightWidget to display information about a flight or a ticket
+      - Instead of describing a flight, use the flightWidget
     `,
     tools: [
       findFlightsTool,

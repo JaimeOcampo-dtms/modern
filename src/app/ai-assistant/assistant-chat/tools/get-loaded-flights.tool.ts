@@ -12,6 +12,8 @@ export const getLoadedFlights = createTool({
     - This list is useful to answer questions about the current working set
     - Use this tool when the user is asking for flights in general but not when they are asking for
       "booked flights", "tickets" or when they ask for checking in to a flight
+    - The returned flights are **not** booked. 
+      If displayed with the flightWidget, use status: 'other' (!)
   `,
   handler: () => {
     const store = inject(FlightBookingStore);
