@@ -7,8 +7,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
-  chatResource,
-  exposeComponent,
   uiChatResource,
 } from '@hashbrownai/angular';
 import { ChatMessages } from 'src/app/ai-assistant/chat-messages/chat-messages';
@@ -17,19 +15,13 @@ import { toggleFlightSelection } from './tools/toggle-flight-selection.tool';
 import { getLoadedFlights } from './tools/get-loaded-flights.tool';
 import { getCurrentBasket } from './tools/get-current-basket.tool';
 import { displayFlightDetail } from './tools/display-flight-detail.tool';
-import { showBookedFlights } from './tools/show-booked-flights.tool';
 import { getBookedFlights } from './tools/get-booked-flights.tool';
 import { updateFlight } from './tools/update-flight.tool';
 import { getCurrentFlight } from './tools/get-current-flight.tool';
 import { getCurrentRoute } from './tools/get-current-route.tool';
 import { config } from '../../config';
-import { FlightCardComponent } from 'src/app/flight-booking/flight-card/flight-card.component';
-import { s } from '@hashbrownai/core';
-import { MarkdownComponent } from 'ngx-markdown';
-import { MessageComponent } from 'src/app/shared/message';
-import { FlightInfoSchema, FlightWidgetComponent } from './widgets/flight-widget.component';
-
-
+import { flightWidget } from './widgets/flight-widget';
+import { messageWidget } from './widgets/message-widget';
 
 @Component({
   selector: 'app-assistant-chat',
@@ -75,20 +67,7 @@ export class AssistantChatComponent {
       getCurrentRoute,
       getCurrentFlight,
     ],
-    components: [
-      exposeComponent(FlightWidgetComponent, {
-        description: 'Displays a flight or flight ticket. Use this instead of textual descriptions.',
-        input: {
-          flightInfo: FlightInfoSchema,
-        },
-      }),
-      exposeComponent(MessageComponent, {
-        description: 'Displays a message to the user',
-        input: {
-          data: s.string('Plain text or markdown to be displayed to the user.'),
-        },
-      }),
-    ],
+    components: [flightWidget, messageWidget],
   });
 
   constructor() {

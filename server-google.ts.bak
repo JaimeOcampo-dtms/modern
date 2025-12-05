@@ -6,6 +6,8 @@ import { HashbrownGoogle } from '@hashbrownai/google';
 // import { ProxyAgent, setGlobalDispatcher } from 'undici';
 // setGlobalDispatcher(new ProxyAgent('http://localhost:9090'));
 
+console.log('This example does currently not support Gemini');
+
 const host = process.env['HOST'] ?? 'localhost';
 const port = process.env['PORT'] ? Number(process.env['PORT']) : 3000;
 
