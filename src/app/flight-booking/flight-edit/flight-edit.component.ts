@@ -41,12 +41,16 @@ export class FlightEditComponent {
     required(path.id);
   });
 
+  pending = this.store.saveFlightIsPending;
+  error = this.store.saveFlightError;
+
+
   constructor() {
     this.store.updateFilter(this.id);
   }
 
   save(): void {
-    // TODO: submit changes to backend
+    this.store.saveFlight(this.flightForm().value());
   }
 }
 

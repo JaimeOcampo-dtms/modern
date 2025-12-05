@@ -7,12 +7,16 @@ import {
   withState,
 } from '@ngrx/signals';
 import {
+  httpMutation,
+  rxMutation,
+  withMutations,
   withResource,
 } from '@angular-architects/ngrx-toolkit';
 import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { FlightService } from './flight-search/flight.service';
+import { Flight } from '../model/flight';
 
 export const FlightDetailStore = signalStore(
   { providedIn: 'root' },
@@ -33,6 +37,21 @@ export const FlightDetailStore = signalStore(
   })),
 
   // TODO: Add Mutation
+  withMutations((store) => ({
+    saveFlight: httpMutation({
+      request: (flight: Flight) => ({
+        url: 'https://demo.angulararchitects.io/api/flight/' + flight.id,
+        method: 'PUT',
+        body: flight
+      }),
+      onSuccess() {
+        store._snackBar.open('Saved flight', 'OK');
+      },
+      onError() {
+        store._snackBar.open('Error saving flight', 'OK');
+      }
+    })
+  })),   
 
   withMethods((store) => ({
     updateFilter: signalMethod((id: number) => {

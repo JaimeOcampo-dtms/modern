@@ -1,35 +1,60 @@
 import {
   Component,
+  computed,
+  inject,
+  linkedSignal,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlightCardComponent } from '../flight-card/flight-card.component';
 import { Flight } from 'src/app/model/flight';
 import { FormsModule } from '@angular/forms';
+import { BookingStore } from '../flight-booking.store';
+import { Field, form, minLength, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-flight-search',
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.css'],
-  imports: [CommonModule, FlightCardComponent, FormsModule],
+  imports: [CommonModule, FlightCardComponent, FormsModule, Field],
 })
 export class FlightSearchComponent {
 
-  // TODO: Get state from store
+  store = inject(BookingStore);
+  
+  from = this.store.from;
+  to = this.store.to;
 
-  from = signal('Graz');
-  to = signal('Hamburg');
+  filter = linkedSignal(() => ({
+    from: this.from(),
+    to: this.to(),
+    aircraft: {
+      type: '',
+      regNum: '',
+    },
+    layovers: [
+      { airport: 'FRA', duration: 40 }
+    ]
+  }))
 
-  flights = signal<Flight[]>([]);
+  searchForm = form(this.filter, (path) => {
+    required(path.from);
+    minLength(path.from, 3);
+  });
+
+
+  flights = this.store.flightsValue;
+  isLoading = this.store.flightsIsLoading;
+  error = this.store.flightsError;
+
   basket = signal<Record<number, boolean>>({});
 
-  // TODO: Create Signal Form
 
   search(): void {
-    // TODO
+    this.store.updateFilter(this.filter());
   }
 
   updateBasket(flightId: number, selected: boolean): void {
-    // TODO
+    this.store.updateBasket(flightId, selected);
   }
 }
