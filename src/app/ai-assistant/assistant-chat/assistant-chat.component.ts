@@ -22,6 +22,7 @@ import { getCurrentRoute } from './tools/get-current-route.tool';
 import { config } from '../../config';
 import { flightWidget } from './widgets/flight-widget';
 import { messageWidget } from './widgets/message-widget';
+import { prompt } from '@hashbrownai/core';
 
 @Component({
   selector: 'app-assistant-chat',

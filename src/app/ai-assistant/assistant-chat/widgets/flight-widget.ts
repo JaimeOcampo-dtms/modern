@@ -7,8 +7,9 @@ export const flightWidget = exposeComponent(FlightWidgetComponent, {
   description: `
     Displays a flight or flight ticket. Use this instead of textual descriptions of flights or tickets.
     
-    Make sure to correctly infer the status for the passed FlightInfo ('booked' vs. 'other').
-    A booked flight is **only** retrieved via the tool 'getBookedFlights'.
+    ## Rules
+    - Make sure to correctly infer the status for the passed FlightInfo ('booked' vs. 'other').
+    - A booked flight is **only** retrieved via the tool 'getBookedFlights'.
     
     ## Example for infering a status 'booked'
     - User: Which flights did I book?

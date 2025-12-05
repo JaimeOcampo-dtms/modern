@@ -60,7 +60,6 @@ app.post('/api/chat', async (req, res) => {
       
       ## NEGATIVE EXAMPLES
 
-
       ### NEGATIVE EXAMPLE 1
 
       Don't call the same tool several times in a row with the same parameters:

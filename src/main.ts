@@ -32,7 +32,7 @@ bootstrapApplication(AppComponent, {
     
     provideHashbrown({
       baseUrl: 'http://localhost:3000/api/chat',
-      emulateStructuredOutput: true,
+      // emulateStructuredOutput: true,
       middleware: [
         (req) => {
           console.log('[Hashbrown Request]', req);
