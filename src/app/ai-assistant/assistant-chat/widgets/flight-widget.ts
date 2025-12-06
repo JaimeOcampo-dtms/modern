@@ -9,7 +9,7 @@ export const flightWidget = exposeComponent(FlightWidgetComponent, {
     
     ## Rules
     - Make sure to correctly infer the status for the passed FlightInfo ('booked' vs. 'other').
-    - A booked flight is **only** retrieved via the tool 'getBookedFlights'.
+    - A flight has the status 'booked' **only**  when retrieved via the tool 'getBookedFlights'.
     
     ## Example for infering a status 'booked'
     - User: Which flights did I book?

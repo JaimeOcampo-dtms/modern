@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FlightBookingStore } from 'src/app/flight-booking/flight-booking.store';
 import { FlightCardComponent } from 'src/app/flight-booking/flight-card/flight-card.component';
@@ -31,14 +31,17 @@ import { FlightInfo } from './flight-info';
     }
   `,
 })
-export class FlightWidgetComponent {
+export class FlightWidgetComponent implements OnInit {
+  ngOnInit(): void {
+    console.log('flightInfo', this.flightInfo());
+  }
   router = inject(Router);
   store = inject(FlightBookingStore);
 
   flightInfo = input.required<FlightInfo>();
 
   isBooked = computed(() => this.flightInfo().status === 'booked');
-  isDelayed = computed(() => this.flightInfo().delayInfo === 'delayed');
+  isDelayed = computed(() => this.flightInfo().delay > 0);
 
   isSelected = computed(() => this.store.basket()[this.flight().id]);
 

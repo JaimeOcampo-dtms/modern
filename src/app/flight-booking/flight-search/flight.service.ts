@@ -54,7 +54,10 @@ export class FlightService {
           to: to(),
         },
       }),
-      { defaultValue: [] }
+      { 
+        defaultValue: [],
+        parse: raw => toFlights(raw) 
+      }
     );
   }
 
@@ -87,4 +90,17 @@ export class FlightService {
       operator: concatOp
     });
   }
+}
+
+function toFlights(raw: unknown): Flight[] {
+  const flights = raw as Flight[];
+
+  const result = flights.map(flight => ({
+    ...flight,
+    delay: !flight.delay && flight.delayed ? 15 : flight.delay
+  }));
+
+  console.log('flights<>result', flights, result);
+
+  return result;
 }
