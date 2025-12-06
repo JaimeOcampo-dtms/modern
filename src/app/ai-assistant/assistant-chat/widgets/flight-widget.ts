@@ -1,6 +1,7 @@
 import { exposeComponent } from '@hashbrownai/angular';
 import { FlightWidgetComponent } from './flight-widget.component';
-import { FlightInfoSchema } from './flight-info';
+import { FlightSchema } from './flight-schema';
+import { s } from '@hashbrownai/core';
 
 export const flightWidget = exposeComponent(FlightWidgetComponent, {
   name: 'flightWidget',
@@ -22,8 +23,18 @@ export const flightWidget = exposeComponent(FlightWidgetComponent, {
     - Assistant:
         - Tool: getLoadedFlights()
         - UI: flightWidget({flightInfo: { id: 0, ..., status: 'other' }})
-`,
+    `,
   input: {
-    flightInfo: FlightInfoSchema,
+    flight: FlightSchema,
+    status: s.enumeration(
+      `
+      Whether the flight is booked or not. 
+
+      ## Rules
+      - Infere this value from the context of the conversation. 
+      - A flight can only have the status 'booked' when it was retrieved via the tool 'getBookedFlights'. 
+      `,
+      ['booked', 'other']
+    ),
   },
 });

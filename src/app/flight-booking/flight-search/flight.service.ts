@@ -93,14 +93,13 @@ export class FlightService {
 }
 
 function toFlights(raw: unknown): Flight[] {
-  const flights = raw as Flight[];
+  type FlightWithDelayed = Flight & { delayed: boolean };
+  const flights = raw as FlightWithDelayed[];
 
   const result = flights.map(flight => ({
     ...flight,
     delay: !flight.delay && flight.delayed ? 15 : flight.delay
   }));
-
-  console.log('flights<>result', flights, result);
 
   return result;
 }

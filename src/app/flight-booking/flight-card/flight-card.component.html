@@ -12,7 +12,7 @@
     <p>Flight-No.: #{{ itemValue.id }}</p>
     <p>Date: {{ itemValue.date | date : "dd.MM.yyyy HH:mm" }}</p>
 
-    @if(itemValue.delayed) {
+    @if(itemValue.delay) {
     <p class="text-danger"><strong>Delayed</strong></p>
     } @else {
     <p class="text-success"><strong>On Time</strong></p>

@@ -15,8 +15,6 @@ export class FlightCardComponent {
   item = input.required<Flight>();
   selected = model<boolean>(false);
   
-  ngOnInit() {}
-
   select() {
     this.selected.set(true);
   }
