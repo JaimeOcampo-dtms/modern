@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, computed, input, OnInit } from '@angular/core';
 import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({

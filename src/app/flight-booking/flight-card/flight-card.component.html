@@ -1,5 +1,4 @@
-@let itemValue = item(); 
-@let selectedValue = selected();
+@let itemValue = item(); @let selectedValue = selected();
 
 <div [ngClass]="{ selected: selectedValue }" class="card">
   <div class="card-header">
@@ -19,26 +18,23 @@
     }
 
     <p class="mt-30">
-
       <ng-content>
-      @if (!selectedValue) {
-      <button (click)="select()" class="btn btn-default">Select</button>
-      } 
-      
-      @if (selectedValue) {
-      <button (click)="deselect()" class="btn btn-default">Remove</button>
-      }
+        @if (!selectedValue) {
+        <button (click)="select()" class="btn btn-default">Select</button>
+        } @if (selectedValue) {
+        <button (click)="deselect()" class="btn btn-default">Remove</button>
+        }
 
-      <button
-        [routerLink]="[
-          '/flight-booking/flight-edit',
-          itemValue.id,
-          { showDetails: false }
-        ]"
-        class="btn btn-default"
-      >
-        Edit
-      </button>
+        <button
+          [routerLink]="[
+            '/flight-booking/flight-edit',
+            itemValue.id,
+            { showDetails: false }
+          ]"
+          class="btn btn-default"
+        >
+          Edit
+        </button>
       </ng-content>
     </p>
   </div>
