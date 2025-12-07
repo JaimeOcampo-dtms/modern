@@ -20,7 +20,7 @@ export class ReportingComponent {
   input = signal<string | undefined>(undefined);
 
   generator = structuredCompletionResource({
-    model: 'gpt-4o',
+    model: 'gpt-5-chat-latest',
     input: this.input,
     system: `
       You are Report42, an UI assistent that help passengers with creating and displaying
@@ -39,7 +39,7 @@ export class ReportingComponent {
       - User: How many flights are there from Graz to London and from Graz to Munich?
       - Assistant: 
           Tool Call: loadFlights({ from: 'Graz', to: 'London'})
-          Tool: [{id: 17, ...}, {id: 37, ...}]
+          Tool: [{id: 17, from: 'Graz', to: 'London', date:'...', delayed: true }, {id: 37, ...}]
           Tool Call: loadFlights({from: 'Graz', to: 'München'})
           Tool: [{id: 19, ...}]
           Tool Call: generateChart([ 

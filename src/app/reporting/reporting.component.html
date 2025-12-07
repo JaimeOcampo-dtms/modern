@@ -22,8 +22,9 @@
 } @else if(generator.error()) {
 <div class="p-10">Error: {{ generator.error() | json }}</div>
 } @if (generator.hasValue()) {
+<div class="p-10 mb-30">{{ generator.value()?.message }}</div>
+
 <div class="chart">
-  <ngx-charts-bar-horizontal [results]="data" [legend]="true"
- />
+  <ngx-charts-bar-horizontal [results]="data" [legend]="true" />
 </div>
 }
