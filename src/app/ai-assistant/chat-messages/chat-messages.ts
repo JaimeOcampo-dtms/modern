@@ -40,7 +40,7 @@ export class ChatMessages {
     error: '⚡️',
   };
 
-  messagesWithIcons = computed(() =>
+  messageModels = computed(() =>
     this.messages().map((message) => ({
       ...message,
       // content: String(message.content),

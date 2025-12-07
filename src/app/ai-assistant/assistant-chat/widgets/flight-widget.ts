@@ -1,20 +1,21 @@
 import { exposeComponent } from '@hashbrownai/angular';
 import { FlightWidgetComponent } from './flight-widget.component';
-import { FlightSchema } from './flight-schema';
+import { FlightSchema } from './flight-info';
 import { s } from '@hashbrownai/core';
 
 export const flightWidget = exposeComponent(FlightWidgetComponent, {
   name: 'flightWidget',
   description: `
-    Displays a flight or flight ticket. Use this instead of textual descriptions of flights or tickets.
+    Displays a flight or flight ticket. Use this instead of textual 
+    descriptions of flights or tickets.
     `,
   input: {
     flight: FlightSchema,
     status: s.enumeration(
-      `
-      Whether the flight is booked or not. 
+      `Whether the flight is booked or not. 
       
-      A flight has the status 'booked' **only**  when retrieved via the tool 'getBookedFlights'.
+      A flight has the status 'booked' **only**  when retrieved 
+      via the tool 'getBookedFlights'.
       
       ## Example for infering a status 'booked'
       - User: Which flights did I book?
