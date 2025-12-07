@@ -29,6 +29,7 @@
     "@hashbrownai/openai": "^0.3.0",
     "@ngrx/signals": "^20.1.0",
     "@standard-schema/spec": "^1.0.0",
+    "@swimlane/ngx-charts": "^23.1.0",
     "@types/node": "^24.10.0",
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",

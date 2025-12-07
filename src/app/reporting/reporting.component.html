@@ -1,0 +1,29 @@
+<h1>Reporting</h1>
+
+<form (submit)="submit()">
+  <div class="form-group">
+    <input
+      [(ngModel)]="message"
+      name="input"
+      class="form-control"
+      placeholder="Describe your chart..."
+    />
+  </div>
+</form>
+
+@if(generator.isLoading()) {
+<div class="ai-wait-indicator p-10">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+} @else if(generator.hasValue() && generator.value()?.type === 'error') {
+<div class="p-10">Error: {{ generator.value()?.message }}</div>
+} @else if(generator.error()) {
+<div class="p-10">Error: {{ generator.error() | json }}</div>
+} @if (generator.hasValue()) {
+<div class="chart">
+  <ngx-charts-bar-horizontal [results]="data" [legend]="true"
+ />
+</div>
+}

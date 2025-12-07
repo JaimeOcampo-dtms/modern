@@ -334,14 +334,6 @@ label {
 
 /* --- */
 
-input.ng-dirty.ng-invalid {
-  border-left: darkred 5px solid;
-}
-
-input.ng-dirty.ng-valid {
-  border-left: darkgreen 5px solid;
-}
-
 .selected {
   background-color: moccasin;
 }
@@ -471,4 +463,13 @@ markdown p {
     transform: scale(1.2);
     opacity: 1;
   }
+}
+
+
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+.p-10 {
+  padding: 10px;
 }

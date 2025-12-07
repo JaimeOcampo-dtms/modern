@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ConfigService } from './shared/config.service';
 import { CheckinComponent } from './checkin/checkin.component';
+import { ReportingComponent } from './reporting/reporting.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -20,7 +21,10 @@ export const APP_ROUTES: Routes = [
     path: 'checkin/:id',
     component: CheckinComponent
   },
-
+  {
+    path: 'reporting',
+    component: ReportingComponent
+  },
   {
     path: '',
     resolve: {

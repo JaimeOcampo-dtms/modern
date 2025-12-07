@@ -4,7 +4,7 @@ import { FlightSchema } from './flight-info';
 import { s } from '@hashbrownai/core';
 
 export const flightWidget = exposeComponent(FlightWidgetComponent, {
-  name: 'flightWidget',
+  // name: 'flightWidget',
   description: `
     Displays a flight or flight ticket. Use this instead of textual 
     descriptions of flights or tickets.
