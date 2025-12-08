@@ -32,6 +32,9 @@ app.post('/api/chat', async (req, res) => {
       options.model = 'gemini-2.5-flash';
 
       options.config = options.config || {};
+
+      // Set this property for overriding or sanitizing the client's system instruction 
+      //
       // options.config.systemInstruction = `
       //   You are Flight42, an UI assistent that help passengers with finding flights.
 

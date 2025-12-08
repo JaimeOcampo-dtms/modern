@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   createRuntime,
@@ -6,7 +6,7 @@ import {
   createToolJavaScript,
   structuredCompletionResource,
 } from '@hashbrownai/angular';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxChartsModule, DataItem } from '@swimlane/ngx-charts';
 import { s } from '@hashbrownai/core';
 import { FlightService } from '../flight-booking/flight-search/flight.service';
 import { firstValueFrom } from 'rxjs';
@@ -20,7 +20,10 @@ import { FlightSchema } from '../ai-assistant/assistant-chat/widgets/flight-info
   styleUrl: './reporting.component.css',
 })
 export class ReportingComponent {
-  data: { name: string; value: number }[] = [];
+  data = signal<DataItem[]>([]);
+
+  showDetails = signal(false);
+  requestCount = signal(0);
 
   message = signal('');
   input = signal<string | undefined>(undefined);
@@ -62,7 +65,8 @@ export class ReportingComponent {
         }),
         handler: (input) => {
           console.log('generateChart', input);
-          this.data = input.data;
+          this.data.set(input.data);
+          this.requestCount.update((value) => value + 1);
           return Promise.resolve();
         },
       }),
@@ -83,7 +87,7 @@ export class ReportingComponent {
 
       1. Take the users request for a chart and generate JavaScript code that ...
         a) uses the tool _loadFlights_ as often as needed to retrieve the needed data
-        b) Aggregate the received data according to the user's request. 
+        b) Aggregate the received data according to the user's request. Replace 0 by 0.1
         c) Pass the data to the tool _generateChart_ to display a chart
       2. Pass the JavaScript code to the runtime
 
@@ -112,7 +116,7 @@ export class ReportingComponent {
     schema: s.object(`Whether request was successfull`, {
       type: s.enumeration(`Success or error?`, ['success', 'error']),
       message: s.string(`Addidional information for the user`),
-      code: s.string(`the generated JavaScript code`)
+      code: s.string(`the generated JavaScript code`),
     }),
     tools: [
       createToolJavaScript({
@@ -121,7 +125,26 @@ export class ReportingComponent {
     ],
   });
 
+  constructor() {
+    effect(() => {
+      console.log('calls', this.requestCount());
+      console.log('data', this.data());
+    });
+  }
+
   submit(): void {
     this.input.set(this.message());
+  }
+
+  format(value: number) {
+    return Number.isInteger(value) ? value.toString() : '';
+  }
+
+  toggleDetails(): void {
+    this.showDetails.update(value => !value);
+  }
+
+  regenerate(): void {
+    this.generator.reload();
   }
 }
