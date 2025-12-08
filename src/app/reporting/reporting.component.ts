@@ -30,27 +30,33 @@ export class ReportingComponent {
       - Audience: power users who want to get a chart
       
       ## Your Tasks
-      1. Take the users request for a chart and use the tool _loadFlights_ 
-         as often as needed to retrieve the needed data
-      2. Aggregate the received data according to the user's request
-      3. Pass the data to the tool _generateChart_ to display a chart
+      1. Take the users request for a chart 
+      2. Think step by step and find out which tool calls with which parameters you need. You might need to call the same tool several times with different parameters. Make a plan about which tools to call.
+      3. Execute your plan by calling the tools as often as needed to get the needed data
+      4. Aggregate the received data according to the user's request
+      5. Pass the data to the tool _generateChart_ to display a chart
 
       ## Example
       - User: How many flights are there from Graz to London and from Graz to Munich?
       - Assistant: 
-          Tool Call: loadFlights({ from: 'Graz', to: 'London'})
-          Tool: [{id: 17, from: 'Graz', to: 'London', date:'...', delayed: true }, {id: 37, ...}]
-          Tool Call: loadFlights({from: 'Graz', to: 'München'})
-          Tool: [{id: 19, ...}]
-          Tool Call: generateChart([ 
+          Tool Call 1: loadFlights({ from: 'Graz', to: 'London'})
+          Tool Result 1: [{..., delay: 0, delayed: false}, {..., delay: 15, delayed: true }]
+          Tool Call 2: loadFlights({from: 'Graz', to: 'Munich'})
+          Tool Result 2: [{..., delay: 15, delayed: true }]
+          Tool Call 3: generateChart([ 
             { name: 'Graz - London', value: 2 },  
-            { name: 'Graz - München', value: 1 },  
+            { name: 'Graz - Munich', value: 1 },  
           ])
           Answer: Here is your chart
 
       ## Rules
-      - Never use additional web resources for answering requests
-    `,
+      - You MUST NOT call additional web resources for answering requests.
+      - You MUST call loadFlights exactly once per route.
+      - You MUST NOT combine multiple routes in a single tool call.
+      - You MUST wait for each tool response before issuing the next tool call.
+      - You MUST call generateChart as the last step.
+    
+      `,
     schema: s.object(`Whether request was successfull`, {
       type: s.enumeration(`Success or error?`, ['success', 'error']),
       message: s.string(`Addidional information for the user`),
@@ -60,9 +66,18 @@ export class ReportingComponent {
         name: 'loadFlights',
         description: `
         Searches for flights and returns them.
-  
+
         ## Rules
         - For the search parameters, airport codes are NOT used but the city name. First letter in upper case.
+        - Only pass **one** object with search parameters!
+
+        ## Example
+        loadFlights({from: 'Graz', to: 'Munich' })
+
+        ## Negative Example 
+        Don't do this:
+
+        loadFlights({from: 'Graz', to: 'Munich' }{from: 'Munich', to: 'Graz' })
         `,
         schema: s.object('search parameters for flights', {
           from: s.string('airport of departure'),
