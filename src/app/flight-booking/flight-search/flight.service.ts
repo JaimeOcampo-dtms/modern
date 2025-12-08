@@ -1,6 +1,6 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable, Signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Flight, initFlight } from '../../model/flight';
 import { ConfigService } from '../../shared/config.service';
 import {
@@ -30,7 +30,7 @@ export class FlightService {
 
     const params = { from, to };
 
-    return this.http.get<Flight[]>(url, { headers, params });
+    return this.http.get<Flight[]>(url, { headers, params }).pipe(map(flights => toFlights(flights)))
   }
 
   findById(id: string): Observable<Flight> {
@@ -98,7 +98,7 @@ function toFlights(raw: unknown): Flight[] {
 
   const result = flights.map(flight => ({
     ...flight,
-    delay: !flight.delay && flight.delayed ? 15 : flight.delay
+    delay: (!flight.delay && flight.delayed ? 15 : flight.delay) ?? 0
   }));
 
   return result;
