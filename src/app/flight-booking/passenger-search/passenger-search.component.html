@@ -1,1 +1,28 @@
-<p>passenger-search works!</p>
+<h1>Passenger</h1>
+
+<div>
+    Dirty: {{ passengerForm().dirty() }}
+</div>
+
+<div>
+    Valid: {{ passengerForm().valid() }}
+</div>
+
+<form>
+  <h2>Passenger</h2>
+
+  <input [field]="passengerForm.id" type="number" />
+  <input [field]="passengerForm.name" />
+  <input [field]="passengerForm.firstName" />
+  <input [field]="passengerForm.status" />
+  <input [field]="passengerForm.bonusMiles" type="number" />
+
+  <h2>Address</h2>
+
+  <div [formGroup]="passengerForm.address().control()">
+    <input formControlName="street" />
+    <input formControlName="zipCode" />
+    <input formControlName="city" />
+    <input formControlName="country" />
+  </div>
+</form>
