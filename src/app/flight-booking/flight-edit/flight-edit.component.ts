@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   inject,
   input,
   linkedSignal,
@@ -13,6 +14,7 @@ import {
   submit,
   schema,
   apply,
+  Field,
 } from '@angular/forms/signals';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -36,10 +38,9 @@ export const flightFormSchema = schema<Flight>((path) => {
     MatDatepickerModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    AircraftComponent,
-    PricesComponent,
-    FlightComponent,
-    ValidationErrorsComponent,
+    // AircraftComponent,
+    // PricesComponent,
+    // FlightComponent,
   ],
   templateUrl: './flight-edit.component.html',
   styleUrls: ['./flight-edit.component.css'],
@@ -54,25 +55,17 @@ export class FlightEditComponent {
   isPending = debounceSignal(this.store.saveFlightIsPending, 300);
   error = this.store.saveFlightError;
 
-  flight = linkedSignal(() => normalize(this.store.flightValue()));
-  flightForm = form(this.flight, flightSchema);
+  flight = computed(() => normalize(this.store.flightValue()));
+
+  // TODO: add flight to form
 
   constructor() {
     this.store.updateFilter(this.id);
   }
 
   save(): void {
-    submit(this.flightForm, async (form) => {
-      const result = await this.store.saveFlight(form().value());
-
-      if (result.status === 'error') {
-        return {
-          kind: 'processing_error',
-          error: result.error,
-        };
-      }
-      return null;
-    });
+    // TODO: Write server error back to signal form
+    this.store.saveFlight(this.flight());
   }
 }
 

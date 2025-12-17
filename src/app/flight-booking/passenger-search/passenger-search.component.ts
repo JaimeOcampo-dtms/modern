@@ -1,12 +1,11 @@
-import { JsonPipe } from '@angular/common';
 import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { required, Field, form } from '@angular/forms/signals';
+import { required, Field } from '@angular/forms/signals';
 import { compatForm } from '@angular/forms/signals/compat';
 
 @Component({
   selector: 'app-passenger-search',
-  imports: [Field, ReactiveFormsModule, JsonPipe],
+  imports: [Field, ReactiveFormsModule],
   templateUrl: './passenger-search.component.html',
   styleUrls: ['./passenger-search.component.css'],
 })

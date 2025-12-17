@@ -34,12 +34,9 @@ export const flightSchema = schema<Flight>((path) => {
   
   // validateStandardSchema(ZodFlightSchema);
 
-  //disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed));
   disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed) ? 'not delayed' : false);
 
   applyWhenValue(path, (flight) => flight.delayed, delayedFlight);
-
-  validateDuplicatePrices(path.prices);
 
   validateCityAsync(path.from);
   validateCityHttp(path.to);
@@ -47,8 +44,9 @@ export const flightSchema = schema<Flight>((path) => {
   validateRoundTrip(path);
   validateRoundTripTree(path);
 
-  apply(path.aircraft, aircraftSchema);
-  applyEach(path.prices, priceSchema);
+  // TODO: apply aircraftSchema
+  // TODO: apply priceSchema
+  // TODO: validateDuplicatePrices
 });
 
 export const delayedFlight = schema<Flight>((path) => {
