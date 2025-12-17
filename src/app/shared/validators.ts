@@ -2,7 +2,6 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import {
   SchemaPath,
   metadata,
-  aggregateMetadata,
   validate,
   validateAsync,
   validateHttp,
@@ -62,7 +61,7 @@ export function validateRoundTripTree(schema: SchemaPath<Flight>) {
 }
 
 export function validateCityAsync(schema: SchemaPath<string>) {
-  aggregateMetadata(schema, CITY2, () => true);
+  metadata(schema, CITY2, () => true);
 
   validateAsync(schema, {
     params: (ctx) => ({
