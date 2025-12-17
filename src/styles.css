@@ -342,6 +342,18 @@ input.ng-dirty.ng-valid {
   border-left: darkgreen 5px solid;
 }
 
+.invalid {
+  border-left: darkred 5px solid;
+}
+
+.valid {
+  border-left: darkgreen 5px solid;
+}
+
+.pending {
+  border-left: gray 5px solid;
+}
+
 .selected {
   background-color: moccasin;
 }
