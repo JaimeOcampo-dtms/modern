@@ -15,6 +15,10 @@ import {
   schema,
   apply,
   Field,
+  minLength,
+  validate,
+  SchemaPath,
+  validateStandardSchema,
 } from '@angular/forms/signals';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -26,6 +30,7 @@ import { AircraftComponent } from './aircraft/aircraft.component';
 import { PricesComponent } from './prices/prices.component';
 import { FlightComponent } from './flight/flight.component';
 import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/validation-errors.component';
+import { JsonPipe } from '@angular/common';
 
 export const flightFormSchema = schema<Flight>((path) => {
   apply(path, flightSchema);
@@ -38,9 +43,11 @@ export const flightFormSchema = schema<Flight>((path) => {
     MatDatepickerModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    // AircraftComponent,
-    // PricesComponent,
-    // FlightComponent,
+    AircraftComponent,
+    PricesComponent,
+    FlightComponent,
+    Field,
+    JsonPipe
   ],
   templateUrl: './flight-edit.component.html',
   styleUrls: ['./flight-edit.component.css'],
@@ -48,9 +55,10 @@ export const flightFormSchema = schema<Flight>((path) => {
 export class FlightEditComponent {
   private store = inject(FlightDetailStore);
 
-  flight = computed(() => normalize(this.store.flightValue()));
+  flight = linkedSignal(() => normalize(this.store.flightValue()));
 
   // TODO: add flight to form
+  flightForm = form(this.flight, flightSchema);
 
   id = input.required({
     transform: numberAttribute,
@@ -67,6 +75,20 @@ export class FlightEditComponent {
     // TODO: Write server error back to signal form
     this.store.saveFlight(this.flight());
   }
+}
+
+function validateCity(path: SchemaPath<string>, allowed: string[]) {
+  validate(path, (ctx) => {
+    const value = ctx.value();
+    if (allowed.includes(value)) {
+      return null;
+    }
+    return {
+      kind: 'not_supported_airpot',
+      value,
+      allowed,
+    };
+  });
 }
 
 function normalize(flight: Flight): Flight {

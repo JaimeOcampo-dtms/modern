@@ -1,7 +1,8 @@
-import { apply, applyEach, applyWhenValue, disabled, min, minLength, required, schema, validateStandardSchema } from "@angular/forms/signals";
+import { apply, applyEach, applyWhenValue, disabled, hidden, metadata, min, minLength, readonly, required, schema, validateStandardSchema } from "@angular/forms/signals";
 import { Aircraft, aircraftSchema, initAircraft } from "./aircraft";
 import { Price, priceSchema } from "./price";
 import { validateCityAsync, validateCityHttp, validateDuplicatePrices, validateRoundTrip, validateRoundTripTree } from "../shared/validators";
+import { CITY } from "../shared/properties";
 
 export interface Flight {
   id: number;
@@ -35,17 +36,24 @@ export const flightSchema = schema<Flight>((path) => {
   // validateStandardSchema(ZodFlightSchema);
 
   disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed) ? 'not delayed' : false);
+  // readonly(path.delay, (ctx) => !ctx.valueOf(path.delayed));
+  // hidden(path.delay, (ctx) => !ctx.valueOf(path.delayed));
   applyWhenValue(path, (flight) => flight.delayed, delayedFlight);
 
   validateCityAsync(path.from);
   validateCityHttp(path.to);
-
   validateRoundTrip(path);
   validateRoundTripTree(path);
 
   // TODO: apply aircraftSchema
+  apply(path.aircraft, aircraftSchema);
+
   // TODO: apply priceSchema
+  applyEach(path.prices, priceSchema);
+
   // TODO: validateDuplicatePrices
+  validateDuplicatePrices(path.prices);
+
 });
 
 export const delayedFlight = schema<Flight>((path) => {

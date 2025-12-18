@@ -60,16 +60,8 @@
   <div class="form-group form-check">
     <label for="delay">Delay</label>
 
-    <div class="input-group">
-      <input
-        class="form-control"
-        [field]="flightForm.delay"
-        id="delay"
-        type="number"
-      />
-    </div>
-
-    <!-- <app-delay-stepper id="delay" [field]="flightForm.delay" /> -->
+    <app-delay-stepper id="delay" [field]="flightForm.delay" />
+    
     <app-validation-errors [errors]="flightForm.delay().errors()" />
     @for(reason of flightForm.delay().disabledReasons(); track $index) {
     <p>Disabled because {{ reason.message }}</p>

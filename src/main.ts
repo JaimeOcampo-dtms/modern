@@ -13,6 +13,7 @@ import { APP_ROUTES } from './app/app.routes';
 import { NextFlightsModule } from './app/next-flights/next-flights.module';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideSignalFormsConfig } from '@angular/forms/signals';
+// import { provideSignalFormsConfig } from '@angular/forms/signals';
 
 bootstrapApplication(AppComponent, {
   providers: [
