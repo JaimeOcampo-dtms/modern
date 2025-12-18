@@ -48,16 +48,16 @@ export const flightFormSchema = schema<Flight>((path) => {
 export class FlightEditComponent {
   private store = inject(FlightDetailStore);
 
+  flight = computed(() => normalize(this.store.flightValue()));
+
+  // TODO: add flight to form
+
   id = input.required({
     transform: numberAttribute,
   });
 
   isPending = debounceSignal(this.store.saveFlightIsPending, 300);
   error = this.store.saveFlightError;
-
-  flight = computed(() => normalize(this.store.flightValue()));
-
-  // TODO: add flight to form
 
   constructor() {
     this.store.updateFilter(this.id);
