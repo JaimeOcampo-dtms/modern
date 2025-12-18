@@ -35,7 +35,6 @@ export const flightSchema = schema<Flight>((path) => {
   // validateStandardSchema(ZodFlightSchema);
 
   disabled(path.delay, (ctx) => !ctx.valueOf(path.delayed) ? 'not delayed' : false);
-
   applyWhenValue(path, (flight) => flight.delayed, delayedFlight);
 
   validateCityAsync(path.from);

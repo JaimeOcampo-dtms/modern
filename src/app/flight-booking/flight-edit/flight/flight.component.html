@@ -30,11 +30,7 @@
       To
       <app-field-meta-data [field]="flightForm.to" />
     </label>
-    <input
-      class="form-control"
-      [field]="flightForm.to"
-      id="flight-to"
-    />
+    <input class="form-control" [field]="flightForm.to" id="flight-to" />
   </div>
 
   <div class="form-group">
@@ -63,7 +59,17 @@
 
   <div class="form-group form-check">
     <label for="delay">Delay</label>
-    <app-delay-stepper id="delay" [field]="flightForm.delay" />
+
+    <div class="input-group">
+      <input
+        class="form-control"
+        [field]="flightForm.delay"
+        id="delay"
+        type="number"
+      />
+    </div>
+
+    <!-- <app-delay-stepper id="delay" [field]="flightForm.delay" /> -->
     <app-validation-errors [errors]="flightForm.delay().errors()" />
     @for(reason of flightForm.delay().disabledReasons(); track $index) {
     <p>Disabled because {{ reason.message }}</p>
