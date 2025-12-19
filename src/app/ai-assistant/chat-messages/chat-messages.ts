@@ -2,7 +2,6 @@ import { Component, computed, effect, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MessageComponent } from 'src/app/shared/message';
 
@@ -42,13 +41,4 @@ export class ChatMessages {
     });
   }
 
-  // messageModels = computed(() =>
-  //   this.messages().map((message) => ({
-  //     ...message,
-  //     // content: String(message.content),
-  //     contentString: String(message.content),
-  //     icon: this.icons[message.role] || '❓',
-  //     toolCalls: message.role === 'assistant' ? message.toolCalls : [],
-  //   }))
-  // );
 }
