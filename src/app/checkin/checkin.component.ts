@@ -105,7 +105,7 @@ export class CheckinComponent {
             },
             {
               type: 'image',
-              image: new URL(this.previewUrl ?? ''),
+              image: this.previewUrl ?? '',
             },
           ],
         },
