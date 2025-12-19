@@ -43,7 +43,7 @@ export class AssistantChatComponent {
 
   public chat: Chat = new Chat({
     transport: new DefaultChatTransport({
-      api: 'http://localhost:3000/api/chat'
+      api: 'http://localhost:3000/api/chat',
     })
   });
 

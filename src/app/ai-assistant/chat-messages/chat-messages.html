@@ -9,22 +9,16 @@
 @for (message of messages(); track message.id) {
 <article class="msg assistant">
   <div class="avatar">{{ icons[message.role] }}</div>
-  
-  @for(part of message.parts; track $index) {
-
-    @switch (part.type) {
-      @case('text') {
-            <div>
-      <div class="bubble">{{part.text }}</div>
-      <div class="meta"></div>
-    </div>
-
-      }
-      @default {
-        {{part.type}}
-      } 
-    }
-  }
+  <div>
+    @for(part of message.parts; track $index) { @switch (part.type) {
+    @case('text') {
+    <div class="bubble">{{ part.text }}</div>
+    <div class="meta"></div>
+    } @default {
+    <div class="bubble">{{ part.type }}</div>
+    <div class="meta"></div>
+    } } }
+  </div>
 </article>
 } @if (showIndicator()) {
 <article class="msg assistant">

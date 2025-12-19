@@ -8,9 +8,9 @@ app.use(express.json({ strict: false })); // Allow primitives (for analyze endpo
 app.use(cors());
 
 app.post('/api/chat', async (req: Request, res: Response) => {
-  const { messages, selectedModel } = req.body;
+  const { messages } = req.body;
   const result = streamText({
-    model: openai(selectedModel),
+    model: openai('gpt-5.2'),
     messages: await convertToModelMessages(messages),
   });
 
