@@ -1,16 +1,13 @@
-import { JsonPipe } from '@angular/common';
 import { Component, computed, effect, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { MarkdownComponent } from 'ngx-markdown';
 
-import { AnyTool } from 'node_modules/@hashbrownai/core/src/models/view.models';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { ToolStatusComponent } from '../assistant-chat/tool-status/tool-status';
 import { MessageComponent } from 'src/app/shared/message';
 
 import { UIMessage } from 'ai';
+import { FlightWidgetComponent } from '../assistant-chat/widgets/flight-widget.component';
 
 @Component({
   selector: 'app-chat-messages',
@@ -18,11 +15,9 @@ import { UIMessage } from 'ai';
   imports: [
     MatIconModule,
     MatButtonModule,
-    JsonPipe,
     MatTooltipModule,
-    // MarkdownComponent,
     MessageComponent,
-    ToolStatusComponent,
+    FlightWidgetComponent,
   ],
   templateUrl: './chat-messages.html',
   styleUrls: ['./chat-messages.css'],
@@ -31,7 +26,7 @@ export class ChatMessages {
   messages = input.required<UIMessage[]>();
   pending = input<boolean>(false);
   showIndicator = computed(
-    () => this.pending() && this.messages().at(-1)?.role !== 'assistant'
+    () => this.pending() 
   );
 
   icons = {

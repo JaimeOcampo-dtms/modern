@@ -12,11 +12,27 @@
   <div>
     @for(part of message.parts; track $index) { @switch (part.type) {
     @case('text') {
-    <div class="bubble">{{ part.text }}</div>
-    <div class="meta"></div>
-    } @default {
-    <div class="bubble">{{ part.type }}</div>
-    <div class="meta"></div>
+    <div class="bubble">
+      <app-message [data]="part.text" />
+    </div>
+          <div class="meta"></div>
+
+    } @case('tool-displayFlightTool') { @switch(part.state) {
+    @case('input-available') { ... } @case('output-available') {
+      <div class="bubble">
+    <app-flight-widget
+      [flight]="$any(part.input).flight"
+      [status]="$any(part.input).status"
+    />
+    </div>
+          <div class="meta"></div>
+
+    } } } @case('step-start') { } @default {
+    <div class="bubble">
+      <div>{{ part.type }}</div>
+    </div>
+            <div class="meta"></div>
+
     } } }
   </div>
 </article>

@@ -2,12 +2,10 @@ import { Component, computed, input, OnInit } from '@angular/core';
 import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
-    selector: 'app-message',
-    imports: [MarkdownComponent],
-    template: `
-        <span><markdown [data]="data()"></markdown></span>
-    `
+  selector: 'app-message',
+  imports: [MarkdownComponent],
+  template: ` <span><markdown [data]="data()"></markdown></span> `,
 })
 export class MessageComponent {
-    data = input.required<string>();
+  data = input.required<string>();
 }

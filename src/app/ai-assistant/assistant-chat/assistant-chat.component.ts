@@ -2,29 +2,20 @@ import {
   afterEveryRender,
   Component,
   ElementRef,
+  inject,
   signal,
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  uiChatResource,
-} from '@hashbrownai/angular';
 import { ChatMessages } from 'src/app/ai-assistant/chat-messages/chat-messages';
-import { findFlightsTool } from './tools/find-flights.tool';
-import { toggleFlightSelection } from './tools/toggle-flight-selection.tool';
-import { getLoadedFlights } from './tools/get-loaded-flights.tool';
-import { getCurrentBasket } from './tools/get-current-basket.tool';
-import { displayFlightDetail } from './tools/display-flight-detail.tool';
-import { getBookedFlights } from './tools/get-booked-flights.tool';
-import { updateFlight } from './tools/update-flight.tool';
-import { getCurrentFlight } from './tools/get-current-flight.tool';
-import { getCurrentRoute } from './tools/get-current-route.tool';
-import { config } from '../../config';
-import { flightWidget } from './widgets/flight-widget';
-import { messageWidget } from './widgets/message-widget';
 import { Chat } from '@ai-sdk/angular';
-import { HttpTransport } from '@hashbrownai/core';
-import { DefaultChatTransport, HttpChatTransport, TextStreamChatTransport } from 'ai';
+import {
+  DefaultChatTransport,
+  lastAssistantMessageIsCompleteWithToolCalls,
+} from 'ai';
+import { FlightBookingStore } from 'src/app/flight-booking/flight-booking.store';
+import { NextFlightsService } from 'src/app/next-flights/next-flights.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-assistant-chat',
@@ -41,50 +32,63 @@ export class AssistantChatComponent {
   panelVisible = signal(false);
   message = signal('');
 
+  bookingStore = inject(FlightBookingStore);
+  nextFlightsService = inject(NextFlightsService);
+
   public chat: Chat = new Chat({
     transport: new DefaultChatTransport({
       api: 'http://localhost:3000/api/chat',
-    })
+    }),
+    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls,
+    onToolCall: async ({ toolCall }) => {
+      if (toolCall.dynamic) {
+        return;
+      }
+
+      if (toolCall.toolName === 'getLoadedFlightsTool') {
+        this.chat.addToolOutput({
+          tool: toolCall.toolName,
+          toolCallId: toolCall.toolCallId,
+          output: this.bookingStore.flightsValue(),
+        });
+      }
+
+      if (toolCall.toolName === 'toggleFlightSelectionTool') {
+        const input = toolCall.input as { flightId: number; selected: boolean };
+
+        this.bookingStore.updateBasket(input.flightId, input.selected);
+
+        this.chat.addToolOutput({
+          tool: toolCall.toolName,
+          toolCallId: toolCall.toolCallId,
+          output: 'ok',
+        });
+      }
+
+      if (toolCall.toolName === 'getBookedFlightsTool') {
+        const nextFlights = this.nextFlightsService.load();
+        const result = await lastValueFrom(nextFlights);
+
+        this.chat.addToolOutput({
+          tool: toolCall.toolName,
+          toolCallId: toolCall.toolCallId,
+          output: result,
+        });
+      }
+
+      if (toolCall.toolName === 'findFlightsTool') {
+        const input = toolCall.input as { from: string; to: string };
+
+        this.bookingStore.updateFilter(input)
+
+        this.chat.addToolOutput({
+          tool: toolCall.toolName,
+          toolCallId: toolCall.toolCallId,
+          output: 'ok',
+        });
+      }
+    },
   });
-
-  doStuff() {
-    // this.chat.messages
-  }
-
-  // chat = uiChatResource({
-  //   // model: 'gpt-5-chat-latest',
-  //   // model: 'gpt-4.1',
-  //   model: config.model,
-  //   system: `
-  //     You are Flight42, an UI assistent that help passengers with finding flights.
-
-  //     - Voice: clear, helpful, and respectful.
-  //     - Audience: passengers who want to find flights or have questions about booked flights.
-      
-  //     Rules:
-  //     - Only search for flights via the configured tools
-  //     - Never use additional web resources for answering requests
-  //     - Do not propose search filters that are not covered by the provided tools
-  //     - Do not propose any further actions
-  //     - Provide enumerations as markdown lists
-  //     - Answer questions with the messageWidget to provide some text to the user. 
-  //     - When appropriate, *also* answer with other components, e.g., the flightWidget to display information about a flight or a ticket
-  //     - Instead of describing a flight, use the flightWidget
-  //   `,
-  //   tools: [
-  //     findFlightsTool,
-  //     getLoadedFlights,
-  //     toggleFlightSelection,
-  //     getCurrentBasket,
-  //     displayFlightDetail,
-  //     // showBookedFlights,
-  //     getBookedFlights,
-  //     updateFlight,
-  //     getCurrentRoute,
-  //     getCurrentFlight,
-  //   ],
-  //   components: [flightWidget, messageWidget],
-  // });
 
   constructor() {
     afterEveryRender(() => {
@@ -110,7 +114,7 @@ export class AssistantChatComponent {
     const message = this.message();
     this.message.set('');
     this.chat.sendMessage({
-      text: message
+      text: message,
     });
   }
 }
