@@ -21,3 +21,13 @@ label {
 .success {
   margin: 10px 30px 20px 30px;
 }
+
+.preview-image {
+  max-width: 300px;
+  display: block;
+  margin: 1rem 0;
+}
+
+.ai-wait-indicator {
+  margin-left: 5px;
+}

@@ -2,32 +2,63 @@
   <h2 class="title">Check in</h2>
 </div>
 
-<p class="info">Check in to your flight now!</p>
+@if(error()) {
+<p>Error: {{ error() }}</p>
+}
 
 <form>
+  <p>Check in to your flight now!</p>
+
   <div class="form-group">
-    <label>EMail address to send the ticket to:</label>
-    <input value="me@acme.com" class="form-control" />
+    <input
+      #fileInput
+      type="file"
+      hidden
+      accept="image/png,image/jpeg"
+      (change)="onFileSelected($event)"
+    />
+    <button type="button" class="btn btn-default" (click)="fileInput.click()">
+      Upload Booking Confirmation
+    </button>
+  </div>
+
+  @if(loading()) {
+  <div class="ai-wait-indicator">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  } 
+  
+  @if(previewUrl) {
+  <img [src]="previewUrl" alt="Preview" class="preview-image" />
+  }
+
+  <div class="form-group">
+    <label>Booking Reference</label>
+    <input
+      class="form-control"
+      name="ticketNumber"
+      [(ngModel)]="ticket().bookingReference"
+    />
   </div>
 
   <div class="form-group">
-    <label>Meal Restrictions:</label>
-    <select>
-      <option>I don't need a meal</option>
-      <option>Vegan</option>
-      <option>Vegetarian</option>
-      <option>No Restrictions</option>
-    </select>
+    <label>First Names</label>
+    <input
+      class="form-control"
+      name="firstName"
+      [(ngModel)]="ticket().firstName"
+    />
   </div>
 
   <div class="form-group">
-    <label>Request an Upgrade:</label>
-    <select>
-      <option>No</option>
-      <option>Premium Economy Class</option>
-      <option>Business Class</option>
-      <option>First Class</option>
-    </select>
+    <label>Last Names</label>
+    <input
+      class="form-control"
+      name="lastName"
+      [(ngModel)]="ticket().lastName"
+    />
   </div>
 
   <div class="form-group">
@@ -50,7 +81,7 @@
     <h1>You are checked-in now!</h1>
     <p>Please check your inbox for your ticket.</p>
     <div>
-        <button (click)="close()">Close</button>
+      <button (click)="close()">Close</button>
     </div>
   </div>
 </ng-template>

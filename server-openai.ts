@@ -1,5 +1,5 @@
 import { openai } from '@ai-sdk/openai';
-import { convertToModelMessages, streamText, Tool } from 'ai';
+import { convertToModelMessages, streamText, Tool, generateObject } from 'ai';
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import z from 'zod';
@@ -117,7 +117,7 @@ const displayFlightTool: Tool = {
 };
 
 const app = express();
-app.use(express.json({ strict: false })); // Allow primitives (for analyze endpoint)
+app.use(express.json({ strict: false, limit: '5mb' })); // Allow primitives (for analyze endpoint)
 app.use(cors());
 
 app.post('/api/chat', async (req: Request, res: Response) => {
@@ -135,6 +135,34 @@ app.post('/api/chat', async (req: Request, res: Response) => {
   });
 
   result.pipeUIMessageStreamToResponse(res);
+});
+
+app.post('/api/passport', async (req: Request, res: Response) => {
+  console.log('completion, req.body', req.body);
+  const { messages } = req.body;
+
+  let result;
+
+  try {
+   result = await generateObject({
+    model: openai('gpt-4o'),
+    messages,
+    schema: z.object({
+      firstName: z.string(),
+      lastName: z.string(),
+      bookingReference: z.string(),
+      // passportExpirationDate: z.date(),
+    })
+  });
+
+  res.send(result.object);
+  }
+  catch(e) {
+    console.log('Error!')
+    console.log('e' ,e);
+    console.log('result', result)
+  }
+
 });
 
 app.listen(3000, () => {
