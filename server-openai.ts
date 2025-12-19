@@ -1,39 +1,22 @@
-import express from 'express';
+import { openai } from '@ai-sdk/openai';
+import { convertToModelMessages, streamText } from 'ai';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { Chat } from '@hashbrownai/core';
-import { HashbrownOpenAI } from '@hashbrownai/openai';
-
-const host = process.env['HOST'] ?? 'localhost';
-const port = process.env['PORT'] ? Number(process.env['PORT']) : 3000;
-
-const OPENAI_API_KEY = process.env['OPENAI_API_KEY'];
-if (!OPENAI_API_KEY) {
-  throw new Error('OPENAI_API_KEY is not set');
-}
 
 const app = express();
-
+app.use(express.json({ strict: false })); // Allow primitives (for analyze endpoint)
 app.use(cors());
-app.use(express.json());
 
-app.post('/api/chat', async (req, res) => {
-  const completionParams = req.body as Chat.Api.CompletionCreateParams;
-
-  const response = HashbrownOpenAI.stream.text({
-    apiKey: OPENAI_API_KEY,
-    request: completionParams,
+app.post('/api/chat', async (req: Request, res: Response) => {
+  const { messages, selectedModel } = req.body;
+  const result = streamText({
+    model: openai(selectedModel),
+    messages: await convertToModelMessages(messages),
   });
 
-  
-  res.header('Content-Type', 'application/octet-stream');
-
-  for await (const chunk of response) {
-    res.write(chunk);
-  }
-
-  res.end();
+  result.pipeUIMessageStreamToResponse(res);
 });
 
-app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
+app.listen(3000, () => {
+  console.log(`Example app listening on port ${3000}`);
 });

@@ -22,6 +22,9 @@ import { getCurrentRoute } from './tools/get-current-route.tool';
 import { config } from '../../config';
 import { flightWidget } from './widgets/flight-widget';
 import { messageWidget } from './widgets/message-widget';
+import { Chat } from '@ai-sdk/angular';
+import { HttpTransport } from '@hashbrownai/core';
+import { DefaultChatTransport, HttpChatTransport, TextStreamChatTransport } from 'ai';
 
 @Component({
   selector: 'app-assistant-chat',
@@ -38,40 +41,50 @@ export class AssistantChatComponent {
   panelVisible = signal(false);
   message = signal('');
 
-  chat = uiChatResource({
-    // model: 'gpt-5-chat-latest',
-    // model: 'gpt-4.1',
-    model: config.model,
-    system: `
-      You are Flight42, an UI assistent that help passengers with finding flights.
-
-      - Voice: clear, helpful, and respectful.
-      - Audience: passengers who want to find flights or have questions about booked flights.
-      
-      Rules:
-      - Only search for flights via the configured tools
-      - Never use additional web resources for answering requests
-      - Do not propose search filters that are not covered by the provided tools
-      - Do not propose any further actions
-      - Provide enumerations as markdown lists
-      - Answer questions with the messageWidget to provide some text to the user. 
-      - When appropriate, *also* answer with other components, e.g., the flightWidget to display information about a flight or a ticket
-      - Instead of describing a flight, use the flightWidget
-    `,
-    tools: [
-      findFlightsTool,
-      getLoadedFlights,
-      toggleFlightSelection,
-      getCurrentBasket,
-      displayFlightDetail,
-      // showBookedFlights,
-      getBookedFlights,
-      updateFlight,
-      getCurrentRoute,
-      getCurrentFlight,
-    ],
-    components: [flightWidget, messageWidget],
+  public chat: Chat = new Chat({
+    transport: new DefaultChatTransport({
+      api: 'http://localhost:3000/api/chat'
+    })
   });
+
+  doStuff() {
+    // this.chat.messages
+  }
+
+  // chat = uiChatResource({
+  //   // model: 'gpt-5-chat-latest',
+  //   // model: 'gpt-4.1',
+  //   model: config.model,
+  //   system: `
+  //     You are Flight42, an UI assistent that help passengers with finding flights.
+
+  //     - Voice: clear, helpful, and respectful.
+  //     - Audience: passengers who want to find flights or have questions about booked flights.
+      
+  //     Rules:
+  //     - Only search for flights via the configured tools
+  //     - Never use additional web resources for answering requests
+  //     - Do not propose search filters that are not covered by the provided tools
+  //     - Do not propose any further actions
+  //     - Provide enumerations as markdown lists
+  //     - Answer questions with the messageWidget to provide some text to the user. 
+  //     - When appropriate, *also* answer with other components, e.g., the flightWidget to display information about a flight or a ticket
+  //     - Instead of describing a flight, use the flightWidget
+  //   `,
+  //   tools: [
+  //     findFlightsTool,
+  //     getLoadedFlights,
+  //     toggleFlightSelection,
+  //     getCurrentBasket,
+  //     displayFlightDetail,
+  //     // showBookedFlights,
+  //     getBookedFlights,
+  //     updateFlight,
+  //     getCurrentRoute,
+  //     getCurrentFlight,
+  //   ],
+  //   components: [flightWidget, messageWidget],
+  // });
 
   constructor() {
     afterEveryRender(() => {
@@ -96,6 +109,8 @@ export class AssistantChatComponent {
   submit() {
     const message = this.message();
     this.message.set('');
-    this.chat.sendMessage({ role: 'user', content: message });
+    this.chat.sendMessage({
+      text: message
+    });
   }
 }

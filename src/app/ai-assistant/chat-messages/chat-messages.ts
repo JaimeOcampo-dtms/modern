@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -8,8 +8,9 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { AnyTool } from 'node_modules/@hashbrownai/core/src/models/view.models';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToolStatusComponent } from '../assistant-chat/tool-status/tool-status';
-import { RenderMessageComponent, UiChatMessage } from '@hashbrownai/angular';
 import { MessageComponent } from 'src/app/shared/message';
+
+import { UIMessage } from 'ai';
 
 @Component({
   selector: 'app-chat-messages',
@@ -19,7 +20,6 @@ import { MessageComponent } from 'src/app/shared/message';
     MatButtonModule,
     JsonPipe,
     MatTooltipModule,
-    RenderMessageComponent,
     // MarkdownComponent,
     MessageComponent,
     ToolStatusComponent,
@@ -28,7 +28,7 @@ import { MessageComponent } from 'src/app/shared/message';
   styleUrls: ['./chat-messages.css'],
 })
 export class ChatMessages {
-  messages = input.required<UiChatMessage<AnyTool>[]>();
+  messages = input.required<UIMessage[]>();
   pending = input<boolean>(false);
   showIndicator = computed(
     () => this.pending() && this.messages().at(-1)?.role !== 'assistant'
@@ -37,16 +37,23 @@ export class ChatMessages {
   icons = {
     user: '💬',
     assistant: '🤖',
+    system: '🤖',
     error: '⚡️',
   };
 
-  messageModels = computed(() =>
-    this.messages().map((message) => ({
-      ...message,
-      // content: String(message.content),
-      contentString: String(message.content),
-      icon: this.icons[message.role] || '❓',
-      toolCalls: message.role === 'assistant' ? message.toolCalls : [],
-    }))
-  );
+  constructor() {
+    effect(() => {
+      console.log('messages', this.messages());
+    });
+  }
+
+  // messageModels = computed(() =>
+  //   this.messages().map((message) => ({
+  //     ...message,
+  //     // content: String(message.content),
+  //     contentString: String(message.content),
+  //     icon: this.icons[message.role] || '❓',
+  //     toolCalls: message.role === 'assistant' ? message.toolCalls : [],
+  //   }))
+  // );
 }

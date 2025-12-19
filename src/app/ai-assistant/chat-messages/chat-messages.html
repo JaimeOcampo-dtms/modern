@@ -6,31 +6,27 @@
   </div>
 </article>
 
-@for (message of messageModels(); track $index) {
+@for (message of messages(); track message.id) {
 <article class="msg assistant">
-  <div class="avatar">{{ message.icon }}</div>
-  <div>
-    <div class="bubble">
+  <div class="avatar">{{ icons[message.role] }}</div>
+  
+  @for(part of message.parts; track $index) {
 
-      @if (message.role === 'assistant') {
-        <hb-render-message [message]="message" />
-      }
-      @else {
-        <app-message [data]="message.contentString"></app-message>
-      }
-
-      @for(toolCall of message.toolCalls; track toolCall.toolCallId) {
-      <div [title]="toolCall.args | json">
-        Tool Call: {{ toolCall.name }} <app-tool-status class="ml-5" [pending]="toolCall.status === 'pending'" />
-      </div>
-      }
+    @switch (part.type) {
+      @case('text') {
+            <div>
+      <div class="bubble">{{part.text }}</div>
+      <div class="meta"></div>
     </div>
-    <div class="meta"></div>
-  </div>
-</article>
-} 
 
-@if (showIndicator()) {
+      }
+      @default {
+        {{part.type}}
+      } 
+    }
+  }
+</article>
+} @if (showIndicator()) {
 <article class="msg assistant">
   <div class="avatar">🤖</div>
   <div>
