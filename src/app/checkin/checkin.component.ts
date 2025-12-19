@@ -58,9 +58,6 @@ export class CheckinComponent {
     }
   });
 
-  constructor() {
-  }
-
   checkin(): void {
     const message = this.dialogMessage();
     if (message) {
@@ -90,10 +87,10 @@ export class CheckinComponent {
     this.previewUrl = previewUrl;
 
     this.loading.set(true);
-    await this.sendPassport();
+    await this.sendConfirmation(previewUrl);
   }
 
-  private async sendPassport() {
+  private async sendConfirmation(base64Image: string) {
     await this.objectReader.submit({
       messages: [
         {
@@ -105,7 +102,7 @@ export class CheckinComponent {
             },
             {
               type: 'image',
-              image: this.previewUrl ?? '',
+              image: base64Image,
             },
           ],
         },
