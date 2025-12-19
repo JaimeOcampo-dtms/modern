@@ -23,7 +23,6 @@ app.post('/api/chat', async (req, res) => {
     apiKey: OPENAI_API_KEY,
     request: completionParams,
   });
-
   
   res.header('Content-Type', 'application/octet-stream');
 

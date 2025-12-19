@@ -7,7 +7,7 @@ import {
   structuredCompletionResource,
 } from '@hashbrownai/angular';
 import { NgxChartsModule, DataItem } from '@swimlane/ngx-charts';
-import { s } from '@hashbrownai/core';
+import { experimental_local, s } from '@hashbrownai/core';
 import { FlightService } from '../flight-booking/flight-search/flight.service';
 import { firstValueFrom } from 'rxjs';
 import { JsonPipe } from '@angular/common';
@@ -74,7 +74,7 @@ export class ReportingComponent {
   });
 
   generator = structuredCompletionResource({
-    model: 'gpt-5-chat-latest',
+    model: experimental_local(),
     input: this.input,
     system: `
       You are Report42, an UI assistent that help passengers with creating and displaying

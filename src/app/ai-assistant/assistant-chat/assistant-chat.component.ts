@@ -6,9 +6,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  uiChatResource,
-} from '@hashbrownai/angular';
+import { uiChatResource } from '@hashbrownai/angular';
 import { ChatMessages } from 'src/app/ai-assistant/chat-messages/chat-messages';
 import { findFlightsTool } from './tools/find-flights.tool';
 import { toggleFlightSelection } from './tools/toggle-flight-selection.tool';
@@ -22,6 +20,7 @@ import { getCurrentRoute } from './tools/get-current-route.tool';
 import { config } from '../../config';
 import { flightWidget } from './widgets/flight-widget';
 import { messageWidget } from './widgets/message-widget';
+import { experimental_local } from '@hashbrownai/core';
 
 const systemSimple = `
       You are Flight42, an UI assistent that help passengers with finding flights.
@@ -105,9 +104,7 @@ export class AssistantChatComponent {
   message = signal('');
 
   chat = uiChatResource({
-    // model: 'gpt-5-chat-latest',
-    // model: 'gpt-4.1',
-    model: config.model,
+    model: experimental_local(),
     system: systemExtended,
     tools: [
       findFlightsTool,
@@ -130,6 +127,21 @@ export class AssistantChatComponent {
         this.scrollDown();
       }
     });
+  }
+
+  async downloadModel() {
+    alert(10)
+    try {
+    const model = await (window as any).LanguageModel.create({
+      model: 'default',
+      outputLanguage: 'en'
+    });
+    }
+    catch (e) {
+      alert(e)
+    }
+    alert(2)
+    // console.log(await model.prompt('Hello'));
   }
 
   private scrollDown() {
