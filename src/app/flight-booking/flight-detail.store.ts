@@ -39,7 +39,41 @@ export const FlightDetailStore = signalStore(
     flight: store._flightService.findResourceById(store.filter.id),
   }), { errorHandling: 'previous value' }),
 
-  withMutations((store) => ({
+  // TODO: Add Mutation
+
+  withMethods((store) => ({
+    updateFilter: signalMethod((id: number) => {
+      if (id !== store.filter.id()) {
+        patchState(store, {
+          filter: {
+            id,
+          },
+        });
+      }
+    }),
+  }))
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+withMutations((store) => ({
 
     saveFlight: httpMutation({
       request: (flight: Flight) => ({
@@ -58,17 +92,4 @@ export const FlightDetailStore = signalStore(
 
   })),
 
-  // TODO: Add Mutation
-
-  withMethods((store) => ({
-    updateFilter: signalMethod((id: number) => {
-      if (id !== store.filter.id()) {
-        patchState(store, {
-          filter: {
-            id,
-          },
-        });
-      }
-    }),
-  }))
-);
+*/

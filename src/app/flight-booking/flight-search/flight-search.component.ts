@@ -1,27 +1,26 @@
 import {
   Component,
+  computed,
   inject,
   linkedSignal,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlightCardComponent } from '../flight-card/flight-card.component';
 import { BookingStore } from '../flight-booking.store';
 import {
   FormField,
-  SchemaPath,
   form,
   minLength,
   required,
   schema,
-  validate,
 } from '@angular/forms/signals';
 import { FlightFilter } from '../flight-filter';
+import { Flight } from 'src/app/model/flight';
 
 const FlightSchema = schema<FlightFilter>((path) => {
   required(path.from);
   minLength(path.from, 3);
-  const allowed = ['Graz', 'Hamburg', 'Berlin'];
-  validateCity(path.from, allowed);
 });
 
 @Component({
@@ -43,14 +42,12 @@ export class FlightSearchComponent {
 
   searchForm = form(this.criteria, FlightSchema);
 
-  flights = this.store.flightsValue;
-  error = this.store.flightsError;
-  isLoading = this.store.flightsIsLoading;
+  // TODO: Get state from store
+  flights = signal<Flight[]>([]);
 
   basket = this.store.basket;
 
   search(): void {
-    this.store.reload();
     this.store.updateFilter(this.searchForm().value());
   }
 
@@ -59,17 +56,3 @@ export class FlightSearchComponent {
   }
 }
 
-function validateCity(path: SchemaPath<string>, allowed: string[]) {
-  validate(path, (ctx) => {
-    const value = ctx.value();
-    if (allowed.includes(value)) {
-      return null;
-    }
-
-    return {
-      kind: 'invalid_city',
-      actual: value,
-      allowed: allowed,
-    };
-  });
-}

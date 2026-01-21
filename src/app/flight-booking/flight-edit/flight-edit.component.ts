@@ -38,42 +38,24 @@ export class FlightEditComponent {
   error = this.store.flightError;
   isLoading = this.store.flightIsLoading;
 
-  isPending = this.store.saveFlightIsPending;
-  saveFlightError = this.store.saveFlightError;
+  // TODO: Get Mutation and mutation state
 
-  showIndicator = computed(() => this.isLoading() || this.isPending());
-
-  flightForm = form(this.flight, (path) => {
-    // validateStandardSchema(path, /*flightZodSchema*/);
-  });
+  flightForm = form(this.flight);
 
   constructor() {
-    effect(() => {
-      console.log('flight', this.flight());
-    })
     this.store.updateFilter(this.id);
   }
 
   save(): void {
-
     submit(this.flightForm, async (form) => {
-      const result = await this.store.saveFlight(form().value());
-
-      if (result.status === 'error') {
-        return {
-          kind: 'server_error',
-          error: result.error
-        }
-      }
-      return null;
+      // TODO: Save flight
     });
-
   }
 }
 
 function normalize(flight: Flight): Flight {
   return {
     ...flight,
-    date: toLocalDateTimeString(flight.date)
-  }
+    date: toLocalDateTimeString(flight.date),
+  };
 }
