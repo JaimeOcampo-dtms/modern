@@ -37,7 +37,7 @@ export const FlightDetailStore = signalStore(
 
   withResource((store) => ({
     flight: store._flightService.findResourceById(store.filter.id),
-  })),
+  }), { errorHandling: 'previous value' }),
 
   withMutations((store) => ({
 

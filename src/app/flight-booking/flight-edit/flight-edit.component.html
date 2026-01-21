@@ -9,7 +9,7 @@
   <div class="form-group">
     <label for="flight-id">ID</label>
     <input
-      [field]="flightForm.id"
+      [formField]="flightForm.id"
       type="number"
       class="form-control"
       id="flight-id"
@@ -19,7 +19,7 @@
   <div class="form-group">
     <label for="flight-from">From</label>
     <input
-      [field]="flightForm.from"
+      [formField]="flightForm.from"
       class="form-control"
       id="flight-from"
     />
@@ -28,7 +28,7 @@
   <div class="form-group">
     <label for="flight-to">To</label>
     <input
-      [field]="flightForm.to"
+      [formField]="flightForm.to"
       class="form-control"
       id="flight-to"
     />
@@ -40,7 +40,7 @@
       <input
         class="form-control"
         id="flight-date"
-        [field]="flightForm.date"
+        [formField]="flightForm.date"
         type="datetime-local"
       />
     </div>
@@ -50,7 +50,7 @@
     <label class="form-check-label">
       <input
         type="checkbox"
-        [field]="flightForm.delayed"
+        [formField]="flightForm.delayed"
         class="form-check-input"
         id="flight-delayed"
       />

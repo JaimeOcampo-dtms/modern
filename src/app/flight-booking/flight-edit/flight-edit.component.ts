@@ -14,8 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Flight } from '../../model/flight';
 import { toLocalDateTimeString } from '../../utils/date';
-import { Field, form, submit, validateStandardSchema } from '@angular/forms/signals';
-import { JsonPipe } from '@angular/common';
+import { FormField, form, submit } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-flight-edit',
@@ -23,7 +22,7 @@ import { JsonPipe } from '@angular/common';
     MatDatepickerModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    Field,
+    FormField,
   ],
   templateUrl: './flight-edit.component.html',
   styleUrls: ['./flight-edit.component.css'],
@@ -69,7 +68,6 @@ export class FlightEditComponent {
       return null;
     });
 
-    
   }
 }
 

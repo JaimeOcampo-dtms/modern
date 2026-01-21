@@ -1,17 +1,13 @@
 import {
   Component,
-  computed,
   inject,
   linkedSignal,
-  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlightCardComponent } from '../flight-card/flight-card.component';
-import { Flight } from 'src/app/model/flight';
 import { BookingStore } from '../flight-booking.store';
 import {
-  customError,
-  Field,
+  FormField,
   SchemaPath,
   form,
   minLength,
@@ -32,7 +28,7 @@ const FlightSchema = schema<FlightFilter>((path) => {
   selector: 'app-flight-search',
   templateUrl: './flight-search.component.html',
   styleUrls: ['./flight-search.component.css'],
-  imports: [CommonModule, FlightCardComponent, Field],
+  imports: [CommonModule, FlightCardComponent, FormField],
 })
 export class FlightSearchComponent {
   store = inject(BookingStore);
@@ -70,10 +66,10 @@ function validateCity(path: SchemaPath<string>, allowed: string[]) {
       return null;
     }
 
-    return customError({
+    return {
       kind: 'invalid_city',
       actual: value,
       allowed: allowed,
-    });
+    };
   });
 }

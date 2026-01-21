@@ -63,7 +63,30 @@ export class FlightService {
     );
   }
 
-  // TODO: Create Resource
+ findResource(from: Signal<string>, to: Signal<string>) {
+    return httpResource<Flight[]>(
+      () => ({
+        url: 'https://demo.angulararchitects.io/api/flight',
+        params: {
+          from: from(),
+          to: to(),
+        },
+      }),
+      { defaultValue: [] }
+    );
+  }
 
-  // TODO: Create Mutation
+  createSaveFlightMuation(
+    options: Partial<HttpMutationOptions<Flight, Flight>>
+  ) {
+    return httpMutation<Flight, Flight>({
+      ...options,
+      request: (flight) => ({
+        url: 'https://demo.angulararchitects.io/api/flight/' + flight.id,
+        method: 'PUT',
+        body: flight,
+      }),
+      operator: concatOp,
+    });
+  }
 }
