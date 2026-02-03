@@ -9,16 +9,15 @@ import { CITY, CITY2 } from '../properties';
   styleUrl: './field-meta-data.component.css',
 })
 export class FieldMetaDataComponent {
-  field = input.required<FieldTree<unknown>>();
+  formField = input.required<FieldTree<unknown>>();
 
-  fieldState = computed(() => this.field()());
+  fieldState = computed(() => this.formField()());
 
-  isRequired = computed(() => this.fieldState().metadata(REQUIRED)());
-  minLength = computed(() => this.fieldState().metadata(MIN_LENGTH)() ?? 0);
-  maxLength = computed(() => this.fieldState().metadata(MAX_LENGTH)() ?? 30);
+  isRequired = computed(() => this.fieldState().metadata(REQUIRED)?.());
+  minLength = computed(() => this.fieldState().metadata(MIN_LENGTH)?.() ?? 0);
+  maxLength = computed(() => this.fieldState().metadata(MAX_LENGTH)?.() ?? 30);
   length = computed(() => `(${this.minLength()}..${this.maxLength()})`);
 
   city = computed(() => this.fieldState().metadata(CITY));
-  city2 = computed(() => this.fieldState().metadata(CITY2)());
-
+  city2 = computed(() => this.fieldState().metadata(CITY2) ?? false);
 }

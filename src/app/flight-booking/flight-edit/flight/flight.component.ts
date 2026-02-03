@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { Field, FieldTree } from '@angular/forms/signals';
+import { FormField, FieldTree } from '@angular/forms/signals';
 import { Flight } from 'src/app/model/flight';
 import { FieldMetaDataComponent } from 'src/app/shared/field-meta-data/field-meta-data.component';
 import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/validation-errors.component';
@@ -7,7 +7,7 @@ import { ValidationErrorsComponent } from 'src/app/shared/validation-errors/vali
 @Component({
   selector: 'app-flight',
   imports: [
-    Field,
+    FormField,
     ValidationErrorsComponent,
     FieldMetaDataComponent,
   ],

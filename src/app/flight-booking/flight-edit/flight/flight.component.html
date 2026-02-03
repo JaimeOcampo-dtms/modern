@@ -8,7 +8,7 @@
     <input
       class="form-control"
       type="number"
-      [field]="flightForm.id"
+      [formField]="flightForm.id"
       id="flight-id"
     />
   </div>
@@ -16,9 +16,9 @@
   <div class="form-group">
     <label for="flight-from">
       From
-      <app-field-meta-data [field]="flightForm.from" />
+      <app-field-meta-data [formField]="flightForm.from" />
     </label>
-    <input class="form-control" [field]="flightForm.from" id="flight-from" />
+    <input class="form-control" [formField]="flightForm.from" id="flight-from" />
     <app-validation-errors [errors]="flightForm.from().errors()" />
     @if (flightForm.from().pending()) {
     <div>Waiting for Async Validation Result...</div>
@@ -28,11 +28,11 @@
   <div class="form-group">
     <label for="flight-to">
       To
-      <app-field-meta-data [field]="flightForm.to" />
+      <app-field-meta-data [formField]="flightForm.to" />
     </label>
     <input
       class="form-control"
-      [field]="flightForm.to"
+      [formField]="flightForm.to"
       id="flight-to"
     />
   </div>
@@ -42,7 +42,7 @@
     <div class="input-group">
       <input
         class="form-control"
-        [field]="flightForm.date"
+        [formField]="flightForm.date"
         id="flight-date"
         type="datetime-local"
       />
