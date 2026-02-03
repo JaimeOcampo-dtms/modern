@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   createRuntime,
@@ -23,7 +23,6 @@ export class ReportingComponent {
   data = signal<DataItem[]>([]);
 
   showDetails = signal(false);
-  requestCount = signal(0);
 
   message = signal('');
   input = signal<string | undefined>(undefined);
@@ -34,7 +33,7 @@ export class ReportingComponent {
         name: 'loadFlights',
         description: `
         Searches for flights and returns them.
-  
+
         ## Rules
         - For the search parameters, airport codes are NOT used but the city name. First letter in upper case.
         `,
@@ -66,7 +65,6 @@ export class ReportingComponent {
         handler: (input) => {
           console.log('generateChart', input);
           this.data.set(input.data);
-          this.requestCount.update((value) => value + 1);
           return Promise.resolve();
         },
       }),
@@ -82,10 +80,10 @@ export class ReportingComponent {
 
       - Voice: clear, helpful, and respectful.
       - Audience: power users who want to get a chart
-      
+
       ## Your Tasks
 
-      1. Take the users request for a chart and generate JavaScript code that ...
+      1. Take the user's request for a chart and generate JavaScript code that ...
         a) uses the tool _loadFlights_ as often as needed to retrieve the needed data
         b) Aggregate the received data according to the user's request. Replace 0 by 0.1
         c) Pass the data to the tool _generateChart_ to display a chart
@@ -124,13 +122,6 @@ export class ReportingComponent {
       }),
     ],
   });
-
-  constructor() {
-    effect(() => {
-      console.log('calls', this.requestCount());
-      console.log('data', this.data());
-    });
-  }
 
   submit(): void {
     this.input.set(this.message());
