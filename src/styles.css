@@ -525,3 +525,7 @@ pre {
   background-color: #ced4da;
   padding:10px
 }
+
+.chart-wrapper {
+  height: 50vh;   
+}

@@ -14,7 +14,6 @@ import { NextFlightsModule } from './app/next-flights/next-flights.module';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { provideHashbrown } from '@hashbrownai/angular';
 import { provideMarkdown } from 'ngx-markdown';
-import { provideAnimations } from '@angular/platform-browser/animations';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -30,7 +29,6 @@ bootstrapApplication(AppComponent, {
     provideNativeDateAdapter(),
 
     provideMarkdown(),
-    provideAnimations(),
     
     provideHashbrown({
       baseUrl: 'http://localhost:3000/api/chat',

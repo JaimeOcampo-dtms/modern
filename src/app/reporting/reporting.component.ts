@@ -1,4 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
+import {
+  afterRenderEffect,
+  Component,
+  ElementRef,
+  inject,
+  signal,
+  untracked,
+  viewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   createRuntime,
@@ -6,26 +14,35 @@ import {
   createToolJavaScript,
   structuredCompletionResource,
 } from '@hashbrownai/angular';
-import { NgxChartsModule, DataItem } from '@swimlane/ngx-charts';
 import { s } from '@hashbrownai/core';
 import { FlightService } from '../flight-booking/flight-search/flight.service';
 import { firstValueFrom } from 'rxjs';
 import { JsonPipe } from '@angular/common';
 import { FlightSchema } from '../ai-assistant/assistant-chat/widgets/flight-info';
+import { Chart } from 'chart.js/auto';
+import { CHART_COLORS } from './chart-colors';
+
+export type DataItem = {
+  name: string;
+  value: number;
+};
 
 @Component({
   selector: 'app-reporting',
-  imports: [NgxChartsModule, FormsModule, JsonPipe],
+  imports: [FormsModule, JsonPipe],
   templateUrl: './reporting.component.html',
-  styleUrl: './reporting.component.css',
+  styleUrls: ['./reporting.component.css'],
 })
 export class ReportingComponent {
-  data = signal<DataItem[]>([]);
+  readonly canvas = viewChild<ElementRef<HTMLCanvasElement>>('chart');
+  private chart?: Chart;
 
-  showDetails = signal(false);
+  protected readonly data = signal<DataItem[]>([]);
 
-  message = signal('');
-  input = signal<string | undefined>(undefined);
+  protected readonly showDetails = signal(false);
+
+  protected readonly message = signal('');
+  protected readonly input = signal<string | undefined>(undefined);
 
   runtime = createRuntime({
     functions: [
@@ -123,6 +140,63 @@ export class ReportingComponent {
     ],
   });
 
+  constructor() {
+    afterRenderEffect(() => {
+      this.initChart();
+    });
+
+    afterRenderEffect(() => {
+      const data = this.data();
+      if (this.chart) {
+        this.updateChart(data);
+      }
+    });
+  }
+
+  private updateChart(data: DataItem[]) {
+    if (!this.chart) {
+      return;
+    }
+    this.chart.data.labels = data.map((item) => item.name);
+    this.chart.data.datasets[0].data = data.map((item) => item.value);
+    this.chart.update();
+  }
+
+  private initChart() {
+    const ctx = this.canvas();
+
+    if (!ctx) {
+      return;
+    }
+
+    this.chart = new Chart(ctx.nativeElement, {
+      type: 'bar',
+      options: {
+        responsive: true,
+        indexAxis: 'y',
+        plugins: {
+          legend: {
+            display: false,
+          },
+        },
+      },
+      data: {
+        labels: [],
+        datasets: [
+          {
+            backgroundColor: CHART_COLORS,
+            data: [],
+          },
+        ],
+      },
+    });
+
+    untracked(() => {
+      const data = this.data();
+      this.updateChart(data);
+    });
+  }
+
   submit(): void {
     this.input.set(this.message());
   }
@@ -132,7 +206,7 @@ export class ReportingComponent {
   }
 
   toggleDetails(): void {
-    this.showDetails.update(value => !value);
+    this.showDetails.update((value) => !value);
   }
 
   regenerate(): void {
