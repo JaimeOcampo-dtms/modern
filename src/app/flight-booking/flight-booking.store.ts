@@ -22,7 +22,15 @@ export const BookingStore = signalStore(
     flightRoute: computed(() => store.from() + ' - ' + store.to()),
   })),
   
-  // TODO: Add Resource
+  withResource((store) => ({
+    flights: httpResource<Flight[]>(() => ({
+      url: 'https://demo.angulararchitects.io/api/flight',
+      params: {
+        from: store.from(),
+        to: store.to()
+      }
+    }), { defaultValue: [] })
+  }), { errorHandling: 'previous value' }),
 
   withMethods((store) => ({
     updateFilter(filter: FlightFilter) {
@@ -38,6 +46,7 @@ export const BookingStore = signalStore(
         basket: {
           ...state.basket,
           [flightId]: selected,
+          // 17     : true
         },
       }));
     },

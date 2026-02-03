@@ -43,7 +43,9 @@ export class FlightSearchComponent {
   searchForm = form(this.criteria, FlightSchema);
 
   // TODO: Get state from store
-  flights = signal<Flight[]>([]);
+  flights = this.store.flightsValue;
+  error = this.store.flightsError;
+  isLoading = this.store.flightsIsLoading;
 
   basket = this.store.basket;
 

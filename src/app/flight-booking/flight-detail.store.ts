@@ -41,6 +41,20 @@ export const FlightDetailStore = signalStore(
 
   // TODO: Add Mutation
 
+  withMutations((store) => ({
+    saveFlight: store._flightService.createSaveFlightMuation(
+      { onSuccess(result, requst) {
+        console.log('success', result);
+        store._snackBar.open('Success', 'OK');
+      },
+      onError(error, requst) {
+        console.error('error', error);
+        store._snackBar.open('Error saving flight!', 'OK');
+      }
+    }
+    )
+  })),
+
   withMethods((store) => ({
     updateFilter: signalMethod((id: number) => {
       if (id !== store.filter.id()) {
@@ -53,7 +67,6 @@ export const FlightDetailStore = signalStore(
     }),
   }))
 );
-
 
 
 

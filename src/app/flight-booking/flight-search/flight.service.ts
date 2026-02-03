@@ -5,9 +5,12 @@ import { Flight, initFlight } from '../../model/flight';
 import { ConfigService } from '../../shared/config.service';
 import {
   concatOp,
+  exhaustOp,
   httpMutation,
   HttpMutationOptions,
+  mergeOp,
   rxMutation,
+  switchOp,
 } from '@angular-architects/ngrx-toolkit';
 
 export type MutationSettings<Params, Result> = Omit<
@@ -86,7 +89,6 @@ export class FlightService {
         method: 'PUT',
         body: flight,
       }),
-      operator: concatOp,
     });
   }
 }
