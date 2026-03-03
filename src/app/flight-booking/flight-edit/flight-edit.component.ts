@@ -34,6 +34,9 @@ export class FlightEditComponent {
     transform: numberAttribute,
   });
 
+  saveFlightsError = this.store.saveFlightsError;
+  saveFlightsPending = this.store.saveFlightsIsPending;
+
   flight = linkedSignal(() => normalize(this.store.flightValue()));
   error = this.store.flightError;
   isLoading = this.store.flightIsLoading;
@@ -47,9 +50,7 @@ export class FlightEditComponent {
   }
 
   save(): void {
-    submit(this.flightForm, async (form) => {
-      // TODO: Save flight
-    });
+    this.store.saveFlights(this.flight());
   }
 }
 
