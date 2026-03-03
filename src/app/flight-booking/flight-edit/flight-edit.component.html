@@ -4,7 +4,7 @@
 
 @if (flight().id !== 0) {
 
-<!-- <div>{{ flightForm().errors() | json }}</div> -->
+<div>{{ flightForm().errors() | json }}</div>
 <form class="flight-form" (ngSubmit)="save()">
   <div class="form-group">
     <label for="flight-id">ID</label>

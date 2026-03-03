@@ -1,9 +1,10 @@
-import { computed } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import {
   patchState,
   signalStore,
   withComputed,
   withMethods,
+  withProps,
   withState,
 } from '@ngrx/signals';
 import { FlightFilter } from './flight-filter';
@@ -11,6 +12,7 @@ import { withResource } from '@angular-architects/ngrx-toolkit';
 import { httpResource } from '@angular/common/http';
 import { Flight } from '../model/flight';
 import { rxResource } from '@angular/core/rxjs-interop';
+import { FlightService } from './flight-search/flight.service';
 
 export const BookingStore = signalStore(
   { providedIn: 'root' },
@@ -23,18 +25,13 @@ export const BookingStore = signalStore(
     flightRoute: computed(() => store.from() + ' - ' + store.to()),
   })),
 
+  withProps(() => ({
+    _flightService: inject(FlightService),
+  })),
+
   withResource(
     (store) => ({
-      flights: httpResource<Flight[]>(
-        () => ({
-          url: 'https://demo.angulararchitects.io/api/flight',
-          params: {
-            from: store.from(),
-            to: store.to(),
-          },
-        }),
-        { defaultValue: [] }
-      ),
+      flights: store._flightService.findResource(store.from, store.to)
     }),
     { errorHandling: 'previous value' }
   ),

@@ -43,12 +43,7 @@ export const FlightDetailStore = signalStore(
   ),
 
   withMutations((store) => ({
-    saveFlights: httpMutation<Flight, Flight>({
-      request: (flight: Flight) => ({
-        url: 'https://demo.angulararchitects.io/api/flight/' + flight.id,
-        method: 'PUT',
-        body: flight,
-      }),
+    saveFlights: store._flightService.createSaveFlightMuation({
       onSuccess(result, param) {
         store._snackBar.open('Success!', 'OK');
       },

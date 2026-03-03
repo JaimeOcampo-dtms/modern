@@ -15,6 +15,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Flight } from '../../model/flight';
 import { toLocalDateTimeString } from '../../utils/date';
 import { FormField, form, submit } from '@angular/forms/signals';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-flight-edit',
@@ -23,6 +24,7 @@ import { FormField, form, submit } from '@angular/forms/signals';
     MatInputModule,
     MatProgressSpinnerModule,
     FormField,
+    JsonPipe,
   ],
   templateUrl: './flight-edit.component.html',
   styleUrls: ['./flight-edit.component.css'],
@@ -50,7 +52,19 @@ export class FlightEditComponent {
   }
 
   save(): void {
-    this.store.saveFlights(this.flight());
+    submit(this.flightForm, {
+      action: async (form) => {
+        const result = await this.store.saveFlights(form().value());
+        if (result.status === 'error') {
+          return {
+            kind: 'serverError',
+            error: result.error
+          }
+        }
+        return null;
+      },
+    });
+    
   }
 }
 
