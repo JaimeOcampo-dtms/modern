@@ -47,9 +47,7 @@ export class FlightEditComponent {
   }
 
   save(): void {
-    submit(this.flightForm, async (form) => {
-      // TODO: Save flight
-    });
+    // TODO: Save flight
   }
 }
 

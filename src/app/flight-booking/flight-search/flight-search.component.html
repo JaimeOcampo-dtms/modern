@@ -6,11 +6,14 @@
   <div class="form-group">
     <label>From:</label>
     <input [formField]="searchForm.from" class="form-control" />
-    
-    <!-- <div>
+
+  <!--
+    @if (searchForm.from().invalid()) {
+    <div>
       {{ searchForm.from().errors() | json }}
     </div>
-   -->
+    }  
+  -->
   </div>
   <div class="form-group">
     <label>To:</label>
