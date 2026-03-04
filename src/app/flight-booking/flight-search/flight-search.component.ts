@@ -10,6 +10,7 @@ import { FlightCardComponent } from '../flight-card/flight-card.component';
 import { BookingStore } from '../flight-booking.store';
 import {
   FormField,
+  debounce,
   form,
   minLength,
   required,
@@ -17,10 +18,13 @@ import {
 } from '@angular/forms/signals';
 import { FlightFilter } from '../flight-filter';
 import { Flight } from 'src/app/model/flight';
+import { delegatedSignal } from 'src/app/utils/delegated-signal';
 
 const FlightSchema = schema<FlightFilter>((path) => {
   required(path.from);
   minLength(path.from, 3);
+  debounce(path.from, 300);
+  debounce(path.to, 300);
 });
 
 @Component({
@@ -35,15 +39,22 @@ export class FlightSearchComponent {
   from = this.store.from;
   to = this.store.to;
 
-  criteria = linkedSignal(() => ({
-    from: this.from(),
-    to: this.to(),
-  }));
+  criteria = delegatedSignal(
+    () => ({
+      from: this.from(),
+      to: this.to(),
+    }),
+    (value) => {
+      this.store.updateFilter(value);
+    }
+  );
 
   searchForm = form(this.criteria, FlightSchema);
 
   // TODO: Get state from store
-  flights = signal<Flight[]>([]);
+  flights = this.store.flightsValue;
+  error = this.store.flightsError;
+  isLoading = this.store.flightsIsLoading;
 
   basket = this.store.basket;
 
@@ -55,4 +66,3 @@ export class FlightSearchComponent {
     this.store.updateBasket(flightId, selected);
   }
 }
-

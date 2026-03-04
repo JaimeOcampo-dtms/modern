@@ -12,7 +12,8 @@ import {
   httpMutation,
   rxMutation,
   concatOp,
-  mergeOp
+  mergeOp,
+  exhaustOp,
 } from '@angular-architects/ngrx-toolkit';
 import { inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -23,7 +24,7 @@ import { Flight } from '../model/flight';
 
 export const FlightDetailStore = signalStore(
   { providedIn: 'root' },
-  
+
   withState({
     filter: {
       id: 0,
@@ -35,11 +36,23 @@ export const FlightDetailStore = signalStore(
     _snackBar: inject(MatSnackBar),
   })),
 
-  withResource((store) => ({
-    flight: store._flightService.findResourceById(store.filter.id),
-  }), { errorHandling: 'previous value' }),
+  withResource(
+    (store) => ({
+      flight: store._flightService.findResourceById(store.filter.id),
+    }),
+    { errorHandling: 'previous value' }
+  ),
 
-  // TODO: Add Mutation
+  withMutations((store) => ({
+    saveFlight: store._flightService.createSaveFlightMuation({
+      onSuccess: (result, param) => {
+        store._snackBar.open('Success!', 'OK');
+      },
+      onError: (error, param) => {
+        store._snackBar.open('Error!', 'OK');
+      },
+    }),
+  })),
 
   withMethods((store) => ({
     updateFilter: signalMethod((id: number) => {
@@ -53,23 +66,6 @@ export const FlightDetailStore = signalStore(
     }),
   }))
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*
 

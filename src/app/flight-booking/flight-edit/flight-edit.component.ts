@@ -38,6 +38,10 @@ export class FlightEditComponent {
   error = this.store.flightError;
   isLoading = this.store.flightIsLoading;
 
+
+  saveFlightPending = this.store.saveFlightIsPending;
+  saveFlightError = this.store.saveFlightError;
+
   // TODO: Get Mutation and mutation state
 
   flightForm = form(this.flight);
@@ -47,7 +51,7 @@ export class FlightEditComponent {
   }
 
   save(): void {
-    // TODO: Save flight
+    this.store.saveFlight(this.flight());
   }
 }
 

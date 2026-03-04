@@ -13,6 +13,7 @@ import { Flight } from '../model/flight';
 
 export const BookingStore = signalStore(
   { providedIn: 'root' },
+
   withState({
     from: 'Graz',
     to: 'Paris',
@@ -21,8 +22,24 @@ export const BookingStore = signalStore(
   withComputed((store) => ({
     flightRoute: computed(() => store.from() + ' - ' + store.to()),
   })),
-  
+
   // TODO: Add Resource
+
+  withResource(
+    (store) => ({
+      flights: httpResource<Flight[]>(
+        () => ({
+          url: 'https://demo.angulararchitects.io/api/flight',
+          params: {
+            from: store.from(),
+            to: store.to(),
+          },
+        }),
+        { defaultValue: [] }
+      ),
+    }),
+    { errorHandling: 'previous value' }
+  ),
 
   withMethods((store) => ({
     updateFilter(filter: FlightFilter) {
@@ -30,7 +47,7 @@ export const BookingStore = signalStore(
     },
 
     reload() {
-        // store._flightsReload();
+      // store._flightsReload();
     },
 
     updateBasket(flightId: number, selected: boolean) {
@@ -43,16 +60,6 @@ export const BookingStore = signalStore(
     },
   }))
 );
-
-
-
-
-
-
-
-
-
-
 
 /*
 
