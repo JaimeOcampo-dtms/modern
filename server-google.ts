@@ -24,7 +24,7 @@ app.post('/api/chat', async (req, res) => {
     request: completionParams,
     transformRequestOptions: (options) => {
 
-      options.model = 'gemini-2.5-flash';
+      options.model = 'models/gemini-3.6-flash';
 
       options.config = options.config || {};
       options.config.systemInstruction = `
