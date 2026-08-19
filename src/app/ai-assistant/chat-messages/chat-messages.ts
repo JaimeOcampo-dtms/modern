@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { Chat } from '@hashbrownai/core';
 import { MarkdownComponent } from 'ngx-markdown';
 
-import { AnyTool } from 'node_modules/@hashbrownai/core/src/models/view.models';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToolStatusComponent } from '../assistant-chat/tool-status/tool-status';
 
@@ -25,7 +24,7 @@ import { ToolStatusComponent } from '../assistant-chat/tool-status/tool-status';
   styleUrls: ['./chat-messages.css'],
 })
 export class ChatMessages {
-  messages = input.required<Chat.Message<string, AnyTool>[]>();
+  messages = input.required<Chat.Message<string, Chat.AnyTool>[]>();
   pending = input<boolean>(false);
   showIndicator = computed(
     () => this.pending() && this.messages().at(-1)?.role !== 'assistant'
