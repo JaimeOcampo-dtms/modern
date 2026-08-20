@@ -19,6 +19,7 @@ import { getBookedFlights } from './tools/get-booked-flights.tool';
 import { updateFlight } from './tools/update-flight.tool';
 import { getCurrentFlight } from './tools/get-current-flight.tool';
 import { getCurrentRoute } from './tools/get-current-route.tool';
+import { loadFlightsForRoutes } from './tools/load-flights-for-routes.tool';
 import { config } from '../../config';
 import { flightWidget } from './widgets/flight-widget';
 import { messageWidget } from './widgets/message-widget';
@@ -56,6 +57,10 @@ const systemExtended = `
         - When appropriate, *also* answer with other components (widgets), e.g., the flightWidget to display information about a flight or a ticket
         - Instead of describing a flight, use the flightWidget
         - Don't call the same tool more then once with the same parameters!
+        - For requests with several city pairs or return flights, prefer loadFlightsForRoutes
+        - Tool arguments must be exactly one valid JSON object per tool call
+        - Never pass comma-separated top-level JSON objects to a tool
+        - Do not print pseudo-calls like toolName(...) in text
 
         ## EXAMPLE
 
@@ -120,6 +125,7 @@ export class AssistantChatComponent {
       updateFlight,
       getCurrentRoute,
       getCurrentFlight,
+      loadFlightsForRoutes,
     ],
     components: [flightWidget, messageWidget],
   });
