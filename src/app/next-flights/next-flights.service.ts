@@ -4,7 +4,7 @@ import { Flight } from '../model/flight';
 import { initAircraft } from '../model/aircraft';
 import { Price } from '../model/price';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NextFlightsService {
   load(): Observable<Flight[]> {
     const date = new Date().toISOString();

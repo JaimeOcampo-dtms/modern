@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { createTool } from '@hashbrownai/angular';
 import { s } from '@hashbrownai/core';
 import { FlightBookingStore } from '../../../flight-booking/flight-booking.store';
+import { withToolResultGuard } from './tool-result.guard';
 
 export const toggleFlightSelection = createTool({
   name: 'toggleFlightSelection',
@@ -12,9 +13,13 @@ export const toggleFlightSelection = createTool({
     flightId: s.number('id of flight to select or deselect'),
     selected: s.boolean('whether flight should be selected or deselected'),
   }),
-  handler: (input) => {
+  handler: withToolResultGuard('toggleFlightSelection', (input) => {
     const store = inject(FlightBookingStore);
     store.updateBasket(input.flightId, input.selected);
-    return Promise.resolve();
-  },
+    return {
+      status: 'ok',
+      flightId: input.flightId,
+      selected: input.selected,
+    };
+  }),
 });

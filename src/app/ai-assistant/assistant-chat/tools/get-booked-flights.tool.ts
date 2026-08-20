@@ -14,7 +14,9 @@ export const getBookedFlights = createTool({
   handler: async () => {
     const service = inject(NextFlightsService);
     const nextFlights = service.load();
-    const result = lastValueFrom(nextFlights);
-    return result;
+    const flights = await lastValueFrom(nextFlights);
+    return {
+      flights,
+    };
   },
 });
