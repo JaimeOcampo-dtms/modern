@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { createTool } from '@hashbrownai/angular';
 import { s } from '@hashbrownai/core';
 import { FlightDetailStore } from '../../../flight-booking/flight-detail.store';
+import { withToolResultGuard } from './tool-result.guard';
 
 export const FlightUpdateSchema = s.streaming.object('Flight to be displayed', {
   from: s.anyOf([
@@ -48,10 +49,13 @@ export const updateFlight = createTool({
   schema: s.streaming.object('parameter object with flight', {
     flight: FlightUpdateSchema,
   }),
-  handler: (input) => {
+  handler: withToolResultGuard('updateFlight', (input) => {
     const store = inject(FlightDetailStore);
     const flightUpdate = toPartialFlight(input.flight);
     store.updateLocalFlight(flightUpdate);
-    return Promise.resolve();
-  },
+    return {
+      status: 'ok',
+      updatedFields: Object.keys(flightUpdate),
+    };
+  }),
 });

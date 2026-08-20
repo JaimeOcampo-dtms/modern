@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { createTool } from '@hashbrownai/angular';
 import { s } from '@hashbrownai/core';
+import { withToolResultGuard } from './tool-result.guard';
 
 export const displayFlightDetail = createTool({
   name: 'displayFlightDetail',
@@ -11,9 +12,13 @@ export const displayFlightDetail = createTool({
   schema: s.object('parameter objekt', {
     flightId: s.number('flightId of the flight to display'),
   }),
-  handler: (input) => {
+  handler: withToolResultGuard('displayFlightDetail', async (input) => {
     const router = inject(Router);
-    router.navigate(['/flight-booking/flight-edit', input.flightId]);
-    return Promise.resolve();
-  },
+    await router.navigate(['/flight-booking/flight-edit', input.flightId]);
+    return {
+      status: 'ok',
+      flightId: input.flightId,
+      route: `/flight-booking/flight-edit/${input.flightId}`,
+    };
+  }),
 });
