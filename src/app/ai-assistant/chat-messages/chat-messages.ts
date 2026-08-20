@@ -3,7 +3,7 @@ import { Component, computed, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { AnyTool } from 'node_modules/@hashbrownai/core/src/models/view.models';
+import { AnyTool } from '@hashbrownai/core/src/models/view.models';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToolStatusComponent } from '../assistant-chat/tool-status/tool-status';
 import { RenderMessageComponent, UiChatMessage } from '@hashbrownai/angular';
