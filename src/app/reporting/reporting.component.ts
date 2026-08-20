@@ -112,8 +112,8 @@ export class ReportingComponent {
       - Assistant
         - Code:
 
-          const flights1 = loadFlights({ from: 'Graz', to: 'London'});
-          const flights2 = loadFlights({ from: 'Graz', to: 'München'});
+          const flights1 = await loadFlights({ from: 'Graz', to: 'London'});
+          const flights2 = await loadFlights({ from: 'Graz', to: 'München'});
           
           const data = [
             { name: 'Graz - London', value: flights1.length },            
@@ -127,6 +127,10 @@ export class ReportingComponent {
       ## Rules
       - Never use additional web resources for answering requests
       - **Always** pass the generated code to the JavaScript runtime
+      - The code must be valid JavaScript without markdown fences
+      - Always use await when calling loadFlights
+      - Always call generateChart({ data }) exactly once
+      - If aggregation produces 0, use 0.1
     `,
     schema: s.object(`Whether request was successfull`, {
       type: s.enumeration(`Success or error?`, ['success', 'error']),
@@ -211,5 +215,25 @@ export class ReportingComponent {
 
   regenerate(): void {
     this.generator.reload();
+  }
+
+  formatError(error: unknown): string {
+    if (!error) {
+      return 'Unknown error';
+    }
+
+    if (error instanceof Error) {
+      return error.message || error.toString();
+    }
+
+    if (typeof error === 'string') {
+      return error;
+    }
+
+    try {
+      return JSON.stringify(error, null, 2);
+    } catch {
+      return String(error);
+    }
   }
 }

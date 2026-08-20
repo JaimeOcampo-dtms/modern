@@ -20,7 +20,7 @@
 } @else if(generator.hasValue() && generator.value()?.type === 'error') {
 <div class="">Error: {{ generator.value()?.message }}</div>
 } @else if(generator.error()) {
-<div class="">Error: {{ generator.error() | json }}</div>
+<div class="">Error: {{ formatError(generator.error()) }}</div>
 } @if (generator.hasValue()) {
 <div class="mb-30">{{ generator.value()?.message }}</div>
 
