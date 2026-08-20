@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { createTool } from '@hashbrownai/angular';
 import { s } from '@hashbrownai/core';
 import { FlightBookingStore } from '../../../flight-booking/flight-booking.store';
+import { withToolResultGuard } from './tool-result.guard';
 
 export const findFlightsTool = createTool({
   name: 'findFlights',
@@ -16,7 +17,7 @@ export const findFlightsTool = createTool({
     from: s.string('airport of departure'),
     to: s.string('airport of destination'),
   }),
-  handler: async (input) => {
+  handler: withToolResultGuard('findFlights', async (input) => {
     const store = inject(FlightBookingStore);
     const router = inject(Router);
 
@@ -25,6 +26,16 @@ export const findFlightsTool = createTool({
       to: input.to,
     });
 
-    router.navigate(['/flight-booking/flight-search']);
-  },
+    await router.navigate(['/flight-booking/flight-search']);
+
+    return {
+      status: 'ok',
+      filter: {
+        from: input.from,
+        to: input.to,
+      },
+      route: '/flight-booking/flight-search',
+      message: 'Flight search initialized and result view opened.',
+    };
+  }),
 });
