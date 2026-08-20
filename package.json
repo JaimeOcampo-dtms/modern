@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:frontend": "ng serve --port 4288",
+    "start:backend": "npx tsx server-google.ts",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

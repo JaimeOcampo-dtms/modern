@@ -9,12 +9,20 @@
     # or
     export OPENAI_API_KEY="<your-openai-api-key>"
     ```
-2. Start `server-google.ts` or `server-openai.ts`:
+2. Start backend server:
+    ```bash
+    npm run start:backend
+    ```
+
+    This runs:
     ```bash
     npx tsx server-google.ts
-    
-    # or
+    ```
+
+    To use the OpenAI backend instead:
+    ```bash
     npx tsx server-openai.ts
+    
     ```
 3. Define model to use in your `config.ts`
 4. Start Angular frontend on port `4288`:
