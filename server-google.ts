@@ -24,7 +24,7 @@ app.post('/api/chat', async (req, res) => {
     request: completionParams,
     transformRequestOptions: (options) => {
 
-      options.model = 'models/gemini-3.6-flash';
+      options.model = 'models/gemini-3.1-flash-lite';
 
       options.config = options.config || {};
       options.config.systemInstruction = `
@@ -40,6 +40,38 @@ app.post('/api/chat', async (req, res) => {
       - Do not propose any further actions
       - Provide enumerations as markdown lists
       `;
+
+      // Gemini 3.6 requires thought signatures for replayed functionCall parts.
+      // Hashbrown/OpenAI-style messages do not carry this field, so we drop
+      // those replayed functionCall parts and keep the tool response messages.
+      const contents = Array.isArray(options.contents)
+        ? options.contents
+        : [];
+
+      options.contents = contents
+        .map((content: any) => {
+          if (content.role !== 'model' || !content.parts?.length) {
+            return content;
+          }
+
+          const parts = content.parts.filter((part: any) => {
+            if (!part.functionCall) {
+              return true;
+            }
+
+            return !!part.thoughtSignature;
+          });
+
+          if (parts.length === 0) {
+            return null;
+          }
+
+          return {
+            ...content,
+            parts,
+          };
+        })
+        .filter((content: any) => !!content);
 
       return options;
     },

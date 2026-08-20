@@ -1,4 +1,4 @@
 export const config = {
     // model: 'gpt-5-chat-latest',
-    model: 'models/gemini-3.6-flash',
+    model: 'models/gemini-3.1-flash-lite',
 };
