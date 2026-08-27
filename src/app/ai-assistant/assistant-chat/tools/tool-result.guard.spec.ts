@@ -1,3 +1,5 @@
+/// <reference types="jasmine" />
+
 import { withToolResultGuard } from './tool-result.guard';
 
 describe('withToolResultGuard', () => {

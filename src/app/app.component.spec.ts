@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { ConfigService } from './shared/config.service';
 
 describe('AppComponent', () => {
+  let loadConfigSpy: jasmine.Spy;
+
   beforeEach(async () => {
+    loadConfigSpy = jasmine.createSpy('loadConfig');
+
     await TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+      imports: [AppComponent],
+      providers: [{ provide: ConfigService, useValue: { loadConfig: loadConfigSpy } }],
     }).compileComponents();
   });
 
@@ -16,16 +20,20 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'flights'`, () => {
+  it('should load config during construction', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('flights');
+    expect(fixture.componentInstance).toBeTruthy();
+    expect(loadConfigSpy).toHaveBeenCalled();
   });
 
-  it('should render title', () => {
+  it('should render the app shell', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('flights app is running!');
+    expect(compiled.querySelector('.wrapper')).toBeTruthy();
+    expect(compiled.querySelector('app-navbar-cmp')).toBeTruthy();
+    expect(compiled.querySelector('app-sidebar-cmp')).toBeTruthy();
+    expect(compiled.querySelector('router-outlet')).toBeTruthy();
+    expect(compiled.querySelector('app-assistant-chat')).toBeTruthy();
   });
 });
