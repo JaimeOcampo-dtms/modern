@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { NextFlightsComponent } from './next-flights.component';
+import { NextFlightsModule } from './next-flights.module';
 
 describe('NextFlightsComponent', () => {
   let component: NextFlightsComponent;
@@ -8,7 +10,8 @@ describe('NextFlightsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NextFlightsComponent],
+      imports: [NextFlightsModule],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NextFlightsComponent);

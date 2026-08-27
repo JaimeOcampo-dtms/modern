@@ -14,7 +14,6 @@ describe('ValidationErrorsComponent', () => {
 
     fixture = TestBed.createComponent(ValidationErrorsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

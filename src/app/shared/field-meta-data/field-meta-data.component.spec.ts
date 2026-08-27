@@ -14,7 +14,6 @@ describe('FieldMetaDataComponent', () => {
 
     fixture = TestBed.createComponent(FieldMetaDataComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

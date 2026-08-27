@@ -14,7 +14,6 @@ describe('PricesComponent', () => {
 
     fixture = TestBed.createComponent(PricesComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

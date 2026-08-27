@@ -1,4 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { provideHashbrown } from '@hashbrownai/angular';
 import { AppComponent } from './app.component';
 import { ConfigService } from './shared/config.service';
 
@@ -10,7 +12,11 @@ describe('AppComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [{ provide: ConfigService, useValue: { loadConfig: loadConfigSpy } }],
+      providers: [
+        { provide: ConfigService, useValue: { loadConfig: loadConfigSpy } },
+        provideRouter([]),
+        provideHashbrown({ baseUrl: 'http://localhost:3000/api/chat' }),
+      ],
     }).compileComponents();
   });
 

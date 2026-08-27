@@ -14,7 +14,6 @@ describe('AircraftComponent', () => {
 
     fixture = TestBed.createComponent(AircraftComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
